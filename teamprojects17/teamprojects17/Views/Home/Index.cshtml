@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    
+}
+
+<h2 style="color:#fff; margin-top:0.5%; margin-left: 0.33%; float:left; width: 33%; text-align: left;" align="center">
+    Timetabling System
+</h2>
+<h2 style="color:#fff; margin-top:0.5%; float:left; width: 33.33%; text-align: center; " align="center">
+
+   Test
+
+</h2>
+<a href='/crew21/logout'>
+    <h2 style="color:#fff; margin-top:0.5%; margin-right: 0.33%; float: left; width: 33%; text-align:right; ">
+        <u>Logout</u>
+    </h2>
+</a>
+<div class="menu">
+    <div id="menu-circle" style="font-size:1.5em; visibility: hidden;" class="btn trigger btn-icon fa">
+        <i id="menu-circle2" class="fa "></i>
+    </div>
+    <div class="rotater">
+        <a href="/crew21/settings">
+            <div class="btn btn-icon fa"><i class="fa ">New User</i></div>
+        </a>
+    </div>
+    <div class="rotater">
+        <a href="/crew21/timetable">
+            <div class="btn btn-icon"><i class="fa ">Timetable</i></div>
+        </a>
+    </div>
+    <div class="rotater">
+        <a href="/crew21/upload/upload.php">
+            <div class="btn btn-icon"><i class="fa ">Upload File</i></div>
+        </a>
+    </div>
+    <div class="rotater">
+        <a href="/crew21/bookings">
+            <div class="btn btn-icon"><i class="fa ">Bookings</i></div>
+        </a>
+    </div>
+    <div class="rotater">
+        <a href="/crew21/settings">
+            <div class="btn btn-icon"><i class="fa ">Add Modules</i></div>
+        </a>
+    </div>
+    <div class="rotater">
+        <a href="/crew21/settings/search_room.php">
+            <div class="btn btn-icon"><i class="fa ">Search Room</i></div>
+        </a>
+    </div>
+    <div class="rotater">
+        <a href="/crew21/settings">
+            <div class="btn btn-icon"><i class="fa ">Account Settings</i></div>
+        </a>
+    </div>
+    <div class="rotater">
+        <a href="/crew21/settings">
+            <div class="btn btn-icon"><i class="fa ">Edit Facilities</i></div>
+        </a>
+    </div>
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".trigger").click(function () {
+
+
+        });
+        //set the lboro logo to be on the homepage when loads
+        $(".menu").toggleClass("active");
+        document.getElementById("menu-circle").style.backgroundColor = "white";
+        document.getElementById("menu-circle").style.fontSize = "1.5em";
+        document.getElementById("menu-circle2").innerHTML = "<img src='../Images/LU.png'>";
+        document.getElementById("menu-circle").style.visibility = "visible";
+    });
+
+
+
+
+</script>
