@@ -10,21 +10,24 @@ namespace teamprojects17.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Testing";
+            ViewBag.Title = "Dashboard";
+            ViewBag.Message = "Your home page.";
 
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Help()
         {
-            ViewBag.Message = "Your app description page.";
+            ViewBag.Title = "Help page";
+            ViewBag.Message = "Questions and answers.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Timetable()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Title = "Timetable";
+            ViewBag.Message = "Your timetable booking page.";
 
             return View();
         }
