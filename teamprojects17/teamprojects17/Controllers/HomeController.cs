@@ -18,7 +18,7 @@ namespace teamprojects17.Controllers
 
         public ActionResult Help()
         {
-            ViewBag.Title = "Help page";
+            ViewBag.Title = "Help Page";
             ViewBag.Message = "Questions and answers.";
 
             return View();
@@ -34,16 +34,22 @@ namespace teamprojects17.Controllers
 
         public ActionResult Upload()
         {
+            ViewBag.Title = "Upload file";
+            ViewBag.Message = "Upload file page.";
             return View();
         }
 
         public ActionResult Calendar()
         {
+            ViewBag.Title = "Calendar";
+            ViewBag.Message = "Your overview timetable page.";
             return View();
         }
 
         public ActionResult Settings()
         {
+            ViewBag.Title = "Settings";
+            ViewBag.Message = "Change your settings here.";
             return View();
         }
     }
