@@ -31,5 +31,20 @@ namespace teamprojects17.Controllers
 
             return View();
         }
+
+        public ActionResult Upload()
+        {
+            return View();
+        }
+
+        public ActionResult Calendar()
+        {
+            return View();
+        }
+
+        public ActionResult Settings()
+        {
+            return View();
+        }
     }
 }
