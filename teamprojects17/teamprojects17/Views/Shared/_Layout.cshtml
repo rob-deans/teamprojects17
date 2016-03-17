@@ -46,6 +46,10 @@
         </footer>
 
         @Scripts.Render("~/bundles/jquery")
+        @if (IsSectionDefined("customJS"))
+        {
+            @RenderSection("customJS");
+        }
         @RenderSection("scripts", required: false)
     </body>
 </html>

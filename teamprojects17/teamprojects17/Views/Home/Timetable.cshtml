@@ -1,4 +1,12 @@
-﻿@{
+﻿<!--Timetable js files goes here, add the css here when ready-->
+@section customJS{
+    <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="~/Scripts/functions.js" type="text/javascript"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="~/Scripts/timetable.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.tag.js" type="text/javascript"></script>
+    <script src="~/Scripts/timetable-renderer.jquery.js" type="text/javascript"></script>
+    <script src="~/Scripts/timetable-features.js" type="text/javascript"></script>
 }
 
 <hgroup class="title">
@@ -6,44 +14,29 @@
     <h2>@ViewBag.Message</h2>
 </hgroup>
 
-<section class="contact">
-    <header>
-        <h3>Phone</h3>
-    </header>
-    <p>
-        <span class="label">Main:</span>
-        <span>425.555.0100</span>
-    </p>
-    <p>
-        <span class="label">After Hours:</span>
-        <span>425.555.0199</span>
-    </p>
+<section class="filter">
+    <div>
+        Filter goes here
+    </div>
+    Testing
+    <select id="module-code">
+        <option value="COA101">COA101</option>
+    </select>
+    <select id="module-name">
+        <option value="Sys Engineering">Sys Engineering</option>
+    </select>
+    <div id="weeks-selected">
+
+    </div>
+    <input type="button" value="Click" id="range-selector">
+    <ul class="weekRange"></ul>
 </section>
 
-<section class="contact">
-    <header>
-        <h3>Email</h3>
-    </header>
-    <p>
-        <span class="label">Support:</span>
-        <span><a href="mailto:Support@example.com">Support@example.com</a></span>
-    </p>
-    <p>
-        <span class="label">Marketing:</span>
-        <span><a href="mailto:Marketing@example.com">Marketing@example.com</a></span>
-    </p>
-    <p>
-        <span class="label">General:</span>
-        <span><a href="mailto:General@example.com">General@example.com</a></span>
-    </p>
-</section>
-
-<section class="contact">
-    <header>
-        <h3>Address</h3>
-    </header>
-    <p>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399
-    </p>
+<section id="timetable">
+    <div id="weeks-range" class="horizontal-range">
+        <div id="general" class="">
+            General
+        </div>
+    </div>
+    <div id="timetable-holder" style="height:30em"></div>
 </section>

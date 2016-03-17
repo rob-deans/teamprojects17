@@ -36,6 +36,7 @@ namespace teamprojects17.Controllers
         {
             ViewBag.Title = "Upload file";
             ViewBag.Message = "Upload file page.";
+
             return View();
         }
 
@@ -43,6 +44,7 @@ namespace teamprojects17.Controllers
         {
             ViewBag.Title = "Calendar";
             ViewBag.Message = "Your overview timetable page.";
+
             return View();
         }
 
@@ -50,6 +52,7 @@ namespace teamprojects17.Controllers
         {
             ViewBag.Title = "Settings";
             ViewBag.Message = "Change your settings here.";
+
             return View();
         }
     }
