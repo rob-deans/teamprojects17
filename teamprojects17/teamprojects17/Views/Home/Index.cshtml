@@ -2,6 +2,250 @@
     ViewBag.Title = "Home Page";
 
 }
-<div>
-    testing this 
+
+<div class="container main-wrapper">
+    <h1>Dashboard</h1>
+    <p>Welcome to the dashboard, it shows the results from the previous round.</p>
 </div>
+
+<!-- Currently Active Rounds card -->
+<section id="currently-active-rounds">
+    <div class="container">
+        <div class="dashboard-card">
+
+            <!-- scrollable-table-wrapper allows a table to scroll horizontally on narrow screens without overflowing the viewport -->
+            <div class="scrollable-table-wrapper">
+
+                <!-- Actual table of active rounds -->
+                <table class="dashboard-table">
+
+                    <!-- Table header spans all columns and is used as a heading for the box rather than individual column headings -->
+                    <thead>
+                        <tr class="Header">
+                            <th colspan="4">Currently Active Rounds</th>
+                            <th></th><!-- last table column is right-aligned, this avoids that without having to use inline styles. -->
+                        </tr>
+                    </thead>
+                    <!-- End table header -->
+                    
+                    <!--Check if there are actually any rounds active-->
+
+
+                    <!-- For each round in the activeRounds array passed to this page, output a row to the table for it -->
+
+                    <tr>
+                        <td><!--Sem 1 or 2--></td>
+                        <td><!--Round name</td>
+                        <td><!--Requests made--> Requests Made </td>
+                        <td><!--Days remaining--> Days Remaining</td>
+                        <td>
+                            <form action="requests/" method="post">
+                                <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->
+                                <input type="hidden" name="filterRound" /> <!--value="round id/>-->
+                                <button class="btn btn-primary waves-effect" type="submit">View Requests</button>
+                            </form>
+                        </td>
+                    </tr>
+
+                    <!-- If no rounds are active, say so; instead of just showing an empty table -->
+                    <tr>
+                        <td colspan="4">No rounds are currently accepting requests</td>
+                        <td>
+                            <a class="btn btn-primary waves-effect" href="requests/">View All Previous Requests</a>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+            <!-- End scrollable-table-wrapper -->
+
+        </div>
+    </div>
+</section>
+<!-- End currently active rounds card -->
+<!-- Previous round results section -->
+<!-- Contains a donut chart and counts of the results of the previous round -->
+<div class="section">
+
+    <!-- Section title -->
+    <div class="container">
+        <h1>Results</h1>
+    </div>
+
+    <!--For every item in 'previousRounds' as 'previousRound', do the following... -->
+
+    <!-- Round Summary Container -->
+    <div class="container">
+        <h3><span class="small"><!--previous round name - previous round (sem 1 or sem 2)--></span></h3>
+
+        <!-- Check if they actually submitted requests -->
+
+        <!-- Tell the user they didn't submit any requests instead of just showing an empty chart -->
+        <div class="dashboard-card padded">
+            <div class="dashboard-state-icon">&Oslash;</div>
+            <div class="dashboard-state-explaination">You didn't submit any requests for this round</div>
+        </div>
+
+        <!-- This state happens when a round has finished but the administrators havent entered any results. They are 'in limbo' so to speak -->
+        <div class="dashboard-card padded">
+            <div class="dashboard-state-icon"><i class="material-icons medium">schedule</i></div>
+            <div class="dashboard-state-explaination">Results will appear here when Central Administrators finalize them.</div>
+        </div>
+
+        <!-- Show cards of results -->
+
+        <div class="dashboard-card dashboard-top-card">
+            <div class="row">
+
+                <!-- End Donut chart box -->
+                <div class="col s12 m3">
+                    <canvas id="round-chart" style="width: 100%; height: 200px;"></canvas>
+                </div>
+                <!-- End Donut chart box -->
+                <!-- Request counts -->
+                <div class="col m9">
+                    <div class="row">
+
+                        <!-- Requests made box -->
+                        <div class="col s6 m3">
+                            <div class="dashboard-dial-bg"><!--amount of previous requests--></div>
+                            <div class="dashboard-dial-bg-bottom">Requests Made</div>
+                        </div>
+
+                        <!-- Requests denied box -->
+                        <div class="col s6 m3 red-text">
+                            <div class="dashboard-dial-bg"><!--amount of previous requests denied--></div>
+                            <div class="dashboard-dial-bg-bottom">Denied</div>
+                        </div>
+
+                        <!-- Requests altered box -->
+                        <div class="col s6 m3 orange-text text-darken-2">
+                            <div class="dashboard-dial-bg"><!--amount of previous requests altered--></div>
+                            <div class="dashboard-dial-bg-bottom">Altered</div>
+                        </div>
+
+                        <!-- Requests approved box -->
+                        <div class="col s6 m3 green-text text-darken-3">
+                            <div class="dashboard-dial-bg"><!--amount of previous requests approved--></div>
+                            <div class="dashboard-dial-bg-bottom">Approved</div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End request counts -->
+
+            </div>
+        </div>
+    </div>
+    <!-- End Round Summary Container -->
+
+    <!-- Javascript to show the pie chart -->
+    <!--<script type="text/javascript">
+        var overallData = [
+            {
+                title: "Denied",
+                value : <!--amount of previous requests denied--><!--,
+            <!--color: "#F44336"
+            },
+            {
+            title: "Altered",
+            value:  --><!--amount of previous requests altered--><!--,
+            color: "#FFC107"
+            },
+            {
+            title: "Approved",
+            value:  --><!--amount of previous requests approved--><!--,
+            color: "#8BC34A"
+            }
+        ];
+        var isDashboard = true;
+    </script>-->
+    <!-- End Pie Chart Javascript -->
+
+    <!-- Denied requests section -->
+    <div class="section">
+        <div class="container">
+            <div class="dashboard-card">
+
+                <!-- Card heading -->
+                <h2>Denied</h2>
+                <p>These requests were completely denied. You can make a new request from the actions menu.</p>
+
+                <!-- Put the table in a scrollable wrapper so it can be scrolled horizontally without overflowing the viewport on phones -->
+                <div class="scrollable-table-wrapper">
+                    <table class="dashboard-table paginated-table">
+
+                        <!-- Column headings -->
+                        <thead>
+                            <tr class="dashboard-table-row-head">
+                                <th width="25%">Module</th>
+                                <th width="25%">Time</th>
+                                <th width="15%">Requested</th>
+                                <th width="15%">Assigned</th>
+                                <th width="15%"></th>
+                            </tr>
+                        </thead>
+                        <!-- End Column Headings -->
+
+                        <!-- Add a row to the table, for every request in this round's requests array that has the status "3" (rejected) -->
+                        <!-- The actual template for the row is stored in request-row.twig -->
+
+
+                    </table>
+                </div>
+                <!-- End .scrollable-table-wrapper -->
+
+            </div>
+        </div>
+    </div>
+
+    <!-- end Denied requests section -->
+
+    <!-- Same as denied section but for changed ones -->
+    <div class="section">
+        <div class="container">
+            <div class="dashboard-card">
+                <h2>Altered</h2>
+                <p>These requests were altered. If the allocated is acceptable then you don't need to do anything alternativly you can release the room and make a new request from the actions menu.</p>
+                <div class="scrollable-table-wrapper">
+                    <table class="dashboard-table paginated-table">
+                        <thead>
+                            <tr class="dashboard-table-row-head">
+                                <th width="25%">Module</th>
+                                <th width="25%">Time</th>
+                                <th width="15%">Requested</th>
+                                <th width="15%">Assigned</th>
+                                <th width="15%"></th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Same as denied and changed section but for approved ones -->
+    <div class="section">
+        <div class="container">
+            <div class="dashboard-card">
+                <h2>Approved</h2>
+                <p>These requests have been approved. If you don't need a request for any reason you can release it from the actions menu.</p>
+                <div class="scrollable-table-wrapper">
+                    <table class="dashboard-table paginated-table">
+                        <thead>
+                            <tr class="dashboard-table-row-head">
+                                <th width="25%">Module</th>
+                                <th width="25%">Time</th>
+                                <th width="15%">Requested</th>
+                                <th width="15%">Assigned</th>
+                                <th width="15%"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
