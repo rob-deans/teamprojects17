@@ -3,6 +3,13 @@
         ViewBag.Message = "Try these answers to common problems. Click a question to show the answer.";
     }
 
+
+    <!--Add the css and files inside here-->
+    @section scripts{
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    }
+
     <hgroup class="title">
         <h1>@ViewBag.Title</h1>
     </hgroup>
@@ -11,10 +18,7 @@
     </hgroup>
 
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">   
 
 <section>
         <h3>Dashboard</h3>
