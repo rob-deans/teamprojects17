@@ -1,11 +1,11 @@
 ﻿html {
-    background-color: #e2e2e2;
+    background-color: #4A1863;
     margin: 0;
     padding: 0;
 }
 
 body {
-    background-color: #fff;
+    background-color: #4A1863;
     border-top: solid 10px #000;
     color: #333;
     font-size: .85em;
@@ -37,7 +37,7 @@ nav, section {
 }
 
 mark {
-    background-color: #a6dbed;
+    background-color: #f0eaff;
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -70,7 +70,7 @@ h1 {
 }
 
 h2 {
-    font-size: 1.75em;
+    font-size: 1.5em;
 }
 
 h3 {
@@ -99,7 +99,7 @@ h5, h6 {
 }
 
 #body {
-    background-color: #efeeef;
+    background-color: #f0eaff;
     clear: both;
     padding-bottom: 35px;
 }
@@ -114,13 +114,14 @@ h5, h6 {
         background: url("../Images/heroAccent.png") no-repeat;
     }
 
-header .content-wrapper {
+header.content-wrapper {
+    background-color: #4A1863;
     padding-top: 20px; 
 }
 
 footer {
     clear: both;
-    background-color: #e2e2e2;
+    background-color: #f0eaff;
     font-size: .8em;
     height: 100px;
 }
@@ -185,17 +186,19 @@ ul#menu {
     margin: 0 0 5px;
     padding: 0;
     text-align: right;
+    background-color: #4A1863;
 }
 
     ul#menu li {
         display: inline;
         list-style: none;
         padding-left: 15px;
+        background-color: #4A1863;
     }
 
         ul#menu li a {
-            background: none;
-            color: #999;
+            background: #4A1863;
+            color: #ffffff;
             text-decoration: none;
         }
 
