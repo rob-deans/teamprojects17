@@ -1,186 +1,109 @@
-﻿@{
-    ViewBag.Title = "Help Page";
-    ViewBag.Message = "Questions and answers";
-}
+﻿    @{
+        ViewBag.Title = "Help Centre";
+        ViewBag.Message = "Try these answers to common problems. Click a question to show the answer.";
+    }
 
-<!--Add the css and files inside here-->
-@section customJS{
-    <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-}
+    <!--Add the css and files inside here-->
+    @section customJS{
+        <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>@ViewBag.Message</h2>
-</hgroup>
+    <hgroup class="title">
+        <h1>@ViewBag.Title</h1>
+    </hgroup>
+    <hgroup class="title">
+        <h2>@ViewBag.Message</h2>
+    </hgroup>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
 <section>
-    <div class="container main-wrapper">
-        <h4>Dashboard</h4>
-        <ul class="collapsible popout" data-collapsible="accordion">
-            <li>
-                <div class="collapsible-header">What does the dashboard show?</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; The dashboard shows the results of the previous round.<br>
-                        &bull; It shows the results of every request you made in the previous round, and some quick statistics about how many went through, were altered or were denied.<br>
-                        &bull; You can take action on requests that require it by clicking the <strong>ACTION</strong> button to the right of it
-                    </p>
-                </div>
-            </li>
+        <h3>Dashboard</h3>
+        <div data-role="collapsible">
+            <h1>What does the dashoard show?</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>The dashboard says pending, what does that mean?</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Viewing details about a previous request</h1>
+            <p>Answer</p>
+        </div>
 
-            <li>
-                <div class="collapsible-header">The dashboard says pending, what does that mean?</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; After a round ends, there's a slight gap before the Central Administrators enter all their responses.
-                    </p>
-                </div>
-            </li>
-        </ul>
+        <h3>Timetable</h3>
+        <div data-role="collapsible">
+            <h1>View all of your requests</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Sorting and filtering the list of requests</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Choosing facilities</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Editing a booking</h1>
+            <p>Answer</p>
+        </div>
 
-        <h4>Timetable</h4>
-        <ul class="collapsible popout" data-collapsible="accordion">
-            <li>
-                <div class="collapsible-header">How to make a request</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">Choosing facilities</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header"><i class="material-icons"></i>Editing a booking</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-        </ul>
+        <h3>Calendar and Rooms</h3>
+        <div data-role="collapsible">
+            <h1>View all rooms</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Finding a room that meets your requirements</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Locate a room on campus</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>View the full timetable for course or staff or course member</h1>
+            <p>Answer</p>
+        </div>
 
+        <h3>Upload File</h3>
+        <div data-role="collapsible">
+            <h1>Uploading a file</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Accessing the data</h1>
+            <p>Answer</p>
+        </div>
 
+        <h3>Settings</h3>
+        <div data-role="collapsible">
+            <h1>Changing your password</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Changing the department name</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Adding a module</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Removing a module</h1>
+            <p>Answer</p>
+        </div>
+        <div data-role="collapsible">
+            <h1>Signing Out</h1>
+            <p>Answer</p>
+        </div>
 
-        <h4>Calendar</h4>
-        <ul class="collapsible popout" data-collapsible="accordion">
-            <li>
-                <div class="collapsible-header">View all rooms</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Click on "Rooms" in the menu.<br>
-                        &bull; Use the filter options at the top to narrow down the list.
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">Finding a room that meets your requirements</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Click on "Rooms" in the menu.<br>
-                        &bull; Filter the list using the options at the top.<br>
-                        <strong>Top Tip!</strong> When you're making a request, we'll only show rooms meeting all of your requirements. You don't need to find a room <i>before</i> making a request.
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">Locate a room on campus</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Click on "Rooms" in the menu<br>
-                        &bull; Click on "Campus Map" in the description<br>
-                        &bull; Enter the room code in the search bar on the top right hand side of the interactive map
-                    </p>
-                </div>
-                <div class="collapsible-header">View the full timetable for course or staff or course member </div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull;
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">Requesting a room</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-        </ul>
-
-
-
-        <h4>Upload File</h4>
-        <ul class="collapsible popout" data-collapsible="accordion">
-            <li>
-                <div class="collapsible-header">How to upload a file</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">How to access the data</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-        </ul>
-
-
-        <h4>Account Settings</h4>
-        <ul class="collapsible popout" data-collapsible="accordion">
-            <li>
-                <div class="collapsible-header">Changing your password</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">Changing the department name</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">How to add a module</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">How to remove a module</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">Signing out</div>
-                <div class="collapsible-body">
-                    <p>
-                        &bull; Answer
-                    </p>
-                </div>
-            </li>
-        </ul>
-        <p>Still need help? Contact Support. </p>
-    </div>
+        <div data-role="footer">
+            <h1>Still need help? Contact Support.</h1>
+        </div>
 </section>
