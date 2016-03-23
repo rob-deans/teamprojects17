@@ -298,13 +298,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-<<<<<<< HEAD
-    <Content Include="Scripts\version.json" />
-=======
     <Content Include="Views\Home\Calendar.cshtml" />
     <Content Include="Views\Home\Settings.cshtml" />
     <Content Include="Views\Home\Upload.cshtml" />
->>>>>>> 6d50ec17592dc7bdeb3d5846f0bcf7d60806c4cb
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
