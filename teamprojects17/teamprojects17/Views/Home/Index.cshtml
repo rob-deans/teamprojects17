@@ -1,12 +1,16 @@
 ﻿@{
+    Page.Title = "Dashboard";
     ViewBag.Title = "Dashboard";
-    ViewBag.Message = "Overview of your requests";
+    ViewBag.Message = "Welcome to your dashboard. This page shows the results from the previous round.";
+    //Layout = "Your Layout Page goes here";
 }
 
-<div class="container main-wrapper">
-    <h1>Dashboard</h1>
-    <p>Welcome to the dashboard, it shows the results from the previous round.</p>
-</div>
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+</hgroup>
+<hgroup class="title">
+    <h2>@ViewBag.Message</h2>
+</hgroup>
 
 <!-- Currently Active Rounds card -->
 <section id="currently-active-rounds">

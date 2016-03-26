@@ -57,7 +57,7 @@
         }
 
         .menu .btn:hover {
-            background-color: white;
+            background-color: #80dfff;
 
         }
 
@@ -67,8 +67,8 @@
             transition: color 0.3s;
         }
 
-        .menu .btn:hover .fa {
-            color: darkslategrey;
+        .menu .btn:hover {
+            color: #80dfff;
         }
 
         .menu .btn.trigger {
