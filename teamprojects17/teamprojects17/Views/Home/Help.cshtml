@@ -4,12 +4,6 @@
         ViewBag.Message = "Try these answers to common problems. Click a question to show the answer.";
     }
 
-    @section scripts{
-        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">   
-    }
-
     <hgroup class="title">
         <h1>@ViewBag.Title</h1>
     </hgroup>
@@ -17,93 +11,177 @@
         <h2>@ViewBag.Message</h2>
     </hgroup>
 
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">   
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="~/Content/helppage.css">
+    @Scripts.Render("~/scripts/helppage.js");
+}
 
 <section>
-        <h3>Dashboard</h3>
-        <div data-role="collapsible">
-            <h1>What does the dashoard show?</h1>
-            <p>Answer</p>
+    <h3>Dashboard</h3>    
+    <div class="container">
+        <div class="header">
+            <span>What does the dashoard show?</span>
         </div>
-        <div data-role="collapsible">
-            <h1>The dashboard says pending, what does that mean?</h1>
-            <p>Answer</p>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
         </div>
-        <div data-role="collapsible">
-            <h1>Viewing details about a previous request</h1>
-            <p>Answer</p>
+        <div class="header">
+            <span>The dashboard says pending, what does that mean?</span>
         </div>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
+        </div>
+        <div class="header">
+            <span>Viewing details about a previous request</span>
+        </div>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
+        </div>
+    </div>
 
-        <h3>Timetable</h3>
-        <div data-role="collapsible">
-            <h1>View all of your requests</h1>
-            <p>Answer</p>
+    <h3>Timetable</h3>
+    <div class="container">
+        <div class="header">
+            <span>View all of your requests</span>
         </div>
-        <div data-role="collapsible">
-            <h1>Sorting and filtering the list of requests</h1>
-            <p>Answer</p>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
         </div>
-        <div data-role="collapsible">
-            <h1>Choosing facilities</h1>
-            <p>Answer</p>
+        <div class="header">
+            <span>Sorting and filtering the list of requests?</span>
         </div>
-        <div data-role="collapsible">
-            <h1>Editing a booking</h1>
-            <p>Answer</p>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
         </div>
+        <div class="header">
+            <span>Choosing facilities</span>
+        </div>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
+        </div>
+        <div class="header">
+            <span>Editing a booking</span>
+        </div>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h3>Calendar and Rooms</h3>
+    <div class="container">
+        <div class="header">
+            <span>View all rooms</span>
+        </div>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
+        </div>
+        <div class="header">
+            <span>Finding a room that meets your requirements</span>
+        </div>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
+        </div>
+        <div class="header">
+            <span>Locate a room on campus</span>
+        </div>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
+        </div>
+        <div class="header">
+            <span>View the full timetable for course or staff or course member</span>
+        </div>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
+        </div>
+    </div>
 
-        <h3>Calendar and Rooms</h3>
-        <div data-role="collapsible">
-            <h1>View all rooms</h1>
-            <p>Answer</p>
+    <h3>Upload File</h3>
+    <div class="container">
+        <div class="header">
+            <span>Uploading a file</span>
         </div>
-        <div data-role="collapsible">
-            <h1>Finding a room that meets your requirements</h1>
-            <p>Answer</p>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
         </div>
-        <div data-role="collapsible">
-            <h1>Locate a room on campus</h1>
-            <p>Answer</p>
+        <div class="header">
+            <span>Accessing the data</span>
         </div>
-        <div data-role="collapsible">
-            <h1>View the full timetable for course or staff or course member</h1>
-            <p>Answer</p>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
         </div>
+    </div>
 
-        <h3>Upload File</h3>
-        <div data-role="collapsible">
-            <h1>Uploading a file</h1>
-            <p>Answer</p>
+    <h3>Settings</h3>
+    <div class="container">
+        <div class="header">
+            <span>Changing your password</span>
         </div>
-        <div data-role="collapsible">
-            <h1>Accessing the data</h1>
-            <p>Answer</p>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
         </div>
-
-        <h3>Settings</h3>
-        <div data-role="collapsible">
-            <h1>Changing your password</h1>
-            <p>Answer</p>
+        <div class="header">
+            <span>Changing the department name</span>
         </div>
-        <div data-role="collapsible">
-            <h1>Changing the department name</h1>
-            <p>Answer</p>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
         </div>
-        <div data-role="collapsible">
-            <h1>Adding a module</h1>
-            <p>Answer</p>
+        <div class="header">
+            <span>Adding a module</span>
         </div>
-        <div data-role="collapsible">
-            <h1>Removing a module</h1>
-            <p>Answer</p>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
         </div>
-        <div data-role="collapsible">
-            <h1>Signing Out</h1>
-            <p>Answer</p>
+        <div class="header">
+            <span>Removing a module</span>
         </div>
-
-        <div data-role="footer">
-            <h1>Still need help? Contact Support.</h1>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
         </div>
+        <div class="header">
+            <span>Signing Out</span>
+        </div>
+        <div class="content">
+            <ul>
+                <li>Answer</li>
+            </ul>
+        </div>
+    </div>
 </section>
+
+<div>   
+    <h3>Still need help? Contact Support.</h3>
+</div>
