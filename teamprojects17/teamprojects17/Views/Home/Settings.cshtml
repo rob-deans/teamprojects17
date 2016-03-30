@@ -2,7 +2,6 @@
     Page.Title = "Settings";
     ViewBag.Title = "Settings";
     ViewBag.Message = "Change your settings here.";
-    //Layout = "Your Layout Page goes here";
 }
 
 <hgroup class="title">
@@ -10,4 +9,70 @@
 </hgroup>
 <hgroup class="title">
     <h2>@ViewBag.Message</h2>
-</hgroup>>
+</hgroup>
+
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="~/Content/settings.css">
+}
+
+<section>
+    <h3>Modify User</h3>
+    <div class="userset"> 
+        <form id="form" method="POST" name="add-user-form">
+            <table class="input-holder">
+                <tr>
+                    <td class="input-group">Change Username:</td>
+                    <td class="input-group"><input placeholder="Old Username" name="old username"></td>
+                    <td class="input-group"><input placeholder="New Username" name="new username"></td>
+                    <td class="input-group"><input placeholder="Confirm Username" name="username"></td>
+                    <td><button type="button">Update</button></td>
+                </tr>
+                <tr>
+                    <td class="input-group">Change Password:</td>
+                    <td class="input-group"><input placeholder="Old Password" type="password" name="old password"></td>
+                    <td class="input-group"><input placeholder="New Password" type="password" name="new password"></td>
+                    <td class="input-group"><input placeholder="Confirm Password" type="password" name="new password"></td>
+                    <td><button type="button">Update</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <h3>Module settings</h3>
+    <div id="moduleset">
+        <form id="form" method="POST" name="add-module-form">
+            <table class="input-holder">
+                <tr>
+                    <td class="input-group">Add module:</td>
+                    <td class="input-group"><input placeholder="Module name" name="Module name"></td>
+                    <td class="input-group"><input placeholder="Module code" name="Module code"></td>
+                    <td><button type="button">Add</button></td>
+                </tr>
+                <tr>
+                    <td class="input-group">Delete module:</td>
+                    <td class="input-group"><input placeholder="Module name" name="Module name"></td>
+                    <td class="input-group"><input placeholder="Module code" name="Module code"></td>
+                    <td><button type="button">Delete</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+     <h3>Room settings</h3>
+     <div id="roomset">
+        <form id="form" method="POST" name="add-room-form">
+        <table class="input-holder">
+            <tr>
+                <td class="input-group">Add room:</td>
+                <td class="input-group"><input placeholder="Room code" name="Room code"></td>
+                <td><button type="button">Add</button></td>
+            </tr>
+            <tr>
+                <td class="input-group">Delete room:</td>
+                <td class="input-group"><input placeholder="Room code" name="Room code"></td>
+                <td><button type="button">Delete</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</section>
