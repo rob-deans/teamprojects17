@@ -1,38 +1,46 @@
-﻿@{
+﻿@using System.Web.Optimization;
+ <!--Add the css and files inside here-->
+@section scripts{
+    <!--Scripts for plugin-->
+    <link href="Scripts/jquery-plugin-circliful-master/css/jquery.circliful.css" rel="stylesheet" type="text/css" />
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="Scripts/jquery-plugin-circliful-master/js/jquery.circliful.min.js"></script>
+
+    @Scripts.Render("~/bundles/plugin")
+
+    <!--CSS-->
+    @Styles.Render("~/bundles/timetable")
+    <!--<link rel="stylesheet" href="Content/Themes/Dashboard.css" type="text/css" />-->
+}
+
+@{
     ViewBag.Title = "Dashboard";
     ViewBag.Message = "Overview of your requests";
 }
 
-<div class="container main-wrapper">
+<div>
     <h1>Dashboard</h1>
     <p>Welcome to the dashboard, it shows the results from the previous round.</p>
 </div>
 
 <!-- Currently Active Rounds card -->
-<section id="currently-active-rounds">
-    <div class="container">
-        <div class="dashboard-card">
-
-            <!-- scrollable-table-wrapper allows a table to scroll horizontally on narrow screens without overflowing the viewport -->
-            <div class="scrollable-table-wrapper">
-
+<section>
+    <div>
+        <div>
+            <div>
                 <!-- Actual table of active rounds -->
-                <table class="dashboard-table">
-
-                    <!-- Table header spans all columns and is used as a heading for the box rather than individual column headings -->
+                <table>
+                    <!--Table header-->
                     <thead>
                         <tr class="Header">
                             <th colspan="4">Currently Active Rounds</th>
-                            <th></th><!-- last table column is right-aligned, this avoids that without having to use inline styles. -->
+                            <th></th>
                         </tr>
                     </thead>
-                    <!-- End table header -->
+                    <!-- End of table header -->
                     
                     <!--Check if there are actually any rounds active-->
-
-
                     <!-- For each round in the activeRounds array passed to this page, output a row to the table for it -->
-
                     <tr>
                         <td><!--Sem 1 or 2--></td>
                         <td><!--Round name</td>
@@ -42,7 +50,7 @@
                             <form action="requests/" method="post">
                                 <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->
                                 <input type="hidden" name="filterRound" /> <!--value="round id/>-->
-                                <button class="btn btn-primary waves-effect" type="submit">View Requests</button>
+                                <button type="submit">View Requests</button>
                             </form>
                         </td>
                     </tr>
@@ -51,45 +59,43 @@
                     <tr>
                         <td colspan="4">No rounds are currently accepting requests</td>
                         <td>
-                            <a class="btn btn-primary waves-effect" href="requests/">View All Previous Requests</a>
+                            <a href="requests/">View All Previous Requests</a>
                         </td>
                     </tr>
 
                 </table>
             </div>
-            <!-- End scrollable-table-wrapper -->
-
         </div>
     </div>
 </section>
 <!-- End currently active rounds card -->
 <!-- Previous round results section -->
 <!-- Contains a donut chart and counts of the results of the previous round -->
-<div class="section">
+<div>
 
     <!-- Section title -->
-    <div class="container">
+    <div>
         <h1>Results</h1>
     </div>
 
     <!--For every item in 'previousRounds' as 'previousRound', do the following... -->
 
     <!-- Round Summary Container -->
-    <div class="container">
-        <h3><span class="small"><!--previous round name - previous round (sem 1 or sem 2)--></span></h3>
+    <div>
+        <h3><span><!--previous round name - previous round (sem 1 or sem 2)--></span></h3>
 
         <!-- Check if they actually submitted requests -->
 
         <!-- Tell the user they didn't submit any requests instead of just showing an empty chart -->
-        <div class="dashboard-card padded">
-            <div class="dashboard-state-icon">&Oslash;</div>
-            <div class="dashboard-state-explaination">You didn't submit any requests for this round</div>
+        <div>
+            <div>&Oslash;</div>
+            <div>You didn't submit any requests for this round</div>
         </div>
 
         <!-- This state happens when a round has finished but the administrators havent entered any results. They are 'in limbo' so to speak -->
-        <div class="dashboard-card padded">
-            <div class="dashboard-state-icon"><i class="material-icons medium">schedule</i></div>
-            <div class="dashboard-state-explaination">Results will appear here when Central Administrators finalize them.</div>
+        <div>
+            <div><i>schedule</i></div>
+            <div>Results will appear here when Central Administrators finalize them.</div>
         </div>
 
         <!-- Show cards of results -->
@@ -97,7 +103,7 @@
         <div class="dashboard-card dashboard-top-card">
             <div class="row">
 
-                <!-- End Donut chart box -->
+                <!-- Start Donut chart box -->
                 <div class="col s12 m3">
                     <canvas id="round-chart" style="width: 100%; height: 200px;"></canvas>
                 </div>
@@ -248,3 +254,15 @@
         </div>
     </div>
 </div>
+
+<!--Pie chart initialisation-->
+<script>
+    $(document).ready(function () {
+        $("#your-circle").circliful({
+            animationStep: 5,
+            foregroundBorderWidth: 5,
+            backgroundBorderWidth: 15,
+            percent: 75
+        });
+    });
+</script>
