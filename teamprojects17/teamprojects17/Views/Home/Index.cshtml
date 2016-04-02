@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@using System.Web.Optimization;
  <!--Add the css and files inside here-->
 @section scripts{
@@ -14,14 +15,32 @@
 }
 
 @{
+=======
+﻿@{
+    Page.Title = "Dashboard";
+>>>>>>> 06e9850af32d3f7bd7e22b52586468e2cae68a6b
     ViewBag.Title = "Dashboard";
-    ViewBag.Message = "Overview of your requests";
+    ViewBag.Message = "Welcome to your dashboard. This page shows the results from the previous round.";
+    //Layout = "Your Layout Page goes here";
 }
 
+<<<<<<< HEAD
 <div>
     <h1>Dashboard</h1>
     <p>Welcome to the dashboard, it shows the results from the previous round.</p>
 </div>
+=======
+@section scripts{
+    <!--Add the css and js files here using the absolute reference "~/Content/blahblah"-->
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+</hgroup>
+<hgroup class="title">
+    <h2>@ViewBag.Message</h2>
+</hgroup>
+>>>>>>> 06e9850af32d3f7bd7e22b52586468e2cae68a6b
 
 <!-- Currently Active Rounds card -->
 <section>

@@ -16,7 +16,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -208,7 +208,12 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+<<<<<<< HEAD
     <Content Include="Content\Dashboard.css" />
+=======
+    <Content Include="Content\helppage.css" />
+    <Content Include="Content\settings.css" />
+>>>>>>> 06e9850af32d3f7bd7e22b52586468e2cae68a6b
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -245,8 +250,8 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Index.css" />
     <Content Include="Scripts\functions.js" />
+<<<<<<< HEAD
     <Content Include="Scripts\Index.js" />
     <Content Include="Scripts\jquery-plugin-circliful-master\.gitignore" />
     <Content Include="Scripts\jquery-plugin-circliful-master\css\jquery.circliful.css" />
@@ -270,6 +275,9 @@
     <Content Include="Scripts\jquery-plugin-circliful-master\preview\preview.png" />
     <Content Include="Scripts\jquery-plugin-circliful-master\preview\preview2.png" />
     <Content Include="Scripts\jquery-plugin-circliful-master\preview\preview3.png" />
+=======
+    <Content Include="Scripts\helppage.js" />
+>>>>>>> 06e9850af32d3f7bd7e22b52586468e2cae68a6b
     <Content Include="Scripts\jquery.tag.js" />
     <Content Include="Scripts\timetable-features.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />

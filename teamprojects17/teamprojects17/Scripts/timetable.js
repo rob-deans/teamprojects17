@@ -1,7 +1,7 @@
 /**
  * Timetable Object and its dependencies
  *
- * @Authors: Robert Deans, Liam Grace
+ * @Authors: Robert Deans
  *
  * This file contains the data structure for the timetable that will be used to manipulate data before it is rendered.
  */

@@ -9,7 +9,7 @@ body {
     border-top: solid 10px #000;
     color: #333;
     font-size: .85em;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -24,11 +24,11 @@ a {
 
     a:link, a:visited,
     a:active, a:hover {
-        color: #333;
+        color: #333333;
     }
 
     a:hover {
-        background-color: #c7d1d6;
+        background-color: #80dfff;
     }
 
 header, footer, hgroup,
@@ -126,19 +126,22 @@ footer {
     height: 100px;
 }
 
+button:hover {
+    background-color: #80dfff;
+}
 
 /* site title
 ----------------------------------------------------------*/
 .site-title {
     color: #c8c8c8;
-    font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 2.3em;
     margin: 0;
 }
 
 .site-title a, .site-title a:hover, .site-title a:active {
     background: none;
-    color: #c8c8c8;
+    color: #80dfff;
     outline: none;
     text-decoration: none;
 }
@@ -203,7 +206,7 @@ ul#menu {
         }
 
         ul#menu li a:hover {
-            color: #333;
+            color: #80dfff;
             text-decoration: none;
         }
 
@@ -438,7 +441,7 @@ input, textarea {
 }
 
 textarea {
-    font-family: inherit;
+    font-family: Arial, Helvetica, sans-serif;
     width: 500px;
 }
 
@@ -550,14 +553,14 @@ th {
     }
 
     th a:link, th a:visited, th a:active, th a:hover {
-        color: #333;
+        color: #80dfff;
         font-weight: 600;
         text-decoration: none;
         padding: 0;
     }
 
     th a:hover {
-        color: #000;
+        color: #80dfff;
     }
 
     th.asc a, th.desc a {
@@ -636,7 +639,7 @@ tr.pager td {
         }
 
         #login a:hover {
-            color: #333;
+            color: #80dfff;
         }
 
     /* menu */

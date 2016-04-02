@@ -1,7 +1,7 @@
 /**
  * timetable-renderer.jquery.js
  *
- * @Authors: Liam Grace, Rob Deans
+ * @Authors: Rob Deans
  *
  * This plugin manages the rendering of the timetable updating whenever there is a change and displaying
  * it all in a table format
