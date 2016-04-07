@@ -24,8 +24,8 @@ namespace teamprojects17
                 "~/Scripts/timetable.js",
                 "~/Scripts/jquery.tag.js",
                 "~/Scripts/timetable-renderer.jquery.js",
-                "~/Scripts/timetable-features.js",
-                "~/Scripts/Index.js"));
+                "~/Scripts/timetable-features.js"
+                ));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

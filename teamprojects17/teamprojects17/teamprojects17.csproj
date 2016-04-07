@@ -208,12 +208,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-<<<<<<< HEAD
     <Content Include="Content\Dashboard.css" />
-=======
     <Content Include="Content\helppage.css" />
     <Content Include="Content\settings.css" />
->>>>>>> 06e9850af32d3f7bd7e22b52586468e2cae68a6b
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -251,8 +248,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\functions.js" />
-<<<<<<< HEAD
-    <Content Include="Scripts\Index.js" />
     <Content Include="Scripts\jquery-plugin-circliful-master\.gitignore" />
     <Content Include="Scripts\jquery-plugin-circliful-master\css\jquery.circliful.css" />
     <Content Include="Scripts\jquery-plugin-circliful-master\css\material-design-iconic-font.css" />
@@ -275,9 +270,7 @@
     <Content Include="Scripts\jquery-plugin-circliful-master\preview\preview.png" />
     <Content Include="Scripts\jquery-plugin-circliful-master\preview\preview2.png" />
     <Content Include="Scripts\jquery-plugin-circliful-master\preview\preview3.png" />
-=======
     <Content Include="Scripts\helppage.js" />
->>>>>>> 06e9850af32d3f7bd7e22b52586468e2cae68a6b
     <Content Include="Scripts\jquery.tag.js" />
     <Content Include="Scripts\timetable-features.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
@@ -299,8 +292,6 @@
     <Content Include="Scripts\jquery-plugin-circliful-master\LICENSE" />
     <Content Include="Scripts\jquery-plugin-circliful-master\README.md" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-ui-1.11.4.js" />
-    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
