@@ -210,6 +210,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Dashboard.css" />
     <Content Include="Content\helppage.css" />
+    <Content Include="Content\Jquery.tag.css" />
     <Content Include="Content\settings.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
