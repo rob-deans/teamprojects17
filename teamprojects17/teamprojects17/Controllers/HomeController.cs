@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace teamprojects17.Controllers
 {
@@ -55,5 +58,20 @@ namespace teamprojects17.Controllers
 
             return View();
         }
+
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["DBcon"].ToString()))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Park", cn);
+            cn.Open();
+            DropDownList1.DataSource = cmd.ExecuteReader();
+            DropDownList1.DataTextField = "ParkName";
+            DropDownList1.DataValueField = "ParkID";
+            DropDownList1.DataBind();
+        }
+
     }
 }
