@@ -15,7 +15,17 @@
 
 <section class="filter">
     <div>
-        Filter goes here
+        @{
+            var db = Database.Open("DBCon");
+            var selectQueryString = "SELECT * FROM Park";
+            <select id="parks">
+                @foreach(var row in db.Query(selectQueryString))
+                {
+                    <option value="@row.ParkID">@row.ParkName</option>
+                }
+            </select>
+            
+        }
     </div>
     Testing
     <select id="module-code">

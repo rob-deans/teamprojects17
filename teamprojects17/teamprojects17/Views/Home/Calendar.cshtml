@@ -13,5 +13,12 @@
 </hgroup>
 
 <div>
-    
+    @{
+        var db = Database.Open("DBCon");
+        var selectQueryString = "SELECT * FROM Park";
+    }
+
+    @foreach(var row in db.Query(selectQueryString)){
+        <div>@row.ParkName</div>
+    }
 </div>
