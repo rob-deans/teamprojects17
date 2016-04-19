@@ -253,7 +253,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\functions.js" />
-    <Content Include="Scripts\Index.js" />
     <Content Include="Scripts\jquery-plugin-circliful-master\.gitignore" />
     <Content Include="Scripts\jquery-plugin-circliful-master\css\jquery.circliful.css" />
     <Content Include="Scripts\jquery-plugin-circliful-master\css\material-design-iconic-font.css" />
@@ -353,11 +352,6 @@
     <Content Include="Views\Home\Calendar.cshtml" />
     <Content Include="Views\Home\Settings.cshtml" />
     <Content Include="Views\Home\Upload.cshtml" />
-    <Content Include="Views\TimetableModels\Create.cshtml" />
-    <Content Include="Views\TimetableModels\Delete.cshtml" />
-    <Content Include="Views\TimetableModels\Details.cshtml" />
-    <Content Include="Views\TimetableModels\Edit.cshtml" />
-    <Content Include="Views\TimetableModels\Index.cshtml" />
     <Content Include="Views\Home\Rooms.cshtml" />
   </ItemGroup>
   <ItemGroup>
