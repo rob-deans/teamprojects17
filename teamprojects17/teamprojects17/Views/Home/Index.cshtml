@@ -1,90 +1,63 @@
-<<<<<<< HEAD
-﻿@using System.Web.Optimization;
- <!--Add the css and files inside here-->
-@section scripts{
-    <!--Scripts for plugin-->
-    <link href="Scripts/jquery-plugin-circliful-master/css/jquery.circliful.css" rel="stylesheet" type="text/css" />
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="Scripts/jquery-plugin-circliful-master/js/jquery.circliful.min.js"></script>
 
-    @Scripts.Render("~/bundles/plugin")
-
-    <!--CSS-->
-    @Styles.Render("~/bundles/timetable")
-    <!--<link rel="stylesheet" href="Content/Themes/Dashboard.css" type="text/css" />-->
-}
-
-@{
-=======
-﻿@{
-    Page.Title = "Dashboard";
->>>>>>> 06e9850af32d3f7bd7e22b52586468e2cae68a6b
-    ViewBag.Title = "Dashboard";
-    ViewBag.Message = "Welcome to your dashboard. This page shows the results from the previous round.";
-    //Layout = "Your Layout Page goes here";
-}
-
-<<<<<<< HEAD
-<div>
-    <h1>Dashboard</h1>
-    <p>Welcome to the dashboard, it shows the results from the previous round.</p>
-</div>
-=======
 @section scripts{
     <!--Add the css and js files here using the absolute reference "~/Content/blahblah"-->
-}
+    <script src="~/Scripts/Index.js"></script>
+    <link href="@Url.Content("~/Content/Dashboard.css")" rel="stylesheet">
 
+    <!--Scripts for plugin-->
+    <link href="~/Scripts/jquery-plugin-circliful-master/css/jquery.circliful.css" rel="stylesheet" type="text/css">
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-plugin-circliful-master/js/jquery.circliful.min.js"></script>
+}
 <hgroup class="title">
     <h1>@ViewBag.Title</h1>
 </hgroup>
 <hgroup class="title">
     <h2>@ViewBag.Message</h2>
 </hgroup>
->>>>>>> 06e9850af32d3f7bd7e22b52586468e2cae68a6b
 
 <!-- Currently Active Rounds card -->
 <section>
     <div>
-        <div>
-            <div>
-                <!-- Actual table of active rounds -->
-                <table>
-                    <!--Table header-->
-                    <thead>
-                        <tr class="Header">
-                            <th colspan="4">Currently Active Rounds</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <!-- End of table header -->
-                    
-                    <!--Check if there are actually any rounds active-->
-                    <!-- For each round in the activeRounds array passed to this page, output a row to the table for it -->
-                    <tr>
-                        <td><!--Sem 1 or 2--></td>
-                        <td><!--Round name</td>
-                        <td><!--Requests made--> Requests Made </td>
-                        <td><!--Days remaining--> Days Remaining</td>
-                        <td>
-                            <form action="requests/" method="post">
-                                <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->
-                                <input type="hidden" name="filterRound" /> <!--value="round id/>-->
-                                <button type="submit">View Requests</button>
-                            </form>
-                        </td>
-                    </tr>
+        <!-- Actual table of active rounds -->
+        <table>
+            <!--Table header-->
+            <thead>
+                <tr>
+                    <th colspan="4">Currently Active Rounds</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <!-- End of table header -->
+            <!--Check if there are actually any rounds active-->
+            <!-- For each round in the activeRounds array passed to this page, output a row to the table for it -->
+            <tr>
+                <td><!--Sem 1 or 2--></td>
+                <td>
+                    <!--Round name</td>
+                    <td><!--Requests made-->
+                    Requests Made
+                </td>
+                <td><!--Days remaining--> Days Remaining</td>
+                <td>
+                    <form>
+                        <!-- action="requests/" method="post">-->
+                        <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->
+                        <input type="hidden" name="filterRound" /> <!--value="round id/>-->
+                        <button type="submit">View Requests</button>
+                    </form>
+                </td>
+            </tr>
 
-                    <!-- If no rounds are active, say so; instead of just showing an empty table -->
-                    <tr>
-                        <td colspan="4">No rounds are currently accepting requests</td>
-                        <td>
-                            <a href="requests/">View All Previous Requests</a>
-                        </td>
-                    </tr>
+            <!-- If no rounds are active, say so; instead of just showing an empty table -->
+            <tr>
+                <td colspan="4">No rounds are currently accepting requests</td>
+                <td>
+                    <a href="requests/">View All Previous Requests</a>
+                </td>
+            </tr>
 
-                </table>
-            </div>
-        </div>
+        </table>
     </div>
 </section>
 <!-- End currently active rounds card -->
@@ -98,13 +71,11 @@
     </div>
 
     <!--For every item in 'previousRounds' as 'previousRound', do the following... -->
-
     <!-- Round Summary Container -->
-    <div>
+    <div class=" ="container>
         <h3><span><!--previous round name - previous round (sem 1 or sem 2)--></span></h3>
 
         <!-- Check if they actually submitted requests -->
-
         <!-- Tell the user they didn't submit any requests instead of just showing an empty chart -->
         <div>
             <div>&Oslash;</div>
@@ -119,42 +90,42 @@
 
         <!-- Show cards of results -->
 
-        <div class="dashboard-card dashboard-top-card">
-            <div class="row">
+        <div>
+            <div>
 
                 <!-- Start Donut chart box -->
-                <div class="col s12 m3">
+                <div>
                     <canvas id="round-chart" style="width: 100%; height: 200px;"></canvas>
                 </div>
                 <!-- End Donut chart box -->
                 <!-- Request counts -->
-                <div class="col m9">
-                    <div class="row">
+                <div>
+                    <!-- Requests made box -->
+                    <div>
+                        <!--<div class="dashboard-dial-bg"><!--amount of previous requests-->
+                        <!--</div>
+                        <div class="dashboard-dial-bg-bottom">Requests Made</div>-->
+                    </div>
 
-                        <!-- Requests made box -->
-                        <div class="col s6 m3">
-                            <div class="dashboard-dial-bg"><!--amount of previous requests--></div>
-                            <div class="dashboard-dial-bg-bottom">Requests Made</div>
-                        </div>
+                    <!-- Requests denied box -->
+                    <div>
+                        <!--<div class="dashboard-dial-bg"><!--amount of previous requests denied-->
+                        <!--</div>
+                        <div class="dashboard-dial-bg-bottom">Denied</div>-->
+                    </div>
 
-                        <!-- Requests denied box -->
-                        <div class="col s6 m3 red-text">
-                            <div class="dashboard-dial-bg"><!--amount of previous requests denied--></div>
-                            <div class="dashboard-dial-bg-bottom">Denied</div>
-                        </div>
+                    <!-- Requests altered box -->
+                    <div>
+                        <!--<div class="dashboard-dial-bg"><!--amount of previous requests altered-->
+                        <!--</div>
+                        <div class="dashboard-dial-bg-bottom">Altered</div>-->
+                    </div>
 
-                        <!-- Requests altered box -->
-                        <div class="col s6 m3 orange-text text-darken-2">
-                            <div class="dashboard-dial-bg"><!--amount of previous requests altered--></div>
-                            <div class="dashboard-dial-bg-bottom">Altered</div>
-                        </div>
-
-                        <!-- Requests approved box -->
-                        <div class="col s6 m3 green-text text-darken-3">
-                            <div class="dashboard-dial-bg"><!--amount of previous requests approved--></div>
-                            <div class="dashboard-dial-bg-bottom">Approved</div>
-                        </div>
-
+                    <!-- Requests approved box -->
+                    <div>
+                        <!--<div class="dashboard-dial-bg"><!--amount of previous requests approved-->
+                        <!--</div>
+                        <div class="dashboard-dial-bg-bottom">Approved</div>-->
                     </div>
                 </div>
                 <!-- End request counts -->
@@ -163,116 +134,104 @@
         </div>
     </div>
     <!-- End Round Summary Container -->
-
     <!-- Javascript to show the pie chart -->
     <!--<script type="text/javascript">
         var overallData = [
             {
                 title: "Denied",
-                value : <!--amount of previous requests denied--><!--,
-            <!--color: "#F44336"
-            },
-            {
-            title: "Altered",
-            value:  --><!--amount of previous requests altered--><!--,
-            color: "#FFC107"
-            },
-            {
-            title: "Approved",
-            value:  --><!--amount of previous requests approved--><!--,
+                value : <!--amount of previous requests denied-->
+    <!--,
+    <!--color: "#F44336"
+    },
+    {
+    title: "Altered",
+    value:  -->
+    <!--amount of previous requests altered-->
+    <!--,
+    color: "#FFC107"
+    },
+    {
+    title: "Approved",
+    value:  -->
+    <!--amount of previous requests approved-->
+    <!--,
             color: "#8BC34A"
             }
         ];
         var isDashboard = true;
     </script>-->
     <!-- End Pie Chart Javascript -->
-
     <!-- Denied requests section -->
-    <div class="section">
-        <div class="container">
-            <div class="dashboard-card">
+    <div>
+        <!-- Card heading -->
+        <h2>Denied</h2>
+        <p>These requests were completely denied. You can make a new request from the actions menu.</p>
 
-                <!-- Card heading -->
-                <h2>Denied</h2>
-                <p>These requests were completely denied. You can make a new request from the actions menu.</p>
+        <!-- Put the table in a scrollable wrapper so it can be scrolled horizontally without overflowing the viewport on phones -->
+        <div>
+            <table>
 
-                <!-- Put the table in a scrollable wrapper so it can be scrolled horizontally without overflowing the viewport on phones -->
-                <div class="scrollable-table-wrapper">
-                    <table class="dashboard-table paginated-table">
-
-                        <!-- Column headings -->
-                        <thead>
-                            <tr class="dashboard-table-row-head">
-                                <th width="25%">Module</th>
-                                <th width="25%">Time</th>
-                                <th width="15%">Requested</th>
-                                <th width="15%">Assigned</th>
-                                <th width="15%"></th>
-                            </tr>
-                        </thead>
-                        <!-- End Column Headings -->
-
-                        <!-- Add a row to the table, for every request in this round's requests array that has the status "3" (rejected) -->
-                        <!-- The actual template for the row is stored in request-row.twig -->
+                <!-- Column headings -->
+                <thead>
+                    <tr>
+                        <th width="25%">Module</th>
+                        <th width="25%">Time</th>
+                        <th width="15%">Requested</th>
+                        <th width="15%">Assigned</th>
+                        <th width="15%"></th>
+                    </tr>
+                </thead>
+                <!-- End Column Headings -->
+                <!-- Add a row to the table, for every request in this round's requests array that has the status "3" (rejected) -->
+                <!-- The actual template for the row is stored in request-row.twig -->
 
 
-                    </table>
-                </div>
-                <!-- End .scrollable-table-wrapper -->
-
-            </div>
+            </table>
         </div>
+        <!-- End .scrollable-table-wrapper -->
     </div>
 
     <!-- end Denied requests section -->
-
     <!-- Same as denied section but for changed ones -->
-    <div class="section">
-        <div class="container">
-            <div class="dashboard-card">
-                <h2>Altered</h2>
-                <p>These requests were altered. If the allocated is acceptable then you don't need to do anything alternativly you can release the room and make a new request from the actions menu.</p>
-                <div class="scrollable-table-wrapper">
-                    <table class="dashboard-table paginated-table">
-                        <thead>
-                            <tr class="dashboard-table-row-head">
-                                <th width="25%">Module</th>
-                                <th width="25%">Time</th>
-                                <th width="15%">Requested</th>
-                                <th width="15%">Assigned</th>
-                                <th width="15%"></th>
-                            </tr>
-                        </thead>
+    <div>
+        <h2>Altered</h2>
+        <p>These requests were altered. If the allocated is acceptable then you don't need to do anything alternativly you can release the room and make a new request from the actions menu.</p>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="25%">Module</th>
+                        <th width="25%">Time</th>
+                        <th width="15%">Requested</th>
+                        <th width="15%">Assigned</th>
+                        <th width="15%"></th>
+                    </tr>
+                </thead>
 
-                    </table>
-                </div>
-            </div>
+            </table>
         </div>
     </div>
 
     <!-- Same as denied and changed section but for approved ones -->
-    <div class="section">
-        <div class="container">
-            <div class="dashboard-card">
-                <h2>Approved</h2>
-                <p>These requests have been approved. If you don't need a request for any reason you can release it from the actions menu.</p>
-                <div class="scrollable-table-wrapper">
-                    <table class="dashboard-table paginated-table">
-                        <thead>
-                            <tr class="dashboard-table-row-head">
-                                <th width="25%">Module</th>
-                                <th width="25%">Time</th>
-                                <th width="15%">Requested</th>
-                                <th width="15%">Assigned</th>
-                                <th width="15%"></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
+    <div>
+        <h2>Approved</h2>
+        <p>These requests have been approved. If you don't need a request for any reason you can release it from the actions menu.</p>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="25%">Module</th>
+                        <th width="25%">Time</th>
+                        <th width="15%">Requested</th>
+                        <th width="15%">Assigned</th>
+                        <th width="15%"></th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>
+
 
 <!--Pie chart initialisation-->
 <script>
