@@ -1,0 +1,19 @@
+.tag {
+    display: inline-block;
+    background-color: black;
+    padding : 2px;
+    font-size: 0.8em;
+    cursor: default;
+    margin: 0 2px 2px 0;
+    color: white;
+
+}
+
+.tag-close {
+    padding: 2px 2px 2px 4px;
+    color : gray;
+    font-weight: bold;
+    font-size: 100%;
+    cursor: pointer;
+}
+

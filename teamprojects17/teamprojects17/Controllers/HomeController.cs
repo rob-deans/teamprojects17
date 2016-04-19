@@ -55,5 +55,10 @@ namespace teamprojects17.Controllers
 
             return View();
         }
+
+        public ActionResult Rooms()
+        {
+            return View();
+        }
     }
 }
