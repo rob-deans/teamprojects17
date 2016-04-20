@@ -17,14 +17,21 @@
     <div>
         @{
             var db = Database.Open("DBCon");
-            var selectQueryString = "SELECT * FROM Park";
+            var parksSelect = "SELECT * FROM Park";
             <select id="parks">
-                @foreach(var row in db.Query(selectQueryString))
+                @foreach(var row in db.Query(parksSelect))
                 {
                     <option value="@row.ParkID">@row.ParkName</option>
                 }
             </select>
-            
+            var buildingsSelect = "SELECT * FROM Building";
+            <select id="building">
+                @foreach (var row in db.Query(buildingsSelect))
+                {
+                    <option value="@row.BuildingCode">@row.BuildingName</option>
+                }
+            </select>
+
         }
     </div>
     Testing
