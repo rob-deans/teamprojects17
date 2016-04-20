@@ -1,7 +1,7 @@
 @section scripts{
     <!--Add the css and js files here using the absolute reference "~/Content/blahblah"-->
     <script src="~/Scripts/Index.js"></script>
-    <link href="@Url.Content("~/Content/Dashboard.css")" rel="stylesheet">
+    @Styles.Render("~/Content/index");
 
     <!--Scripts for plugin-->
     <link href="~/Scripts/jquery-plugin-circliful-master/css/jquery.circliful.css" rel="stylesheet" type="text/css">

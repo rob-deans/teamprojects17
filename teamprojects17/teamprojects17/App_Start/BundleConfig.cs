@@ -33,10 +33,12 @@ namespace teamprojects17
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                        "~/Content/Site.css",
-                        "~/Content/Dashboard.css",
-                        "~/Content/Index.css"
+                        "~/Content/Site.css"
                         ));
+
+            bundles.Add(new StyleBundle("~/Content/index").Include( 
+                        "~/Content/Dashboard.css"
+            ));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
