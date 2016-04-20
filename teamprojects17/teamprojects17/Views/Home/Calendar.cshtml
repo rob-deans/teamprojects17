@@ -1,7 +1,7 @@
 ﻿@{
     Page.Title = "Calendar";
-    ViewBag.Title = "Calendar and Rooms";
-    ViewBag.Message = "This page shows the calendar and all the rooms available on campus. Use the filter options to narrow them down. Use the Campus Map to locate rooms. (LINK INTERACTIVE MAP TO THE WORDS CAMPUS MAP)";
+    ViewBag.Title = "Calendar";
+    ViewBag.Message = "View your specific timetable here";
     //Layout = "Your Layout Page goes here";
 }
 
@@ -13,5 +13,12 @@
 </hgroup>
 
 <div>
-    
+    @{
+        var db = Database.Open("DBCon");
+        var selectQueryString = "SELECT * FROM Park";
+    }
+
+    @foreach(var row in db.Query(selectQueryString)){
+        <div>@row.ParkName</div>
+    }
 </div>
