@@ -1,8 +1,6 @@
 @section scripts{
-    <!--Add the css and js files here using the absolute reference "~/Content/blahblah"-->
     <script src="~/Scripts/Index.js"></script>
     @Styles.Render("~/Content/index");
-
     <!--Scripts for plugin-->
     <link href="~/Scripts/jquery-plugin-circliful-master/css/jquery.circliful.css" rel="stylesheet" type="text/css">
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -44,7 +42,7 @@
                         <!-- action="requests/" method="post">-->
                         <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->
                         <input type="hidden" name="filterRound" /> <!--value="round id/>-->
-                        <button type="submit">View Requests</button>
+                        <button type="submit" id="request-button">View Requests</button>
                     </form>
                 </td>
             </tr>

@@ -17,3 +17,7 @@ th>td {
 button:hover, a:hover {
     color: #333333;
 }
+#request-button{
+    margin-right: 0px;
+    border: none;
+}
