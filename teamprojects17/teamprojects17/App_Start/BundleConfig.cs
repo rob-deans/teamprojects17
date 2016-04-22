@@ -40,6 +40,12 @@ namespace teamprojects17
                         "~/Content/Dashboard.css"
             ));
 
+            bundles.Add(new StyleBundle("~/Content/calendar").Include(
+                        "~/Content/jquery-ui.min.css",
+                        "~/Content/materialize.css",
+                        "~/Content/sweetalert.css"
+            ));
+
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
                         "~/Content/themes/base/jquery.ui.resizable.css",

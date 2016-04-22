@@ -1,5 +1,4 @@
-﻿<!--Timetable js files goes here, add the css here when ready-->
-@section scripts{
+﻿@section scripts{
     <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="~/Content/Timetable.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/Jquery.tag.css" />
@@ -17,30 +16,48 @@
     <div>
         @{
             var db = Database.Open("DBCon");
+            var moduleSelect = "SELECT * FROM Modules";
             var parksSelect = "SELECT * FROM Park";
             <select id="parks">
-                @foreach(var row in db.Query(parksSelect))
+                @foreach(var park in db.Query(parksSelect))
                 {
-                    <option value="@row.ParkID">@row.ParkName</option>
+                    <option value="@park.ParkID">@park.ParkName</option>
                 }
             </select>
             var buildingsSelect = "SELECT * FROM Building";
             <select id="building">
-                @foreach (var row in db.Query(buildingsSelect))
+                @foreach (var building in db.Query(buildingsSelect))
                 {
-                    <option value="@row.BuildingCode">@row.BuildingName</option>
+                    <option value="@building.BuildingCode">@building.BuildingName</option>
                 }
             </select>
-
+            var roomSelect = "SELECT * FROM Room";
+            <select id="building">
+                @foreach (var room in db.Query(roomSelect))
+                {
+                    <option value="@room.RoomCode">@room.RoomCode</option>
+                }
+            </select>
         }
     </div>
-    Testing
+    @{
     <select id="module-code">
-        <option value="COA101">COA101</option>
+        <option>Select one</option>
+            
+            @foreach (var code in db.Query(moduleSelect))
+            {
+                <option value="@code.ModCode">@code.ModCode</option>
+            }
     </select>
     <select id="module-name">
-        <option value="Sys Engineering">Sys Engineering</option>
+        <option>Select one</option>
+            @foreach (var name in db.Query(moduleSelect))
+            {
+                <option value="@name.ModName">@name.ModName</option>
+            }
+        
     </select>
+        }
     <div id="weeks-selected">
 
     </div>
@@ -54,5 +71,6 @@
             General
         </div>
     </div>
-    <div id="timetable-holder" style="height:30em"></div>
+    <div id="timetable-holder" style="height:51em"></div>
+    <input type="checkbox" id="view-period" />View in periods
 </section>

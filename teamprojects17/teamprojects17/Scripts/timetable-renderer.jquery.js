@@ -20,7 +20,7 @@ var numberOfRooms = 1; //How many rooms they are asking for
             var settings = $.extend({
                 type: "general"
             }, options);
-console.log(timetable);
+//console.log(timetable);
             /**
              *
              * @type {*|HTMLElement} - This is the HTML element that the timetable will be rendered inside
@@ -100,7 +100,7 @@ console.log(timetable);
                         var modName = $("#module-name").find('option:selected').val();
 
                         //Make sure they have a module selected
-                        if (!(modCode == "0" || modName == "0")) {
+                        if (!(modCode == "Select one" || modName == "Select one")) {
 
                             for(var g = 0; g < timetable.config.numberOfWeeks; g++) {
                                 if(typeof timetable['weeks'][g] != "undefined") {
@@ -192,11 +192,8 @@ console.log(timetable);
                 var temp2 = null;
                 for(var i = 0; i < ranges.length; i++) {
 
-                    if(ranges[i][0] -1 == week) {
-                        console.log(week + 1);
-                        console.log(week);
+                    if(ranges[i][0] - 1 == week) {
                         ranges[i][0] = week + 2;
-                        console.log(ranges[i][0]);
                     } else if (ranges[i][1]-1 == week) {
                         ranges[i][1] = week;
                     } else if(ranges[i][0]-1 < week && ranges[i][1]-1 > week) {
@@ -533,7 +530,7 @@ console.log(timetable);
                  * var PERIODS: Period numbers instead of time
                  */
                 //TODO: These need to be self populating based off the config
-                var TIMES = ["9:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-13:00", "13:00-14:00", "14:00-15:00",
+                var TIMES = ["", "9:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-13:00", "13:00-14:00", "14:00-15:00",
                     "15:00-16:00", "16:00-17:00", "17:00-18:00"];
                 var PERIODS = ["", "Period 1", "Period 2", "Period 3", "Period 4", "Period 5", "Period 6", "Period 7", "Period 8",
                     "Period 9"];
@@ -548,7 +545,11 @@ console.log(timetable);
                     if (i == 0 && typeof general !== "object") {
                         table += '<tr><th class="cell y-label">Week: ' + (parseInt(weekNumber) + 1) + '</th>';
                     } else {
-                        table += '<tr><th class="cell y-label">' + PERIODS[i] + '</th>';
+                        if ($("#view-period").is(":checked")) {
+                            table += '<tr><th class="cell y-label">' + PERIODS[i] + '</th>';
+                        } else {
+                            table += '<tr><th class="cell y-label">' + TIMES[i] + '</th>';
+                        }
                     }
                     for (var j = 0; j < WIDTH; j++) {
                         if (i == 0) {
