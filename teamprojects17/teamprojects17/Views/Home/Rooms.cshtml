@@ -2,6 +2,11 @@
     Page.Title = "Rooms";
     ViewBag.Title = "Rooms";
     ViewBag.Message = "See all rooms here.";
+    //Layout = "Your Layout Page goes here";
+}
+
+@section scripts{
+    @Styles.Render("~/Content/calendar");
 }
 
 <hgroup class="title">
@@ -11,9 +16,128 @@
     <h2>@ViewBag.Message</h2>
 </hgroup>
 
-@section scripts{
-}
+<!-- Wrapper for filtering options box -->
+<div class="dashboard-card">
 
-    <div>
-    
+    <div class="card-panel-header">Filter Results</div>
+
+    <div class="card-panel-content">
+
+        <!-- Filter options form -->
+        <form class="col s12" method="post">
+
+            <!-- First row of inputs -->
+            <div class="row">
+
+                <!-- Filter by name input -->
+                <div class="input-field col m4 s6">
+                    <input placeholder="Filter by Name" name="filterName" type="text" class="validate">
+                </div>
+
+                <!-- Filter by park input -->
+                <div class="input-field col m4 s6">
+                    <select name="filterPark">
+                        <option value="all" selected>Any Park</option>
+                        <option value="0">Central</option>
+                        <option value="1">East</option>
+                        <option value="2">West</option>
+                    </select>
+                    <label for="filterPark">Filter by Park</label>
+                </div>
+
+                <!-- filter by type input -->
+                <div class="input-field col m4 s6">
+                    <select name="filterType">
+                        <option value="all" selected>Any Type</option>
+                        <option value="0">Traditional</option>
+                        <option value="1">Tutorial</option>
+                    </select>
+                    <label for="filterType">Filter by Type</label>
+                </div>
+
+
+            </div>
+            <!-- End first row of inputs -->
+            <!-- Second row  of inputs -->
+            <div class="row">
+
+                <!-- Minimum Capacity input -->
+                <div class="input-field col m4 s6">
+                    <input placeholder="Minimum capacity" name="filterMinCapacity" type="number" min="0" class="validate">
+                </div>
+
+                <!-- Maximum Capacity Input -->
+                <div class="input-field col m4 s6">
+                    <input placeholder="Maximum Capacity" name="filterMaxCapacity" type="number" min="0" class="validate">
+                </div>
+
+
+                <!-- Submit button -->
+                <div class="col m4 s12 right-align">
+                    <button type="submit" class="waves-effect waves-light btn btn-large">Filter Results</button>
+                </div><br>
+
+
+            </div>
+            <!-- End second row of inputs -->
+
+
+        </form>
+        <!-- End Filter options form -->
+
+
     </div>
+</div>
+<!-- End wrapper for filter options box -->
+<!-- Wrapper for actual results -->
+<div class="dashboard-card">
+
+    <!-- .scrollable-table-wrapper allows the table to scroll horizontally on mobiles without overflowing the viewport -->
+    <div class="scrollable-table-wrapper">
+
+        <!-- Actual result table -->
+        <table class="modules-table paginated-table">
+            <thead>
+                <tr class="Header">
+                    <th width="20%"> Name </th>
+                    <th width="20%"> Park </th>
+                    <th width="20%"> Capacity </th>
+                    <th width="20%"> Type </th>
+                    <th width="20%"> Facilities </th>
+                </tr>
+            </thead>
+
+            <!-- Room rows -->
+            @{
+                var db = Database.Open("DBCon");
+
+                var roomSelect = "SELECT * FROM Room";
+                
+                foreach(var room in db.Query(roomSelect)){
+                    var curRoom = room.RoomCode.Trim(new Char[] { '.' });
+                    var facilitesSelect = "SELECT * FROM Facility JOIN FacilityRoom ON Facility.FacilityId=FacilityRoom.FacilityId  WHERE FacilityRoom.RoomCode = '" + curRoom + "'";
+                    var park = "SELECT ParkName FROM Park JOIN Building ON Park.ParkId = Building.ParkId WHERE Building.BuildingCode ='" + room.BuildingCode + "'";
+                    var parkResult = db.Query(park)[0][0];
+                    <tr>
+                        <td>@room.RoomCode</td>
+                        <td>@parkResult</td>
+                        <td>@room.Capacity</td>
+                        <td>Somethin</td>
+                        <td>
+                            @foreach (var fac in db.Query(facilitesSelect))
+                            {
+                                @fac.FacilityName.Replace("_", " ") <br />
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            <!-- End room rows -->
+
+        </table>
+        <!-- End Actual result table -->
+
+    </div>
+    <!-- End .scrollable-table-wrapper -->
+
+</div>
