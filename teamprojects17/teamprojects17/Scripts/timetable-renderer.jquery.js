@@ -20,7 +20,7 @@ var numberOfRooms = 1; //How many rooms they are asking for
             var settings = $.extend({
                 type: "general"
             }, options);
-//console.log(timetable);
+
             /**
              *
              * @type {*|HTMLElement} - This is the HTML element that the timetable will be rendered inside
@@ -378,7 +378,6 @@ var numberOfRooms = 1; //How many rooms they are asking for
              * @param p : period
              */
             function expandObject(i, d, p) {
-                console.log("running");
                 if (typeof timetable['weeks'][i] == "undefined") {
                     timetable.addWeek({week: i, days: []});
                 }
@@ -411,6 +410,7 @@ var numberOfRooms = 1; //How many rooms they are asking for
             function initialiseGeneralListener() {
                 $("#general").click(function () {
                     specificWeek = false;
+                    console.log($this);
                     $this.timetableRenderer(timetable, {type: "general"});
                 });
             }
@@ -714,6 +714,16 @@ var numberOfRooms = 1; //How many rooms they are asking for
                 return info;
             }
 
+            //Have the ability to switch from seeing the time to seeing the period number on the y-axis
+            $("#view-period").unbind("click");
+            function initiliaseViewPeriod() {
+                $("#view-period").click(function () {
+                    $("#timetable-holder").timetableRenderer(timetable, settings);
+                });
+            }
+
+            initiliaseViewPeriod();
+
             return {
                 render: function (timetable, settings) {
 
@@ -795,5 +805,6 @@ var numberOfRooms = 1; //How many rooms they are asking for
             }
         }
 
+        
     }(jQuery)
 );

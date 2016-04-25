@@ -9,29 +9,33 @@ $(document).ready(function () {
 
     
 
-    //$("#rooms-list").tag({ inputName: "room-list", maximum: 4 });
-    //$("#rooms-list").bind("DOMSubtreeModified", function () {
-    //    var data = refreshData($("#room-list").val().split(","));
-    //    var t = new Timetable(data.semester);
-    //    t.populate(data);
-    //    timetableRenderer = $("#timetable-holder").timetableRenderer(t, { type: "general" });
-    //    selectWeekRange(timetableRenderer);
-    //});
+    $("#rooms-list").tag({ inputName: "room-list", maximum: 4 });
+    $("#rooms-list").bind("DOMSubtreeModified", function () {
+        var data = refreshData($("#room-list").val().split(","));
+        var t = new Timetable(data.semester);
+        t.populate(data);
+        //timetableRenderer = $("#timetable-holder").timetableRenderer(t, { type: "general" });
+        selectWeekRange(timetableRenderer);
+    });
 
-    //$("#add-room").click(function (e) {
-    //    e.preventDefault();
-    //    var $this = $(this);
-    //    var $list = $("#rooms-list");
-    //    if ($("#rooms").val() != 0) {
-    //        $list.tag("addTag", $("#rooms").val());
-    //        if ($list.children().length - 1 > $("#number-of-rooms").val()) {
-    //            $("#number-of-rooms").val(function (i, value) {
-    //                console.log("running");
-    //                return $list.children().length - 1;
-    //            });
-    //        }
-    //    }
-    //});
+    function refreshData(rooms) {
+        console.log("run");
+        return;
+    }
+
+    $("#add-room").click(function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $list = $("#rooms-list");
+        if ($("#rooms").val() != 0) {
+            $list.tag("addTag", $("#rooms").val());
+            if ($list.children().length - 1 > $("#number-of-rooms").val()) {
+                $("#number-of-rooms").val(function (i, value) {
+                    return $list.children().length - 1;
+                });
+            }
+        }
+    });
 
     //$("#requirements").tag({
     //    inputName: "special-requirements"
