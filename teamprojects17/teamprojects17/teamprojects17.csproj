@@ -422,10 +422,10 @@
     <Content Include="Views\Home\Settings.cshtml" />
     <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Home\Calendar.cshtml" />
+    <Content Include="Views\Timetable\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Timetable\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

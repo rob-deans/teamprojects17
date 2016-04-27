@@ -1,0 +1,20 @@
+﻿@model IEnumerable<teamprojects17.Models.TimetableModel>
+
+@{
+    ViewBag.Title = "Timetable";
+}
+
+<h2>Timetable</h2>
+
+
+
+   
+@foreach (var item in Model) { 
+    
+        <div>
+            @Html.DisplayFor(timetableItem => item.ModCode)
+        </div>
+}
+
+    
+

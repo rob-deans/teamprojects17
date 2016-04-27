@@ -12,9 +12,11 @@ namespace teamprojects17.Controllers
         private DbCon db = new DbCon();
 
         // GET: Timetable
+        //TODO: Get their session so we know what to display
         public ActionResult Index()
         {
-            return View(db.Timetable.ToList());
+            TimetableModel timetable = db.Request.Find(3);
+            return View(timetable);
         }
     }
 }
