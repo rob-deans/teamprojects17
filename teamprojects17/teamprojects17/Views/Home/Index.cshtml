@@ -1,10 +1,16 @@
+@{
+    Page.Title = "Dashboard";
+    ViewBag.Title = "Dashboard";
+    ViewBag.Message = "Welcome to your dashboard. This page shows the results from the previous round.";
+}
+
 @section scripts{
     <script src="~/Scripts/Index.js"></script>
     @Styles.Render("~/Content/index");
     <!--Scripts for plugin-->
-    <link href="~/Scripts/jquery-plugin-circliful-master/css/jquery.circliful.css" rel="stylesheet" type="text/css">
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery-plugin-circliful-master/js/jquery.circliful.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/Dashboard.css">
 }
 
 <hgroup class="title">
@@ -15,124 +21,87 @@
 </hgroup>
 
 <!-- Currently Active Rounds card -->
-<section>
-    <div>
+<div>
+        <h3>Currently Active Rounds</h3>
+        <div>These are your currently active rounds, which are still pending. They will either be denied or approved.</div>
         <!-- Actual table of active rounds -->
-        <table>
-            <!--Table header-->
-            <thead>
-                <tr>
-                    <th colspan="4">Currently Active Rounds</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <!-- End of table header -->
-            <!--Check if there are actually any rounds active-->
-            <!-- For each round in the activeRounds array passed to this page, output a row to the table for it -->
-            <tr>
-                <td><!--Sem 1 or 2-->
-                    Semester: 
-                </td>
-                <td>
-                    <!--Round name</td>
-                    <td><!--Requests made-->
-                    Requests Made
-                </td>
-                <td><!--Days remaining--> Days Remaining</td>
-                <td>
-                    <form>
-                        <!-- action="requests/" method="post">-->
-                        <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->
-                        <input type="hidden" name="filterRound" /> <!--value="round id/>-->
-                        <button type="submit" id="request-button">View Requests</button>
-                    </form>
-                </td>
-            </tr>
-
-            <!-- If no rounds are active, say so; instead of just showing an empty table -->
-            <tr>
-                <td colspan="4">No rounds are currently accepting requests</td>
-                <td>
-                    <a href="requests/">View All Previous Requests</a>
-                </td>
-            </tr>
-
-        </table>
-    </div>
-</section>
+        <!--Check if there are actually any rounds active-->
+        <!-- For each round in the activeRounds array passed to this page, output a row to the table for it -->
+    <table align="center" width="900">
+        <tr>
+            <td align="center" style="font-weight:bold"> <!--Sem 1 or 2-->
+                Semester
+            </td>
+            <td align="center" style="font-weight:bold">
+                Round Number
+            </td>
+            <td align="center" style="font-weight:bold">
+                Requests Made
+            </td>
+            <td align="center" style="font-weight:bold">
+                Days Remaining
+            </td>
+            <td align="center" style="font-weight:bold">
+            </td>
+        </tr>
+        <!-- If no rounds are active, say so; instead of just showing an empty table -->
+        <tr>
+            <td align="center">No rounds are currently accepting requests</td>
+            <td align="center"></td>
+            <td align="center"></td>
+            <td align="center"></td>
+            <td align="center"><a href="requests/">View All Previous Requests</a></td>
+       <!-- <td align="center"> <button type="submit" id="request-button">View Requests</button></td>
+                    <!-- action="requests/" method="post">-->
+                 <!--   <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->  
+                 <!--   <input type="hidden" name="filterRound" /> <!--value="round id/>-->
+            
+        </tr>
+    </table>
+</div>
 <!-- End currently active rounds card -->
 <!-- Previous round results section -->
-<!-- Contains a donut chart and counts of the results of the previous round -->
+
+<br />
 <div>
-
-    <!-- Section title -->
-    <div>
-        <h1>Results</h1>
-    </div>
-
-    <!--For every item in 'previousRounds' as 'previousRound', do the following... -->
-    <!-- Round Summary Container -->
-    <div class="container">
-        <h3><span><!--previous round name - previous round (sem 1 or sem 2)--></span></h3>
-
-        <!-- Check if they actually submitted requests -->
-        <!-- Tell the user they didn't submit any requests instead of just showing an empty chart -->
-        <div>
-            <div>&Oslash;</div>
-            <div>You didn't submit any requests for this round</div>
-        </div>
-
-        <!-- This state happens when a round has finished but the administrators havent entered any results. They are 'in limbo' so to speak -->
-        <div>
-            <div><i>schedule</i></div>
-            <div>Results will appear here when Central Administrators finalize them.</div>
-        </div>
-
-        <!-- Show cards of results -->
-
-        <div>
-            <div>
-
-                <!-- Start Donut chart box -->
-                <div>
-                    <canvas id="round-chart" style="width: 100%; height: 200px;"></canvas>
-                </div>
-                <!-- End Donut chart box -->
-                <!-- Request counts -->
-                <div>
-                    <!-- Requests made box -->
-                    <div>
-                        <!--<div class="dashboard-dial-bg"><!--amount of previous requests-->
-                        <!--</div>
-                        <div class="dashboard-dial-bg-bottom">Requests Made</div>-->
-                    </div>
-
-                    <!-- Requests denied box -->
-                    <div>
-                        <!--<div class="dashboard-dial-bg"><!--amount of previous requests denied-->
-                        <!--</div>
-                        <div class="dashboard-dial-bg-bottom">Denied</div>-->
-                    </div>
-
-                    <!-- Requests altered box -->
-                    <div>
-                        <!--<div class="dashboard-dial-bg"><!--amount of previous requests altered-->
-                        <!--</div>
-                        <div class="dashboard-dial-bg-bottom">Altered</div>-->
-                    </div>
-
-                    <!-- Requests approved box -->
-                    <div>
-                        <!--<div class="dashboard-dial-bg"><!--amount of previous requests approved-->
-                        <!--</div>
-                        <div class="dashboard-dial-bg-bottom">Approved</div>-->
-                    </div>
-                </div>
-                <!-- End request counts -->
-
-            </div>
-        </div>
-    </div>
+     <h3>Results</h3>
+    <div>These are your overall results.</div>
+        <!--For every item in 'previousRounds' as 'previousRound', do the following... -->
+        <!-- Show all results -->
+    <table align="center" width="900">
+        <tr>
+            <td align="center" style="font-weight:bold"> <div><img src="~/Images/Results.jpg" alt="Results" style="width:875px;height:225px;"></div><!--<canvas id="round-chart"; height:"100px"/canvas>--></td>
+        </tr>
+    </table>
+</div>
+   <!-- </table>  -->
+        <!-- End Donut chart box -->
+        <!-- Request counts -->
+       
+          <!--  <td align="center" style="font-weight:bold"> Requests Made </td>    <!-- Requests made box -->
+            <!--<div class="dashboard-dial-bg"><!--amount of previous requests-->
+            <!--</div>
+            <div class="dashboard-dial-bg-bottom">Requests Made</div>-->
+            <!-- Requests denied box --> 
+     <!--       <td align="center" style="font-weight:bold">Denied</td>
+            <!--<div class="dashboard-dial-bg"><!--amount of previous requests denied-->
+            <!--</div>
+            <div class="dashboard-dial-bg-bottom">Denied</div>-->
+            <!-- Requests altered box -->
+     <!--       <td align="center" style="font-weight:bold">Altered</td>
+            <!--<div class="dashboard-dial-bg"><!--amount of previous requests altered-->
+            <!--</div>
+            <div class="dashboard-dial-bg-bottom">Altered</div>-->
+            <!-- Requests approved box -->
+      <!--      <td align="center" style="font-weight:bold"> Approved</td>
+            <!--<div class="dashboard-dial-bg"><!--amount of previous requests approved-->
+            <!--</div>
+            <div class="dashboard-dial-bg-bottom">Approved</div>-->
+            <!-- End request counts -->
+      <!--  </tr>
+    </table>
+ </div> -->
+ 
     <!-- End Round Summary Container -->
     <!-- Javascript to show the pie chart -->
     <!--<script type="text/javascript">
@@ -162,74 +131,127 @@
     </script>-->
     <!-- End Pie Chart Javascript -->
     <!-- Denied requests section -->
-    <div>
+<br />
+<div>
         <!-- Card heading -->
-        <h2>Denied</h2>
-        <p>These requests were completely denied. You can make a new request from the actions menu.</p>
-
+        <h3>Denied</h3>
+        <div>These requests were completely denied. You can make a new request from the actions menu.</div>
         <!-- Put the table in a scrollable wrapper so it can be scrolled horizontally without overflowing the viewport on phones -->
-        <div>
-            <table>
-
-                <!-- Column headings -->
-                <thead>
-                    <tr>
-                        <th width="25%">Module</th>
-                        <th width="25%">Time</th>
-                        <th width="15%">Requested</th>
-                        <th width="15%">Assigned</th>
-                        <th width="15%">Date</th>
-                    </tr>
-                </thead>
+    <table align="center" width="900">
+        <!-- Column headings -->
+        <tr>
+            <td align="center" style="font-weight:bold" width="20%">Module</td>
+            <td align="center" style="font-weight:bold" width="20%">Time</td>
+            <td align="center" style="font-weight:bold" width="20%">Requested</td>
+            <td align ="center" style="font-weight:bold" width="20%">Date</td>
+            <td align="center" width="20%"> </td>
+        </tr>
+        <tr>
+            <td align="center"> COB131 Databases </td> 
+            <td align="center"> Monday, Period 1 Weeks 1-12 </td>
+            <td align="center"> CC011</td>
+            <td align="center"> 01/01/2015</td>
+            <td align="center"> <button type="submit" id="request-button">Action </button></td>
+        </tr>
+        <tr>
+            <td align="center"> COA281 Object Oriented Requirements Analysis </td>
+            <td align="center"> Monday, Period 1 Weeks 1-12 </td>
+            <td align="center"> JG02 </td>
+            <td align="center"> 22/01/2015</td>
+            <td align="center"> <button type="submit" id="request-button">Action </button></td>
+        </tr>
+        <tr>
+            <td align="center"> COA281 Object Oriented Requirements Analysis </td>
+            <td align="center"> Thursday, Period 4 Weeks 2,4,6,8 </td>
+            <td align="center"> JG02 </td>
+            <td align="center"> 14/03/2015</td>
+            <td align="center"> <button type="submit" id="request-button">Action </button></td>
+        </tr>
+    </table>
+</div>
                 <!-- End Column Headings -->
                 <!-- Add a row to the table, for every request in this round's requests array that has the status "3" (rejected) -->
                 <!-- The actual template for the row is stored in request-row.twig -->
-
-
-            </table>
-        </div>
-        <!-- End .scrollable-table-wrapper -->
-    </div>
-
-    <!-- end Denied requests section -->
-    <!-- Same as denied section but for changed ones -->
-    <div>
-        <h2>Altered</h2>
-        <p>These requests were altered. If the allocated is acceptable then you don't need to do anything alternativly you can release the room and make a new request from the actions menu.</p>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th width="25%">Module</th>
-                        <th width="25%">Time</th>
-                        <th width="15%">Requested</th>
-                        <th width="15%">Assigned</th>
-                        <th width="15%">Date</th>
-                    </tr>
-                </thead>
-
-            </table>
-        </div>
-    </div>
+<br />
+<div>
+        <h3>Altered</h3>  
+        <div>These requests were altered. If the allocated is acceptable then you don't need to do anything alternativly you can release the room and make a new request from the actions menu.</div>
+    <table align="center" width="900">
+        <!-- end Denied requests section -->
+        <!-- Same as denied section but for changed ones -->
+        <tr>
+            <td align="center" style="font-weight:bold" width="20%">Module</td>
+            <td align="center" style="font-weight:bold" width="20%">Time</td>
+            <td align="center" style="font-weight:bold" width="20%">Requested</td>
+            <td align="center" style="font-weight:bold" width="20%">Date</td>
+            <td align="center" width="20%"> </td>
+        </tr>
+        <tr>
+            <td align="center"> COC281 Software Project Management  </td>
+            <td align="center"> Tuesday, Period 2 Weeks 1-5, 7-10, 12-16 </td>
+            <td align="center"> CC012 </td>
+            <td align="center"> 18/03/2015</td>
+            <td align="center"> <button type="submit" id="request-button">Action </button></td>
+        </tr>
+        <tr>
+            <td align="center"> COA281 Object Oriented Requirements Analysis  </td>
+            <td align="center"> Friday, Period 3 Weeks 1-12 </td>
+            <td align="center"> J001 </td>
+            <td align="center"> 26/03/2015</td>
+            <td align="center"> <button type="submit" id="request-button">Action </button></td>
+        </tr>
+    </table>
+</div>
 
     <!-- Same as denied and changed section but for approved ones -->
-    <div>
-        <h2>Approved</h2>
-        <p>These requests have been approved. If you don't need a request for any reason you can release it from the actions menu.</p>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th width="25%">Module</th>
-                        <th width="25%">Time</th>
-                        <th width="15%">Requested</th>
-                        <th width="15%">Assigned</th>
-                        <th width="15%">Date</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
+<br />  
+<div>
+        <h3>Approved</h3>
+        <div>These requests have been approved. If you don't need a request for any reason you can release it from the actions menu.</div>
+      <table align="center" width="900">
+          <tr>
+              <td align="center" style="font-weight:bold" width="20%">Module</td>
+              <td align="center" style="font-weight:bold" width="20%">Time</td>
+              <td align="center" style="font-weight:bold" width="20%">Requested</td>
+              <td align="center" style="font-weight:bold" width="20%">Date</td>
+              <td align="center" width="20%"></td>
+          </tr>
+          <tr>
+              <td align="center"> COB131 Databases  </td>
+              <td align="center"> Wednesday, Period 3 Weeks 1, 5-7 </td>
+              <td align="center"> CC011 </td>
+              <td align="center"> 12/02/2015</td>
+              <td align="center"> <button type="submit" id="request-button">Action </button></td>
+          </tr>
+          <tr>
+              <td align="center"> C0B290 Team Projects  </td>
+              <td align="center"> Thursday, Period 3 Weeks 3, 4-7 </td>
+              <td align="center"> J002 </td>
+              <td align="center"> 16/03/2015</td>
+              <td align="center"> <button type="submit" id="request-button">Action </button></td>
+          </tr>
+          <tr>
+              <td align="center"> C0B201 Professional Issues In Computing </td>
+              <td align="center"> Wednesday, Period 3 Weeks 6, 5-7 </td>
+              <td align="center"> CC012 </td>
+              <td align="center"> 19/03/2015</td>
+              <td align="center"> <button type="submit" id="request-button">Action </button></td>
+          </tr>
+          <tr>
+              <td align="center"> COC281 Software Project Management  </td>
+              <td align="center"> Tuesday, Period 2 Weeks 1-5, 7-10, 12-16 </td>
+              <td align="center"> CC012 </td>
+              <td align="center"> 18/03/2015</td>
+              <td align="center"> <button type="submit" id="request-button">Action </button></td>
+          </tr>
+          <tr>
+              <td align="center"> COA281 Object Oriented Requirements Analysis  </td>
+              <td align="center"> Friday, Period 3 Weeks 1-12 </td>
+              <td align="center"> J001 </td>
+              <td align="center"> 26/03/2015</td>
+              <td align="center"> <button type="submit" id="request-button">Action </button></td>
+          </tr>
+      </table>
 </div>
 
 
