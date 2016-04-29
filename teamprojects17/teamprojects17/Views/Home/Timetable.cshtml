@@ -13,7 +13,7 @@
 </hgroup>
 
 <section class="filter">
-    <div>
+    <div id="filter">
         @{
             var db = Database.Open("DBCon");
             var moduleSelect = "SELECT * FROM Modules";
@@ -32,13 +32,15 @@
                 }
             </select>
             var roomSelect = "SELECT * FROM Room";
-            <select id="building">
+            <select id="rooms">
                 @foreach (var room in db.Query(roomSelect))
                 {
                     <option value="@room.RoomCode">@room.RoomCode</option>
                 }
             </select>
         }
+        <button id="add-room">Select</button>
+        <div id="rooms-list"></div>
     </div>
     @{
     <select id="module-code">
