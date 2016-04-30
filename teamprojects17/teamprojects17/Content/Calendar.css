@@ -1,0 +1,32 @@
+﻿html {
+height: 100%;
+margin: 0;
+padding: 0px 0px 200px 0px;
+}
+
+
+table{
+    border: 2px solid #4A1863;
+    background-color:#E9CCF1;
+    text-align:center;
+}
+
+tr{
+    border-top: 2px solid #4A1863;
+}
+
+th,td {
+    border-left: 2px solid #4A1863;
+}
+
+th, tr, td {
+    border-collapse: collapse;
+    padding: 5px;
+}
+ 
+table{
+    height: 750px;
+    width: 100%;
+    text-align: center;
+}
+

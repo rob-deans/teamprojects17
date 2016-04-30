@@ -4,7 +4,7 @@
 @{
     Page.Title = "Calendar";
     ViewBag.Title = "Calendar";
-    ViewBag.Message = "View your specific timetable here";
+    ViewBag.Message = "View your specific timetable here.";
 }
 
 <hgroup class="title">
@@ -15,11 +15,12 @@
 </hgroup>
 
 @section scripts{
+    <link rel="stylesheet" type="text/css" href="~/Content/Calendar.css" />
     <script type="text/javascript" language="C#">
         var data = @Html.Raw(JsonConvert.SerializeObject(this.Model));
         console.log(data);
 
-        showTable();      
+        showTable();
 
         function showTable() {
             var DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -53,10 +54,10 @@
             return div;
         }
 
-        
+
     </script>
 }
 
-    <div id="timetable-holder">
-    
-    </div>
+<div id="timetable-holder">
+
+</div>
