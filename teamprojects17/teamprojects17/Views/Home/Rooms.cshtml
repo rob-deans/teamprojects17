@@ -1,7 +1,7 @@
 ﻿@{
     Page.Title = "Rooms";
     ViewBag.Title = "All Rooms";
-    ViewBag.Message = "This page shows all the rooms available on campus. Use the filter options to narrow them down. Use the campus map to locate rooms. (LINK CAMPUS MAP TO http://maps.lboro.ac.uk/)";
+    ViewBag.Message = "This page shows all the rooms available on campus. Use the filter options to narrow them down. Use the  <a href='http://maps.lboro.ac.uk/'>campus map</a> to locate rooms.";
     }
 
 @section scripts{
@@ -12,7 +12,7 @@
     <h1>@ViewBag.Title</h1>
 </hgroup>
 <hgroup class="title">
-    <h2>@ViewBag.Message</h2>
+    <h2>@Html.Raw(@ViewBag.Message)</h2>
 </hgroup>
  <!-- Wrapper for filtering options box -->
 
