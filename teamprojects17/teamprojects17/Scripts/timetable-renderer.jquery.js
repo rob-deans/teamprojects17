@@ -20,7 +20,7 @@ var numberOfRooms = 1; //How many rooms they are asking for
             var settings = $.extend({
                 type: "general"
             }, options);
-
+            console.log(timetable);
             /**
              *
              * @type {*|HTMLElement} - This is the HTML element that the timetable will be rendered inside

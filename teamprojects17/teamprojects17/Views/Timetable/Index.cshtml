@@ -1,20 +1,81 @@
-﻿@model IEnumerable<teamprojects17.Models.TimetableModel>
+﻿@model teamprojects17.Models.TimetableModel
 
-@{
-    ViewBag.Title = "Timetable";
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Timetable.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Jquery.tag.css" />
+    @Scripts.Render("~/bundles/timetable");
 }
 
-<h2>Timetable</h2>
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+</hgroup>
+<hgroup class="title">
+    <h2>@ViewBag.Message</h2>
+</hgroup>
 
+<section class="filter">
+    <div id="filter">
+        @{
+            var db = Database.Open("DBCon");
+            var moduleSelect = "SELECT * FROM Modules";
+            var parksSelect = "SELECT * FROM Park";
+            <select id="parks">
+                @foreach (var park in db.Query(parksSelect))
+                {
+                    <option value="@park.ParkID">@park.ParkName</option>
+                }
+            </select>
+            var buildingsSelect = "SELECT * FROM Building";
+            <select id="building">
+                @foreach (var building in db.Query(buildingsSelect))
+                {
+                    <option value="@building.BuildingCode">@building.BuildingName</option>
+                }
+            </select>
+            var roomSelect = "SELECT * FROM Room";
+            <select id="rooms">
+                @foreach (var room in db.Query(roomSelect))
+                {
+                    <option value="@room.RoomCode">@room.RoomCode</option>
+                }
+            </select>
+        }
+        <button id="add-room">Select</button>
+        <div id="rooms-list"></div>
+    </div>
+    @{
+        <select id="module-code">
+            <option>Select one</option>
 
+            @foreach (var code in db.Query(moduleSelect))
+            {
+                <option value="@code.ModCode">@code.ModCode</option>
+            }
+        </select>
+        <select id="module-name">
+            <option>Select one</option>
+            @foreach (var name in db.Query(moduleSelect))
+            {
+                <option value="@name.ModName">@name.ModName</option>
+            }
 
-   
-@foreach (var item in Model) { 
-    
-        <div>
-            @Html.DisplayFor(timetableItem => item.ModCode)
+        </select>
+    }
+    <div id="weeks-selected">
+
+    </div>
+    <button class="btn btn-primary waves-effect" id="range-selector">Choose range</button>
+    <ul class="weekRange"></ul>
+</section>
+
+<section id="timetable">
+    <div id="weeks-range" class="horizontal-range">
+        <div id="general" class="">
+            General
         </div>
-}
-
-    
-
+    </div>
+    <input type="checkbox" id="view-period" /><label for="view-period">View in periods</label>
+    <div id="timetable-holder" style="height:51em"></div>
+    <button class="btn btn-primary waves-effect" id="submit-choices">Submit</button>
+</section>

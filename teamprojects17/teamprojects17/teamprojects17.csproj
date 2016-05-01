@@ -421,7 +421,7 @@
     <Content Include="Views\Home\Rooms.cshtml" />
     <Content Include="Views\Home\Settings.cshtml" />
     <Content Include="Views\Home\Upload.cshtml" />
-    <Content Include="Views\Home\Calendar.cshtml" />
+    <Content Include="Views\Timetable\Calendar.cshtml" />
     <Content Include="Views\Timetable\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

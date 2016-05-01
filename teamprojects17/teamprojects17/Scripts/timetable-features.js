@@ -11,16 +11,44 @@ $(document).ready(function () {
 
     $("#rooms-list").tag({ inputName: "room-list", maximum: 4 });
     $("#rooms-list").bind("DOMSubtreeModified", function () {
-        var data = refreshData($("#room-list").val().split(","));
-        var t = new Timetable(data.semester);
-        t.populate(data);
-        //timetableRenderer = $("#timetable-holder").timetableRenderer(t, { type: "general" });
-        selectWeekRange(timetableRenderer);
+        displayUpdatedTimetable();
     });
 
+    function displayUpdatedTimetable() {
+        var data = refreshData($("#room-list").val().split(","));
+        if (data != null) {
+            var t = new Timetable(1);
+            t.populate(data);
+            timetableRenderer = $("#timetable-holder").timetableRenderer(t, { type: "general" });
+            selectWeekRange(timetableRenderer);
+        }
+    }
+
     function refreshData(rooms) {
-        console.log("run");
-        return;
+        if (rooms[0] == "") {
+            return;
+        }
+        var tt = {};
+        var weeks = $("#week-range").val().split(",");      
+        weeks = weeks[0].split(" - ");
+        console.log(rooms);
+        $.ajax({
+            type : "POST", 
+            url: "Timetable/getTimetable",
+            data: {
+                room: rooms,
+                weeks: weeks
+            },
+            success: function (data) {
+                console.log(data);
+                tt = JSON.parse(data);
+            },
+            error: function (data) {
+                console.error(data);
+            }
+        });
+
+        return tt;
     }
 
     $("#add-room").click(function (e) {
@@ -37,19 +65,22 @@ $(document).ready(function () {
         }
     });
 
-    //$("#requirements").tag({
-    //    inputName: "special-requirements"
-    //});
-
-    //$("#special-requirements").keypress(function (e) {
-    //    if (e.which == 13) {
-    //        $this = $(this);
-    //        console.log($("#special-requirements"));
-    //        $("#requirements").tag("addTag", $this.val());
-    //        $this.val("");
-    //        e.preventDefault();
-    //    }
-    //});
+    $("#submit-choices").click(function () {
+        console.log("running");
+        $.ajax({
+            type: "POST",
+            url: "Timetable/setTimetable",
+            data: {
+                timetable: JSON.stringify(timetableRenderer.getCurrentTimetable())
+            },
+            success: function (data) {
+                var t = new Timetable(1);
+                timetableRenderer = $("#timetable-holder").timetableRenderer(t, { type: "general" });
+                displayUpdatedTimetable();
+                selectWeekRange(timetableRenderer);
+            }
+        });
+    });
 
     $("#range-selector").click(function () {
         selectWeekRange(timetableRenderer);
