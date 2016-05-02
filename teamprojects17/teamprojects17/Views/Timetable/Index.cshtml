@@ -6,7 +6,6 @@
     ViewBag.Message = "Your timetable booking page.";
 }
 
-
 @section scripts{
     <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="~/Content/Timetable.css" />
@@ -48,7 +47,7 @@
                 }
             </select>
         }
-        <button id="add-room">Select</button>
+        <button id="add-room" style="height:35px; width:150px">Select</button>
         <div id="rooms-list"></div>
     </div>
     @{
@@ -72,9 +71,11 @@
     <div id="weeks-selected">
 
     </div>
-    <button class="btn btn-primary waves-effect" id="range-selector">Choose range</button>
-    <ul class="weekRange"></ul>
-</section>
+    
+    <button class="btn btn-primary waves-effect" id="range-selector" style="height:35px; width:150px">Choose range</button>
+    <div class="weekRange"></div>
+    <input type="checkbox" id="view-period" name="view-period">View in periods
+    </section>
 
 <section id="timetable">
     <div id="weeks-range" class="horizontal-range">
@@ -82,7 +83,6 @@
             General
         </div>
     </div>
-    <input type="checkbox" id="view-period" /><label for="view-period">View in periods</label>
     <div id="timetable-holder" style="height:51em"></div>
-    <button class="btn btn-primary waves-effect" id="submit-choices">Submit</button>
+    <button class="btn btn-primary waves-effect" id="submit-choices" style="width:300px">Submit</button>
 </section>
