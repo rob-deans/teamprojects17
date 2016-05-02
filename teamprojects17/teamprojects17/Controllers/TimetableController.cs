@@ -42,7 +42,16 @@ namespace teamprojects17.Controllers
             {
                 List.Add(new TimetableModel
                 {
-                    ReqId = reader.GetInt32(0)
+                    ReqId = reader.GetInt32(0),
+                    ModCode = reader.GetString(1),
+                    Day = reader.GetInt32(2),
+                    Period = reader.GetInt32(3),
+                    WeekStart = reader.GetInt32(4),
+                    WeekEnd = reader.GetInt32(5),
+                    BuildingCode = reader.GetString(6),
+                    ParkId = reader.GetInt32(7),
+                    Year = reader.GetInt32(8),
+                    Semester = reader.GetInt32(9)
                 });
             }
             sqlConnection.Close();

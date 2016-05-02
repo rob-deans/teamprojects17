@@ -17,7 +17,8 @@ namespace teamprojects17.Models
         public string ModCode { get; set; }
         public int Day { get; set; }
         public int Period { get; set; }
-        public string Week { get; set; }
+        public int WeekStart { get; set; }
+        public int WeekEnd { get; set; }
         public string BuildingCode { get; set; }
         public int ParkId { get; set; }
         public int Year { get; set; }
