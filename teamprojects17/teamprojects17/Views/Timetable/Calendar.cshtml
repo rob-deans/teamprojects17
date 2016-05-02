@@ -19,9 +19,9 @@
         var data = @Html.Raw(JsonConvert.SerializeObject(this.Model));
         console.log(data);
 
-        showTable();      
+        showTable(data);      
 
-        function showTable() {
+        function showTable(data) {
             var DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
             var PERIODS = ["", "Period 1", "Period 2", "Period 3", "Period 4", "Period 5", "Period 6", "Period 7", "Period 8",
                         "Period 9"];
@@ -36,7 +36,7 @@
                         table += "<td>"
                         for(var k = 0; k < data.length; k++) {
                             if(data[k].Period + 1 == i && data[k].Day == j){
-                                table += displayModule(k);
+                                table += displayModule(data[k]);
                             }
                         }
                         table += "</td>"
@@ -47,16 +47,37 @@
             $("#timetable-holder").html(table);
         }
 
-        function displayModule(k) {
-            var div = "<div>"+data[k].ModCode +"</div>";
-            div += "<div>Weeks: " + data[k].WeekStart + " - " + data[k].WeekEnd+"</div>";
+        function displayModule(data) {
+            var div = "<div>"+data.ModCode +"</div>";
+            div += "<div>Weeks: " + data.WeekStart + " - " + data.WeekEnd+"</div>";
             return div;
         }
 
+        $("#lecturers-list").change(function() {
+            var id = $("#lecturers-list").val();
+            console.log(id);
+            if(id != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "getLecturerTimetable",
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        showTable(data);
+                    }
+                });
+            }
+        });
         
     </script>
 }
 
+     <select id="lecturers-list">
+         <option value="0">Select a lecturer</option>
+         <option value="1">Pick me</option>
+     </select>
+
     <div id="timetable-holder">
-    
     </div>

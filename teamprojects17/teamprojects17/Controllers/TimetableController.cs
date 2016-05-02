@@ -29,9 +29,9 @@ namespace teamprojects17.Controllers
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader = null;
 
-            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = 'Denied'"+
+            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = 'Accepted'"+
                 "AND ReqID IN "
-                +"(SELECT Request.ReqID FROM Request INNER JOIN Modules ON Modules.ModCode = Request.ModCode WHERE Modules.DeptCode = 'BS'))";
+                +"(SELECT Request.ReqID FROM Request INNER JOIN Modules ON Modules.ModCode = Request.ModCode WHERE Modules.DeptCode = 'EC'))";
 
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.Connection = sqlConnection;
@@ -56,6 +56,42 @@ namespace teamprojects17.Controllers
             }
             sqlConnection.Close();
             return View(List);
+        }
+
+        [HttpPost]
+        public JsonResult getLecturerTimetable(int id)
+        {
+            SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader = null;
+
+            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = 'Accepted'" +
+                "AND ReqID IN "
+                + "(SELECT Request.ReqID FROM Request INNER JOIN Modules ON Modules.ModCode = Request.ModCode WHERE Modules.LecturerID = '"+id+"'))";
+
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            reader = cmd.ExecuteReader();
+            var List = new List<TimetableModel>();
+            while (reader.Read())
+            {
+                List.Add(new TimetableModel
+                {
+                    ReqId = reader.GetInt32(0),
+                    ModCode = reader.GetString(1),
+                    Day = reader.GetInt32(2),
+                    Period = reader.GetInt32(3),
+                    WeekStart = reader.GetInt32(4),
+                    WeekEnd = reader.GetInt32(5),
+                    BuildingCode = reader.GetString(6),
+                    ParkId = reader.GetInt32(7),
+                    Year = reader.GetInt32(8),
+                    Semester = reader.GetInt32(9)
+                });
+            }
+            sqlConnection.Close();
+            return Json(List);
         }
 
         [HttpPost]
