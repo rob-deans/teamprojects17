@@ -16,7 +16,7 @@
 
 @section scripts{
     <link rel="stylesheet" type="text/css" href="~/Content/Calendar.css" />
-    <script type="text/javascript" language="C#">
+    <script type="text/javascript">
         var data = @Html.Raw(JsonConvert.SerializeObject(this.Model));
         console.log(data);
 
@@ -82,10 +82,3 @@
 
     <div id="timetable-holder">
     </div>
-
-
-}
-
-<div id="timetable-holder">
-
-</div>

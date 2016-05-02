@@ -13,6 +13,7 @@ namespace teamprojects17.Controllers
 {
     public class TimetableController : Controller
     {
+        private string booked = "Approved";
         private DbCon db = new DbCon();
 
         // GET: Timetable
@@ -29,7 +30,7 @@ namespace teamprojects17.Controllers
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader = null;
 
-            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = 'Accepted'"+
+            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = '" + booked + "'"+
                 "AND ReqID IN "
                 +"(SELECT Request.ReqID FROM Request INNER JOIN Modules ON Modules.ModCode = Request.ModCode WHERE Modules.DeptCode = 'EC'))";
 
@@ -65,7 +66,7 @@ namespace teamprojects17.Controllers
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader = null;
 
-            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = 'Accepted'" +
+            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = '" + booked + "'" +
                 "AND ReqID IN "
                 + "(SELECT Request.ReqID FROM Request INNER JOIN Modules ON Modules.ModCode = Request.ModCode WHERE Modules.LecturerID = '"+id+"'))";
 
