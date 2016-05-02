@@ -14,14 +14,9 @@ th {
 th, tr, td {
     border-collapse: collapse;
     padding: 5px;
-    align-content:center;
 }
 
-form {
-    border: 2.5px solid black;
-    align-content: center;
-}
-
-button:hover, a:hover {
-    color: #333333;
-}
+/* 
+td{
+    border-left: 2px solid #4A1863;
+} */
