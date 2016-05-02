@@ -36,7 +36,7 @@ $(document).ready(function () {
             type : "POST", 
             url: "Timetable/getTimetable",
             data: {
-                room: rooms,
+                rooms: rooms,
                 weeks: weeks
             },
             success: function (data) {

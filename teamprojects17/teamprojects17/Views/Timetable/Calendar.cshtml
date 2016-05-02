@@ -1,4 +1,4 @@
-﻿@model teamprojects17.Models.TimetableModel
+﻿@model List<teamprojects17.Models.TimetableModel>
 
 @{
     Page.Title = "Calendar";
@@ -17,5 +17,8 @@
 }
 
     <div>
-    
+    @foreach(var item in Model)
+    {
+        @item.ReqId
+    }
     </div>

@@ -25,37 +25,45 @@ namespace teamprojects17.Controllers
 
         public ActionResult Calendar()
         {
-            TimetableModel timetable = new TimetableModel();
             SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader = null;
-            cmd.CommandText = "SELECT * FROM Request WHERE ReqId = 3";
+
+            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = 'Denied'"+
+                "AND ReqID IN "
+                +"(SELECT Request.ReqID FROM Request INNER JOIN Modules ON Modules.ModCode = Request.ModCode WHERE Modules.DeptCode = 'BS'))";
+
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.Connection = sqlConnection;
             sqlConnection.Open();
             reader = cmd.ExecuteReader();
+            var List = new List<TimetableModel>();
+            while(reader.Read())
+            {
+                List.Add(new TimetableModel
+                {
+                    ReqId = reader.GetInt32(0)
+                });
+            }
             sqlConnection.Close();
-
-            return View(timetable);
+            return View(List);
         }
 
         [HttpPost]
         public JsonResult getTimetable(string[] rooms, int[] weeks)
         {
             SqlDataReader reader = null;
-            Debug.WriteLine("running");
             if (rooms != null)
             {
                 foreach (var room in rooms)
                 {
+                    Debug.Write(room);
                     reader = getData(reader, weeks);
-                    Debug.Write(reader);
                 }
             }
             else
             {
-                Debug.Write(reader);
-                reader = getData(reader, weeks);
+                Debug.Write("No rooms!");
             }
 
             
@@ -66,15 +74,13 @@ namespace teamprojects17.Controllers
         {
             SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
             SqlCommand cmd = new SqlCommand();
-
-            foreach (var week in weeks)
-            {
-                cmd.CommandText = "SELECT * FROM Request WHERE " + week + " BETWEEN WeekStart AND WeekEnd";
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.Connection = sqlConnection;
-                sqlConnection.Open();
-                reader = cmd.ExecuteReader();
-            }
+            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN " +
+                "(SELECT ReqID FROM Assigned INNER JOIN Room ON Assigned.RoomCode = Room.RoomCode " +
+                "WHERE Room.RoomCode = 'B.1.11'";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            reader = cmd.ExecuteReader();
             sqlConnection.Close();
             return reader;
         }
@@ -82,7 +88,7 @@ namespace teamprojects17.Controllers
         public string setTimetable(string timetable) {
             SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
             SqlCommand cmd = new SqlCommand();
-
+            
             Debug.WriteLine(timetable);
             return timetable;
         }
