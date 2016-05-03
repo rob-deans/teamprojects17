@@ -7,7 +7,34 @@ $(document).ready(function () {
     weekEnd = timetable.config.numberOfWeeks;
     selectWeekRange(timetableRenderer);
 
-    
+    $("#parks").change(function () {
+        var park = $("#parks").val();
+        if(park != 0) {
+            updateDropdown("Building", park, "ParkID");
+        }
+    });
+
+    $("#building").change(function () {
+        var building = $("#building").val();
+        if(building != 0) {
+            updateDropdown("Room", building, "BuildingCode");
+        }
+    });
+
+    function updateDropdown(table, id, column) {
+        $.ajax({
+            type: "POST",
+            url: "Timetable/updateDropDown",
+            data: {
+                table: table,
+                id: id,
+                column: column
+            },
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
 
     $("#rooms-list").tag({ inputName: "room-list", maximum: 4 });
     $("#rooms-list").bind("DOMSubtreeModified", function () {

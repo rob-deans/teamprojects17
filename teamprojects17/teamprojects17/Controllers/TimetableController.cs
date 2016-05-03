@@ -15,6 +15,9 @@ namespace teamprojects17.Controllers
     {
         private string booked = "Approved";
         private DbCon db = new DbCon();
+        private SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
+        SqlCommand cmd = new SqlCommand();
+        SqlDataReader reader = null;
 
         // GET: Timetable
         //TODO: Get their session so we know what to display
@@ -26,20 +29,16 @@ namespace teamprojects17.Controllers
 
         public ActionResult Calendar()
         {
-            SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader = null;
-
-            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = '" + booked + "'"+
+            cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = '" + booked + "'" +
                 "AND ReqID IN "
-                +"(SELECT Request.ReqID FROM Request INNER JOIN Modules ON Modules.ModCode = Request.ModCode WHERE Modules.DeptCode = 'EC'))";
+                + "(SELECT Request.ReqID FROM Request INNER JOIN Modules ON Modules.ModCode = Request.ModCode WHERE Modules.DeptCode = 'EC'))";
 
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.Connection = sqlConnection;
             sqlConnection.Open();
             reader = cmd.ExecuteReader();
             var List = new List<TimetableModel>();
-            while(reader.Read())
+            while (reader.Read())
             {
                 List.Add(new TimetableModel
                 {
@@ -62,13 +61,9 @@ namespace teamprojects17.Controllers
         [HttpPost]
         public JsonResult getLecturerTimetable(int id)
         {
-            SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader = null;
-
             cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN (SELECT ReqID FROM Booking WHERE Status = '" + booked + "'" +
                 "AND ReqID IN "
-                + "(SELECT Request.ReqID FROM Request INNER JOIN Modules ON Modules.ModCode = Request.ModCode WHERE Modules.LecturerID = '"+id+"'))";
+                + "(SELECT Request.ReqID FROM Request INNER JOIN Modules ON Modules.ModCode = Request.ModCode WHERE Modules.LecturerID = '" + id + "'))";
 
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.Connection = sqlConnection;
@@ -98,7 +93,6 @@ namespace teamprojects17.Controllers
         [HttpPost]
         public JsonResult getTimetable(string[] rooms, int[] weeks)
         {
-            SqlDataReader reader = null;
             if (rooms != null)
             {
                 foreach (var room in rooms)
@@ -112,14 +106,12 @@ namespace teamprojects17.Controllers
                 Debug.Write("No rooms!");
             }
 
-            
+
             return Json(reader);
         }
 
         private SqlDataReader getData(SqlDataReader reader, int[] weeks)
         {
-            SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
-            SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN " +
                 "(SELECT ReqID FROM Assigned INNER JOIN Room ON Assigned.RoomCode = Room.RoomCode " +
                 "WHERE Room.RoomCode = 'B.1.11'";
@@ -132,11 +124,50 @@ namespace teamprojects17.Controllers
         }
 
         public string setTimetable(string timetable) {
-            SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
-            SqlCommand cmd = new SqlCommand();
-            
+
             Debug.WriteLine(timetable);
             return timetable;
+        }
+
+        [HttpPost]
+        public JsonResult updateDropDown(string table, string id, string column)
+        {
+            Debug.WriteLine(column);
+            cmd.CommandText = "SELECT * FROM " + table + " WHERE " + column + " = '" + id+"'";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            reader = cmd.ExecuteReader();
+            var buildingList = new List<Building>();
+            var roomList = new List<Room>();
+            while(reader.Read())
+            {
+                if (table == "Building")
+                {
+                    buildingList.Add(new Building
+                    {
+                        BuildingCode = reader.GetString(0),
+                        BuildingName = reader.GetString(1),
+                        ParkID = reader.GetInt32(2)
+                    });
+                }
+                else
+                {
+                    roomList.Add(new Room
+                    {
+                        RoomCode = reader.GetString(0),
+                        Capacity = reader.GetInt32(1),
+                        BuildingCode = reader.GetString(2)
+                    });
+                    Debug.WriteLine(reader.GetString(0).GetType());
+                }
+            }
+            sqlConnection.Close();
+            if(table == "Building")
+            {
+                return Json(buildingList);
+            }
+            return Json(roomList);
         }
     }
 }
