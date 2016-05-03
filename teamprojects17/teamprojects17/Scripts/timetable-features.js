@@ -32,7 +32,53 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (table == "Room") {
-                    //do something here
+                    $dropdown = $("#rooms");
+                    $dropdown.empty();
+                    $.each(data, function (value, key) {
+                        $dropdown.append($("<option></option>")
+                            .attr("value", key.RoomCode)
+                            .text(key.RoomCode));
+                    });
+                } else {
+                    $dropdown = $("#building");
+                    $dropdown.empty();
+                    $.each(data, function (value, key) {
+                        $dropdown.append($("<option></option>")
+                            .attr("value", key.BuildingCode)
+                            .text(key.BuildingName));
+                    });
+                }
+            }                
+        });
+    }
+
+    $("#module-code").change(function () {
+        $this = $("#module-code");
+        if ($this.val() != 0) {
+            getModule($this.val(), true);
+        }
+    });
+
+    $("#module-name").change(function () {
+        $this = $("#module-name");
+        if ($this.val() != 0){
+            getModule($this.val(), false);
+        }
+    });
+
+    function getModule(val, b) {
+        $.ajax({
+            type: "POST",
+            url: "Timetable/getModule",
+            data: {
+                val: val,
+                b: b
+            },
+            success: function (data) {
+                if (!b) {
+                    $("#module-code").val(data);
+                } else {
+                    $("#module-name").val(data);
                 }
             }
         });
@@ -40,7 +86,7 @@ $(document).ready(function () {
 
     $("#rooms-list").tag({ inputName: "room-list", maximum: 4 });
     $("#rooms-list").bind("DOMSubtreeModified", function () {
-        displayUpdatedTimetable();
+        //displayUpdatedTimetable();
     });
 
     function displayUpdatedTimetable() {

@@ -132,7 +132,6 @@ namespace teamprojects17.Controllers
         [HttpPost]
         public JsonResult updateDropDown(string table, string id, string column)
         {
-            Debug.WriteLine(column);
             cmd.CommandText = "SELECT * FROM " + table + " WHERE " + column + " = '" + id+"'";
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.Connection = sqlConnection;
@@ -159,7 +158,6 @@ namespace teamprojects17.Controllers
                         Capacity = reader.GetInt32(1),
                         BuildingCode = reader.GetString(2)
                     });
-                    Debug.WriteLine(reader.GetString(0).GetType());
                 }
             }
             sqlConnection.Close();
@@ -168,6 +166,36 @@ namespace teamprojects17.Controllers
                 return Json(buildingList);
             }
             return Json(roomList);
+        }
+
+        [HttpPost]
+        public JsonResult getModule(string val, bool b)
+        {
+            string columnGet;
+            string columnName;
+            if (!b)
+            {
+                columnGet = "ModCode";
+                columnName = "ModName";
+            }
+            else
+            {
+                columnGet = "ModName";
+                columnName = "ModCode";
+            }
+            cmd.CommandText = "SELECT " + columnGet + " FROM Modules WHERE " + columnName + " = '" + val + "'";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            reader = cmd.ExecuteReader();
+            string module = "";
+            while (reader.Read())
+            {
+                module = reader.GetString(0);
+            }
+            Debug.WriteLine(module);
+            sqlConnection.Close();
+            return Json(module);
         }
     }
 }
