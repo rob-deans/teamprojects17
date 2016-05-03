@@ -31,7 +31,9 @@ $(document).ready(function () {
                 column: column
             },
             success: function (data) {
-                console.log(data);
+                if (table == "Room") {
+                    //do something here
+                }
             }
         });
     }
