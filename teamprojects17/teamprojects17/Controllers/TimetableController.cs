@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using teamprojects17.Models;
 
 namespace teamprojects17.Controllers
@@ -159,9 +161,14 @@ namespace teamprojects17.Controllers
             return reader;
         }
 
+        
         public string setTimetable(string timetable) {
-
             Debug.WriteLine(timetable);
+            Timetable tt = JsonConvert.DeserializeObject<Timetable>(timetable);
+            for (int i = 0; i < tt.weeks.Length; i++)
+            {
+                Debug.WriteLine(tt.weeks[i]);
+            }
             return timetable;
         }
 

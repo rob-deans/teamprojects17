@@ -62,6 +62,7 @@ Timetable.prototype.addWeek = function(week) {
     var w = new Week(this.config, week['week']);
     w.populate(week);
     this.weeks[w.week] = w;
+    console.log(this);
     return this;
 };
 
@@ -71,9 +72,10 @@ Timetable.prototype.addWeek = function(week) {
  * @param data
  * @returns {Timetable}
  */
-Timetable.prototype.populate = function(data){
-    for (var i = 0; i < data.weeks.length; i++) {
-        this.addWeek(data.weeks[i]);
+Timetable.prototype.populate = function (data) {
+    console.log(data.WeekStart);
+    for (var i = data.WeekStart - 1; i < data.WeekEnd; i++) {
+        this.addWeek(i);
     }
      return this;
 };
@@ -360,7 +362,7 @@ Period.prototype.getStatus = function() {
  * @returns {Period}
  */
 Period.prototype.addRoom = function(name, status) {
-    this.rooms.add({name: name, status: status});
+    this.rooms.add({ name: name });
     return this;
 };
 

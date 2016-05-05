@@ -91,20 +91,15 @@ $(document).ready(function () {
 
     function displayUpdatedTimetable() {
         var data = refreshData($("#room-list").val().split(","));
-        if (data != null) {
-            var t = new Timetable(1);
-            t.populate(data);
-            timetableRenderer = $("#timetable-holder").timetableRenderer(t, { type: "general" });
-            selectWeekRange(timetableRenderer);
-        }
+        var t = new Timetable(1);
+        console.log(data);
+        t.populate(data);
+        timetableRenderer = $("#timetable-holder").timetableRenderer(t, { type: "general" });
+        selectWeekRange(timetableRenderer);
     }
 
     function refreshData(rooms) {
-        if (rooms[0] == "") {
-            return;
-        }
-        var tt = {};    
-        console.log(rooms);
+        var tt = {};
         $.ajax({
             type : "POST", 
             url: "Timetable/getTimetable",
@@ -112,14 +107,12 @@ $(document).ready(function () {
                 rooms: rooms
             },
             success: function (data) {
-                console.log(data);
-                tt = JSON.parse(data);
+                tt = data;
             },
             error: function (data) {
                 console.error(data);
             }
         });
-
         return tt;
     }
 
