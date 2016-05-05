@@ -86,7 +86,7 @@ $(document).ready(function () {
 
     $("#rooms-list").tag({ inputName: "room-list", maximum: 4 });
     $("#rooms-list").bind("DOMSubtreeModified", function () {
-        //displayUpdatedTimetable();
+        displayUpdatedTimetable();
     });
 
     function displayUpdatedTimetable() {
@@ -103,16 +103,13 @@ $(document).ready(function () {
         if (rooms[0] == "") {
             return;
         }
-        var tt = {};
-        var weeks = $("#week-range").val().split(",");      
-        weeks = weeks[0].split(" - ");
+        var tt = {};    
         console.log(rooms);
         $.ajax({
             type : "POST", 
             url: "Timetable/getTimetable",
             data: {
-                rooms: rooms,
-                weeks: weeks
+                rooms: rooms
             },
             success: function (data) {
                 console.log(data);
