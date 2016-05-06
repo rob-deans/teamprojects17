@@ -119,6 +119,7 @@ namespace teamprojects17.Controllers
             }
             roomList += ")";
             var tt = new List<TimetableModel>();
+            Timetable timetable = new Timetable();
             if (rooms != null)
             {
                 cmd.CommandText = "SELECT * FROM Request WHERE ReqID IN" +
@@ -143,6 +144,7 @@ namespace teamprojects17.Controllers
                         Year = reader.GetInt32(8),
                         Semester = reader.GetInt32(9)
                     });
+                    timetable.populate(tt[tt.Count - 1]);
                 }
                 sqlConnection.Close();
             }
@@ -150,9 +152,7 @@ namespace teamprojects17.Controllers
             {
                 Debug.Write("No rooms!");
             }
-
-
-            return Json(tt);
+            return Json(timetable);
         }
 
         private SqlDataReader getData(SqlDataReader reader)
@@ -164,11 +164,10 @@ namespace teamprojects17.Controllers
         
         public string setTimetable(string timetable) {
             Debug.WriteLine(timetable);
+            timetable = timetable.Replace("periods", "serverPeriods");
+            Debug.WriteLine(timetable);
             Timetable tt = JsonConvert.DeserializeObject<Timetable>(timetable);
-            for (int i = 0; i < tt.weeks.Length; i++)
-            {
-                Debug.WriteLine(tt.weeks[i]);
-            }
+            Debug.WriteLine(tt.weeks[0].days[0].serverPeriods[0][0].module.name);
             return timetable;
         }
 
