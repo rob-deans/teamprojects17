@@ -425,9 +425,9 @@ var numberOfRooms = 1; //How many rooms they are asking for
             function getUnavailableWeeks() {
                 var general = [];
 
-                var numDays = getRealLength(timetable.getWeek(0)['days']);
+                var numDays = getRealLength(timetable.getWeek(1)['days']);
                 for (var i = 0; i < numDays.length; i++) {
-                    var curPeriod = timetable.getWeek(0)['days'][numDays[i]]['periods'];
+                    var curPeriod = timetable.getWeek(1)['days'][numDays[i]]['periods'];
                     var numPeriods = getRealLength(curPeriod);
                     for (var j = 0; j < numPeriods.length; j++) {
                         var temp = [];

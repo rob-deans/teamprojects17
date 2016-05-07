@@ -28,11 +28,7 @@ namespace teamprojects17.Controllers
             return View();
         }
 
-        public ActionResult Index(int id)
-        {
-            return View();
-        }
-
+    
         public ActionResult Calendar()
         {
             return View();

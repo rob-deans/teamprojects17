@@ -104,6 +104,7 @@
 <!-- Previous round results section -->
 
 <br />
+
 <div id="results">
     @{
         var total = db.Query("SELECT COUNT(ReqID) AS Num FROM Booking").Select(r =>r.Num);
@@ -113,19 +114,14 @@
         var approved = db.Query("SELECT ReqID FROM Booking WHERE Status = 'Approved'").Count();
         
         
-        }
-      
+    }
+
     <script type="text/javascript">
         var denied = "<%denied%>"
         var pending = "<%pending%>"
         var approved = "<%approved%>"
-
-        function goToTimetable() {
-            
-            @Url.Action("Index", "Timetable", 3);
-        }
     </script>
-    
+
     <h3>Results</h3>
     <div>These are your overall results.</div>
     <!--For every item in 'previousRounds' as 'previousRound', do the following... -->
@@ -241,7 +237,7 @@
                  </td>
                 <!--need to write functions for all 3 in index.js-->
                   <td align='center'>
-                      <button onclick="goToTimetable(3)">Edit</button>
+                      <button>Edit</button>
                       <br />
                       <button>Make New Request</button>
                       <br />
