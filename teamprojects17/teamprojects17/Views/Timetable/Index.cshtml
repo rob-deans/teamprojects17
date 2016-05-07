@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="~/Content/Timetable.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/Jquery.tag.css" />
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
     @Scripts.Render("~/bundles/timetable");
 }
 
@@ -61,11 +62,12 @@
         </select>
         <select id="module-name">
             <option value="0">Select one</option>
-            @foreach (var name in db.Query(moduleSelect))
-            {
-                <option value="@name.ModName">@name.ModName</option>
+            @{
+                foreach (var name in db.Query(moduleSelect))
+                {
+                    <option value="@name.ModName">@name.ModName</option>
+                }
             }
-
         </select>
     }
     <div id="weeks-selected">
