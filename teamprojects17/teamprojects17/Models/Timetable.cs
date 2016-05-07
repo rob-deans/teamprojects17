@@ -56,7 +56,7 @@ namespace teamprojects17.Models
         {
             this.week = week;
             this.config = config;
-            this.days = new Day[1];
+            this.days = new Day[5];
         }
 
         public void populate(TimetableModel data, int week)
