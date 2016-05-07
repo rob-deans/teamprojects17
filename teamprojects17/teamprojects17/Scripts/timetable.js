@@ -58,11 +58,13 @@ Timetable.prototype.getWeek = function(week) {
  * @param week
  * @returns {Timetable}
  */
-Timetable.prototype.addWeek = function(week) {
-    var w = new Week(this.config, week['week']);
-    w.populate(week);
-    this.weeks[w.week] = w;
-    return this;
+Timetable.prototype.addWeek = function (week) {
+    if (week != null) {
+        var w = new Week(this.config, week['week']);
+        w.populate(week);
+        this.weeks[w.week] = w;
+        return this;
+    }
 };
 
 /**
@@ -71,7 +73,7 @@ Timetable.prototype.addWeek = function(week) {
  * @param data
  * @returns {Timetable}
  */
-Timetable.prototype.populate = function(data){
+Timetable.prototype.populate = function (data) {
     for (var i = 0; i < data.weeks.length; i++) {
         this.addWeek(data.weeks[i]);
     }
@@ -218,13 +220,19 @@ Day.prototype.addEmptyPeriods = function( data , n) {
  */
 
 Day.prototype.populate = function(data){
-
+    console.log(data);
+    
     for (var i = 0; i < data['periods'].length; i++) {
-        var period = data['periods'][i];
-        var rooms = period['rooms'];
-        for(var j = 0; j < rooms.length; j++) {
-            data['rooms'] = [rooms[j]];
-            this.addPeriod(data['periods'][i]);
+        if (data['periods'][i] != null) {
+            console.log(i);
+            var period = data['periods'][i];
+            var rooms = period['rooms'];
+            console.log(rooms.length);
+            for (var j = 0; j < ObjectLength(rooms); j++) {
+                data['rooms'] = [rooms[j]];
+                console.log(period);
+                this.addPeriod(data['periods'][i]);
+            }
         }
     }
     return this;
@@ -360,7 +368,7 @@ Period.prototype.getStatus = function() {
  * @returns {Period}
  */
 Period.prototype.addRoom = function(name, status) {
-    this.rooms.add({name: name, status: status});
+    this.rooms.add({ name: name });
     return this;
 };
 
@@ -392,3 +400,16 @@ Period.prototype.removePeriod = function(w, d, p, timetable) {
 }
 
 
+/**
+* @param object: The object that has more objects inside
+* @returns: number of objs inside
+*/
+function ObjectLength(object) {
+    var length = 0;
+    for (var key in object) {
+        if (object.hasOwnProperty(key)) {
+            ++length;
+        }
+    }
+    return length;
+}

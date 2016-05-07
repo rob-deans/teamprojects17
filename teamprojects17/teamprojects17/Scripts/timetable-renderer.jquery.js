@@ -20,7 +20,7 @@ var numberOfRooms = 1; //How many rooms they are asking for
             var settings = $.extend({
                 type: "general"
             }, options);
-
+            console.log(timetable);
             /**
              *
              * @type {*|HTMLElement} - This is the HTML element that the timetable will be rendered inside
@@ -100,7 +100,7 @@ var numberOfRooms = 1; //How many rooms they are asking for
                         var modName = $("#module-name").find('option:selected').val();
 
                         //Make sure they have a module selected
-                        if (!(modCode == "Select one" || modName == "Select one")) {
+                        if (!(modCode == 0 || modName == 0)) {
 
                             for(var g = 0; g < timetable.config.numberOfWeeks; g++) {
                                 if(typeof timetable['weeks'][g] != "undefined") {

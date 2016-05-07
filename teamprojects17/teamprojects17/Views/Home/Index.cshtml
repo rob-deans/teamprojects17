@@ -81,12 +81,26 @@
         }
 
         <!-- If no rounds are active, say so; instead of just showing an empty table -->
+<<<<<<< HEAD
         <!--<tr>
             <td align="center"width="75%">No rounds are currently accepting requests</td>
             <td align="center" width="25%">
                 <button type="submit" id="request-button">View All Previous Requests</button>
             </td>
         </tr>-->
+=======
+        <tr>
+            <td align="center">No rounds are currently accepting requests</td>
+            <td align="center"></td>
+            <td align="center"></td>
+            <td align="center"></td>
+            <td align="center"><a href="requests/">View All Previous Requests</a></td>
+       <!-- <td align="center"> <button type="submit" id="request-button">View Requests</button></td>
+                    <!-- action="requests/" method="post">-->
+                 <!--   <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->  
+                 <!--   <input type="hidden" name="filterRound" /> <!--value="round id/>-->
+        </tr>
+>>>>>>> c4e5893b060194e7f30b63d200cada02acf719df
     </table>
 </div>
 <!-- End currently active rounds card -->
@@ -266,9 +280,28 @@
             <td align="center" style="font-weight:bold" width="20%">Module</td>
             <td align="center" style="font-weight:bold" width="20%">Time</td>
             <td align="center" style="font-weight:bold" width="20%">Requested</td>
+<<<<<<< HEAD
             <td align="center" style="font-weight:bold" width="20%">Assigned</td>
             <!--<td align="center" style="font-weight:bold" width="20%">Date</td>-->
             <td align="center" style="font-weight:bold" width="20%">Actions</td>
+=======
+            <td align ="center" style="font-weight:bold" width="20%">Date</td>
+            <td align="center" width="20%"> </td>
+        </tr>
+        <tr>
+            <td align="center"> COB131 Databases </td> 
+            <td align="center"> Monday, Period 1 Weeks 1-12 </td>
+            <td align="center"> CC011</td>
+            <td align="center"> 01/01/2015</td>
+            <td align="center"> <button type="submit" id="request-button">Action </button></td>
+        </tr>
+        <tr>
+            <td align="center"> COA281 Object Oriented Requirements Analysis </td>
+            <td align="center"> Thursday, Period 4 Weeks 2,4,6,8 </td>
+            <td align="center"> JG02 </td>
+            <td align="center"> 22/01/2015</td>
+            <td align="center"> <button type="submit" id="request-button">Action </button></td>
+>>>>>>> c4e5893b060194e7f30b63d200cada02acf719df
         </tr>
         @{
             var numRows2 = "SELECT ReqID FROM Booking WHERE Status = 'Pending'";
@@ -364,7 +397,7 @@
                 var time3 = "SELECT Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'";
                 var requested3 = "SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'";
                 var assigned2 = "SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'";
-
+                
                 foreach (var row in db.Query(numRows3))
                 {
                 <tr>

@@ -1,0 +1,127 @@
+﻿@model List<teamprojects17.Models.TimetableModel>
+@using Newtonsoft.Json
+
+@{
+    Page.Title = "Calendar";
+    ViewBag.Title = "Calendar";
+    ViewBag.Message = "View your specific timetable here.";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+</hgroup>
+<hgroup class="title">
+    <h2>@ViewBag.Message</h2>
+</hgroup>
+
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="~/Content/Calendar.css" />
+    <script type="text/javascript">
+        var data = @Html.Raw(JsonConvert.SerializeObject(this.Model));
+        showTable(data)
+
+        function showTable(data) {
+            var DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+            var PERIODS = ["", "Period 1", "Period 2", "Period 3", "Period 4", "Period 5", "Period 6", "Period 7", "Period 8",
+                        "Period 9"];
+            var table = "<table>";
+
+            for (var i = 0; i < 10; i++) {
+                table += "<tr><th>"+PERIODS[i]+"</th>"
+                for (var j = 0; j < 5; j++) {
+                    if(i == 0) {
+                        table += "<th>" +DAYS[j]+"</th>"
+                    } else {
+                        table += "<td>"
+                        if(data != null){
+                            for(var k = 0; k < data.length; k++) {
+                                if(data[k].Period + 1 == i && data[k].Day == j){
+                                    table += displayModule(data[k]);
+                                }
+                            }
+                        }
+                        table += "</td>"
+                    }
+                }
+            }
+            table += '</table>';
+            $("#timetable-holder").html(table);
+        }
+
+        function displayModule(data) {
+            var div = "<div>"+data.ModCode +"</div>";
+            div += "<div>Weeks: " + data.WeekStart + " - " + data.WeekEnd+"</div>";
+            return div;
+        }
+
+        $("#lecturers-list").change(function() {
+            $("#course-list").val(0);
+            var id = $("#lecturers-list").val();
+            if(id != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "getLecturerTimetable",
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
+                        showTable(data);
+                    }
+                });
+            }
+
+            $("#course-list").change(function() {
+                $("#lecturers-list").val(0);
+                var id = $("#course-list").val();
+                if(id != 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "getCourseTimetable",
+                        data: {
+                            courseCode: id,
+                            year: $("input[name=year]:checked", "#year-list").val()
+                        },
+                        success: function(data) {
+                            showTable(data);
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+}
+
+     <select id="lecturers-list">
+         <option value="0">Select a lecturer</option>
+         @{
+             var db = Database.Open("DBCon");
+             var lecturers = "SELECT * FROM Lecturer INNER JOIN Modules ON Lecturer.ID = Modules.LecturerID WHERE Modules.DeptCode = 'CO'";
+
+             foreach (var lecturer in db.Query(lecturers))
+             {
+                <option value="@lecturer.ID">@lecturer.Name</option>
+             }
+        }
+     </select>
+
+    <select id="course-list">
+        <option value="0">Select a course</option>
+        @{ 
+            var courses = "SELECT * FROM Course WHERE DeptCode = 'CO'";
+
+            foreach(var course in db.Query(courses))
+            {
+                <option value="@course.CourseCode">@course.CourseName</option>
+            }
+        }
+    </select>
+
+    <form id="year-list">
+        <input type="radio" value="1" name="year" checked />First year
+        <input type="radio" value="2" name="year" />Second year
+        <input type="radio" value="3" name="year" />Third year
+    </form>
+
+    <div id="timetable-holder">
+    </div>
