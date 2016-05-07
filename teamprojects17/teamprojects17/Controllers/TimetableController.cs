@@ -410,5 +410,16 @@ namespace teamprojects17.Controllers
             sqlConnection.Close();
             return Json(module);
         }
+
+        [HttpPost]
+        public void releaseRequest(int reqID)
+        {
+            cmd.CommandText = "UPDATE Booking SET Status = 'Archived' WHERE ReqID = " + reqID;
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
     }
 }

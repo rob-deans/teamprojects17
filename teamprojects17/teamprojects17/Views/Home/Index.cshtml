@@ -117,9 +117,23 @@
     }
 
     <script type="text/javascript">
-        var denied = "<%denied%>"
-        var pending = "<%pending%>"
-        var approved = "<%approved%>"
+        var denied = "<%denied%>";
+        var pending = "<%pending%>";
+        var approved = "<%approved%>";
+
+        function releaseRequest(reqID, row, table) {
+            console.log(reqID);
+            $.ajax({
+                type: "POST",
+                url: "Timetable/releaseRequest",
+                data: {
+                    reqID: reqID
+                },
+                success: function () {
+                    document.getElementById(table).deleteRow(row + 1);
+                }
+            })
+        }
     </script>
 
     <h3>Results</h3>
@@ -151,10 +165,10 @@
             <td align="center" style="font-weight:bold">
                 <div class="dashboard-dial-bg">
                     <div id="alters">@pending</div>
-                    <div id="altered" data-percent="33.34" data-title="Requests altered"></div>
+                    <div id="altered" data-percent="33.34" data-title="Requests pending"></div>
                     <!--amount of previous requests altered-->
                 </div>
-                <div class="dashboard-dial-bg-bottom">Altered</div>
+                <div class="dashboard-dial-bg-bottom">Pending</div>
             </td>
 
             <!-- Requests approved box -->
@@ -198,7 +212,7 @@
 
         var modules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode " +
             "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
-        var time = db.Query("SELECT Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request " + 
+        var time = db.Query("SELECT Request.ReqID, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request " + 
             "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
             
         var requested = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest" +
@@ -232,7 +246,11 @@
                 </td>
                 <td align="center">
                     @{
-                        @requested.ElementAt(i).RoomCode;
+                        var rooms = db.Query("SELECT RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied' AND RoomRequest.ReqID = (SELECT ReqID FROM Request WHERE ReqID = " + @time.ElementAt(i).reqID + ")");
+                        foreach(var room in rooms)
+                        {
+                            @room[0];
+                        }
 }
                  </td>
                 <!--need to write functions for all 3 in index.js-->
@@ -255,7 +273,7 @@
 <div>
     <h3>Pending</h3>
     <div>These requests are pending approval or denial. If you don't need a request for any reason you can delete/release it from the actions menu.</div>
-    <table align="center" width="900">
+    <table align="center" width="900" id="pending-table">
         <!-- end Denied requests section -->
         <!-- Same as denied section but for changed ones -->
         <tr>
@@ -269,8 +287,7 @@
         
         @{
             var pendingModules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
-            var pendingTimes = db.Query("SELECT Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
-            var pendingRooms = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
+            var pendingTimes = db.Query("SELECT Request.ReqID, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
 
             for (int j = 0; j < @pending; j++ )
             {
@@ -300,11 +317,17 @@
                     </td>
                     <td align="center">
                         @{
-                            @pendingRooms.ElementAt(j).RoomCode;
+                            var pendingRooms = db.Query("SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending' AND Assigned.ReqID = (SELECT ReqID FROM Request WHERE ReqID = " + @pendingTimes.ElementAt(j).reqID + ")");
+                            foreach (var pendingRoom in pendingRooms)
+                            {
+                                @pendingRoom[0];
+                            }
                         }
                     </td>
                     <!--need to write function for in index.js-->
                     <td align='center'>
+                        <button onclick="releaseRequest(@pendingTimes.ElementAt(j).ReqID, @j, 'pending-table')">Cancel</button>
+                        <br>
                         <button>View Request Details</button>
                     </td>
                 </tr>
@@ -318,7 +341,7 @@
 <div>
     <h3>Approved</h3>
     <div>These requests have been approved. If you don't need a request for any reason you can delete/release it from the actions menu.</div>
-    <table align="center" width="900">
+    <table align="center" width="900" id="approved-table">
         <tr>
             <td align="center" style="font-weight:bold" width="20%">Module</td>
             <td align="center" style="font-weight:bold" width="20%">Time</td>
@@ -329,9 +352,7 @@
         </tr>
         @{
                 var approvedModules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
-                var approvedTimes = db.Query("SELECT Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
-                var approvedRooms = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
-                var assignedRooms = db.Query("SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
+                var approvedTimes = db.Query("SELECT Request. ReqID, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
 
                 for (int k = 0; k < @approved; k++ )
                 {
@@ -361,22 +382,25 @@
                     </td>
                     <td align="center">
                         @{
-                            if (k < approvedRooms.Count())
+                            var approvedRooms = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'AND Booking.ReqID = (SELECT ReqID FROM Request WHERE ReqID = "+@approvedTimes.ElementAt(k).reqID+")");
+                            foreach(var approvedRoom in approvedRooms)
                             {
-                                @approvedRooms.ElementAt(k).RoomCode;
+                                @approvedRoom.RoomCode;
                             }
                         }
                     </td>
                     <td align="center">
                         @{
-                            if (k < assignedRooms.Count()) { 
-                                @assignedRooms.ElementAt(k).RoomCode;
+                            var assignedRooms = db.Query("SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved' AND Assigned.ReqID = (SELECT ReqID FROM Request WHERE ReqID = "+@approvedTimes.ElementAt(k).reqID+")");
+                            foreach (var assignedRoom in assignedRooms)
+                            {
+                                @assignedRooms[0].RoomCode;
                             }
                         }
                     </td>
                     <!--need to write function for in index.js-->
                     <td align='center'>
-                        <button>Release</button>
+                        <button onclick="releaseRequest(@approvedTimes.ElementAt(k).ReqID, @k, 'approved-table')">Release</button>
                         <br />
                         <button>View Request Details</button>
                     </td>

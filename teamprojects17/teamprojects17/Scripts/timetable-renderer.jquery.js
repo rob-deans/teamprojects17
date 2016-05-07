@@ -424,27 +424,33 @@ var numberOfRooms = 1; //How many rooms they are asking for
              */
             function getUnavailableWeeks() {
                 var general = [];
-
-                var numDays = getRealLength(timetable.getWeek(1)['days']);
-                for (var i = 0; i < numDays.length; i++) {
-                    var curPeriod = timetable.getWeek(1)['days'][numDays[i]]['periods'];
-                    var numPeriods = getRealLength(curPeriod);
-                    for (var j = 0; j < numPeriods.length; j++) {
-                        var temp = [];
-                        for (var k = 0; k < timetable.config.numberOfWeeks; k++) {
-                            if (typeof timetable.getWeek(k)['days'][numDays[i]] != "undefined") {
+                for (var m = 0; m < 15; m++) {
+                    var numDays = getRealLength(timetable.getWeek(m)['days']);
+                    for (var i = 0; i < numDays.length; i++) {
+                        var curPeriod = timetable.getWeek(m)['days'][numDays[i]]['periods'];
+                        var numPeriods = getRealLength(curPeriod);
+                        for (var j = 0; j < numPeriods.length; j++) {
+                            var temp = [];
+                            for (var k = 0; k < timetable.config.numberOfWeeks; k++) {
                                 if (typeof timetable.getWeek(k)['days'][numDays[i]] != "undefined") {
-                                    if (typeof timetable.getWeek(k)['days'][numDays[i]]['periods'][numPeriods[j]] == "undefined") {
+                                    if (typeof timetable.getWeek(k)['days'][numDays[i]] != "undefined") {
+                                        if (typeof timetable.getWeek(k)['days'][numDays[i]]['periods'][numPeriods[j]] == "undefined") {
+                                            temp.push(k);
+                                        }
+                                    } else {
                                         temp.push(k);
                                     }
                                 } else {
                                     temp.push(k);
                                 }
-                            } else {
-                                temp.push(k);
+                            }
+                            if (general.length == 0) {
+                                general.push({ day: numDays[i], period: numPeriods[j], weeks: temp });
+                            }
+                            if(!containsObject(temp, general)){
+                                general.push({ day: numDays[i], period: numPeriods[j], weeks: temp });
                             }
                         }
-                        general.push({day: numDays[i], period: numPeriods[j], weeks: temp});
                     }
                 }
 
@@ -804,6 +810,21 @@ var numberOfRooms = 1; //How many rooms they are asking for
             } else {
                 return status.getStatus();
             }
+        }
+
+        function containsObject(obj, list) {
+            for (var i = 0; i < ObjectLength(list); i++) {
+                if (list[i].weeks.length != obj.length) {
+                    console.log("running");
+                    return false;
+                }
+                for (var j = 0; j < list[i].weeks.length; j++) {
+                    if (list[i].weeks[j] != obj[j]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         
