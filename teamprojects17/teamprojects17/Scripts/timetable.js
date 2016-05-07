@@ -124,11 +124,13 @@ Week.prototype.getDay = function(day) {
  * @param data
  * @returns {Week}
  */
-Week.prototype.addDay = function(data) {
-    var d = new Day(this.config, data.day);
-    d.populate(data);
-    this.days[d.day] = d;
-    return this;
+Week.prototype.addDay = function (data) {
+    if (data != null) {
+        var d = new Day(this.config, data.day);
+        d.populate(data);
+        this.days[d.day] = d;
+        return this;
+    }
 };
 
 /**
@@ -227,7 +229,7 @@ Day.prototype.populate = function(data){
             console.log(i);
             var period = data['periods'][i];
             var rooms = period['rooms'];
-            console.log(rooms.length);
+            console.log(ObjectLength(rooms));
             for (var j = 0; j < ObjectLength(rooms); j++) {
                 data['rooms'] = [rooms[j]];
                 console.log(period);
