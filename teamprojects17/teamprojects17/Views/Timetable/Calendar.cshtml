@@ -92,25 +92,30 @@
     </script>
 }
 
-     <select id="lecturers-list">
-         <option value="0">Select a lecturer</option>
-         @{
-             var db = Database.Open("DBCon");
-             var lecturers = "SELECT * FROM Lecturer INNER JOIN Modules ON Lecturer.ID = Modules.LecturerID WHERE Modules.DeptCode = 'CO'";
+     <select id="lecturers-list" style="width:250px; height:30px">
+    <option value="0">Select a lecturer</option>
+    @{
+        var db = Database.Open("DBCon");
+        var lecturers = "SELECT * FROM Lecturer INNER JOIN Modules ON Lecturer.ID = Modules.LecturerID WHERE Modules.DeptCode = 'CO'";
 
-             foreach (var lecturer in db.Query(lecturers))
-             {
-                <option value="@lecturer.ID">@lecturer.Name</option>
-             }
+        foreach (var lecturer in db.Query(lecturers))
+        {
+            <option value="@lecturer.ID">@lecturer.Name</option>
         }
-     </select>
+    }
+</select>
 
-    <select id="course-list">
+<br />
+<br />
+
+
+
+    <select id="course-list" style="width:250px; height:30px">
         <option value="0">Select a course</option>
-        @{ 
+        @{
             var courses = "SELECT * FROM Course WHERE DeptCode = 'CO'";
 
-            foreach(var course in db.Query(courses))
+            foreach (var course in db.Query(courses))
             {
                 <option value="@course.CourseCode">@course.CourseName</option>
             }
@@ -118,10 +123,11 @@
     </select>
 
     <form id="year-list">
-        <input type="radio" value="1" name="year" checked />First year
-        <input type="radio" value="2" name="year" />Second year
-        <input type="radio" value="3" name="year" />Third year
+        <input type="radio" value="1" name="year" checked style="width:20px" />First year
+        <input type="radio" value="2" name="year" style="width:20px" />Second year
+        <input type="radio" value="3" name="year" style="width:20px" />Third year
     </form>
+
 
     <div id="timetable-holder">
     </div>
