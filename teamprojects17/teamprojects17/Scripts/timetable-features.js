@@ -142,9 +142,12 @@ $(document).ready(function () {
             type: "POST",
             url: "Timetable/setTimetable",
             data: {
-                timetable: JSON.stringify(timetableRenderer.getCurrentTimetable())
+                timetable: JSON.stringify(timetableRenderer.getCurrentTimetable()),
+                parkID: 1,
+                buildingCode: "JB"
             },
             success: function (data) {
+                console.log(data);
                 var t = new Timetable(1);
                 timetableRenderer = $("#timetable-holder").timetableRenderer(t, { type: "general" });
                 displayUpdatedTimetable();
