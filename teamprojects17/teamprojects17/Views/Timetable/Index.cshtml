@@ -52,7 +52,7 @@
     </div>
     @{
         <select id="module-code">
-            <option>Select one</option>
+            <option value="0">Select one</option>
 
             @foreach (var code in db.Query(moduleSelect))
             {
@@ -60,7 +60,7 @@
             }
         </select>
         <select id="module-name">
-            <option>Select one</option>
+            <option value="0">Select one</option>
             @foreach (var name in db.Query(moduleSelect))
             {
                 <option value="@name.ModName">@name.ModName</option>
@@ -69,8 +69,8 @@
         </select>
     }
     <div id="weeks-selected">
-
     </div>
+    <div id="week-chosen"></div>
     
     <button class="btn btn-primary waves-effect" id="range-selector" style="height:35px; width:150px">Choose range</button>
     <div class="weekRange"></div>
@@ -84,5 +84,6 @@
         </div>
     </div>
     <div id="timetable-holder" style="height:51em"></div>
-    <button class="btn btn-primary waves-effect" id="submit-choices" style="width:300px">Submit</button>
+    <br />
+    <div><button class="btn btn-primary waves-effect" id="submit-choices" style="width:300px">Submit</button></div>
 </section>

@@ -7,7 +7,82 @@ $(document).ready(function () {
     weekEnd = timetable.config.numberOfWeeks;
     selectWeekRange(timetableRenderer);
 
-    
+    $("#parks").change(function () {
+        var park = $("#parks").val();
+        if(park != 0) {
+            updateDropdown("Building", park, "ParkID");
+        }
+    });
+
+    $("#building").change(function () {
+        var building = $("#building").val();
+        if(building != 0) {
+            updateDropdown("Room", building, "BuildingCode");
+        }
+    });
+
+    function updateDropdown(table, id, column) {
+        $.ajax({
+            type: "POST",
+            url: "Timetable/updateDropDown",
+            data: {
+                table: table,
+                id: id,
+                column: column
+            },
+            success: function (data) {
+                if (table == "Room") {
+                    $dropdown = $("#rooms");
+                    $dropdown.empty();
+                    $.each(data, function (value, key) {
+                        $dropdown.append($("<option></option>")
+                            .attr("value", key.RoomCode)
+                            .text(key.RoomCode));
+                    });
+                } else {
+                    $dropdown = $("#building");
+                    $dropdown.empty();
+                    $.each(data, function (value, key) {
+                        $dropdown.append($("<option></option>")
+                            .attr("value", key.BuildingCode)
+                            .text(key.BuildingName));
+                    });
+                }
+            }                
+        });
+    }
+
+    $("#module-code").change(function () {
+        $this = $("#module-code");
+        if ($this.val() != 0) {
+            getModule($this.val(), true);
+        }
+    });
+
+    $("#module-name").change(function () {
+        $this = $("#module-name");
+        if ($this.val() != 0){
+            getModule($this.val(), false);
+        }
+    });
+
+    function getModule(val, b) {
+        $.ajax({
+            type: "POST",
+            url: "Timetable/getModule",
+            data: {
+                val: val,
+                b: b
+            },
+            success: function (data) {
+                if (!b) {
+                    $("#module-code").val(data);
+                } else {
+                    $("#module-name").val(data);
+                }
+            }
+        });
+    }
 
     $("#rooms-list").tag({ inputName: "room-list", maximum: 4 });
     $("#rooms-list").bind("DOMSubtreeModified", function () {
@@ -16,39 +91,35 @@ $(document).ready(function () {
 
     function displayUpdatedTimetable() {
         var data = refreshData($("#room-list").val().split(","));
-        if (data != null) {
-            var t = new Timetable(1);
-            t.populate(data);
-            timetableRenderer = $("#timetable-holder").timetableRenderer(t, { type: "general" });
-            selectWeekRange(timetableRenderer);
-        }
+    }
+
+    function continueDisplay(data) {
+        var t = new Timetable(1);
+        t.populate(data);
+        timetableRenderer = $("#timetable-holder").timetableRenderer(t, { type: "general" });
+        selectWeekRange(timetableRenderer);
     }
 
     function refreshData(rooms) {
-        if (rooms[0] == "") {
-            return;
-        }
         var tt = {};
-        var weeks = $("#week-range").val().split(",");      
-        weeks = weeks[0].split(" - ");
-        console.log(rooms);
-        $.ajax({
-            type : "POST", 
-            url: "Timetable/getTimetable",
-            data: {
-                rooms: rooms,
-                weeks: weeks
-            },
-            success: function (data) {
-                console.log(data);
-                tt = JSON.parse(data);
-            },
-            error: function (data) {
-                console.error(data);
-            }
-        });
-
-        return tt;
+        if (rooms[0] != "") {
+            $.ajax({
+                type: "POST",
+                url: "Timetable/getTimetable",
+                data: {
+                    rooms: rooms
+                },
+                success: function (data) {
+                    tt = data;
+                    console.log(tt);
+                    continueDisplay(tt);
+                    return data;
+                },
+                error: function (data) {
+                    console.error(data);
+                }
+            });
+        }
     }
 
     $("#add-room").click(function (e) {
