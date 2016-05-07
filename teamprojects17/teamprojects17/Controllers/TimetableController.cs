@@ -162,13 +162,184 @@ namespace teamprojects17.Controllers
         }
 
         
-        public string setTimetable(string timetable) {
+        public string setTimetable(string timetable, int parkID, string buildingCode) {
             Debug.WriteLine(timetable);
             timetable = timetable.Replace("periods", "serverPeriods");
             Debug.WriteLine(timetable);
             Timetable tt = JsonConvert.DeserializeObject<Timetable>(timetable);
-            Debug.WriteLine(tt.weeks[0].days[0].serverPeriods[0][0].module.name);
+            var request = new List<TimetableModel>();
+            for(int i = 0; i < tt.weeks.Length; i++)
+            {
+                if (tt.weeks[i] != null)
+                {
+                    for (int j = 0; j < tt.weeks[i].days.Length; j++)
+                    {
+                        if (tt.weeks[i].days[j] != null)
+                        {
+                            for (int k = 0; k < tt.weeks[i].days[j].serverPeriods.Length; k++)
+                            {
+                                if (tt.weeks[i].days[j].serverPeriods[k] != null)
+                                {
+                                    for (int l = 0; l < tt.weeks[i].days[j].serverPeriods[k].Length; l++)
+                                    {
+                                        for(int m = 0; m < tt.weeks[i].days[j].serverPeriods[k][l].weeks.Length; m++)
+                                        {
+                                            int startIndex = request.FindIndex(r => r.WeekStart == tt.weeks[i].days[j].serverPeriods[k][l].weeks[m].start);
+                                            int endIndex = request.FindIndex(req => req.WeekEnd == tt.weeks[i].days[j].serverPeriods[k][l].weeks[m].end);
+                                            if(!(startIndex >= 0 && endIndex >= 0))
+                                            {
+                                                request.Add(new TimetableModel
+                                                {
+                                                    ModCode = tt.weeks[i].days[j].serverPeriods[k][l].module.name,
+                                                    Day = j,
+                                                    Period = tt.weeks[i].days[j].serverPeriods[k][l].period,
+                                                    WeekEnd = tt.weeks[i].days[j].serverPeriods[k][l].weeks[m].end,
+                                                    WeekStart = tt.weeks[i].days[j].serverPeriods[k][l].weeks[m].start,
+                                                    BuildingCode = buildingCode,
+                                                    ParkId = parkID,
+                                                    Year = 2016,
+                                                    Semester = 1
+                                                });
+                                                addToTable(request, tt.weeks[i].days[j].serverPeriods[k]);
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             return timetable;
+        }
+
+        public void addToTable(List<TimetableModel> request, Period[] periods)
+        {
+            TimetableModel lastRequest = request[request.Count - 1];
+            setRequest(lastRequest);
+            for (int i = 0; i < periods.Length; i++)
+            {
+                Rooms room = periods[i].rooms[0];
+                setRoomRequest(room);
+                setAssigned(room);
+            }
+        }
+
+        public void setRequest(TimetableModel lastRequest)
+        {
+            string bc = getValue(lastRequest.BuildingCode);
+            string park = getValue(lastRequest.ParkId.ToString());
+            string colName = "";
+            string parkName = "";
+            if (bc.Length > 0)
+            {
+                bc = bc.Replace(", ", ",'");
+                bc = bc + "'";
+                colName = ", BuildingCode";
+            }
+            cmd.CommandText = "INSERT INTO Request (ModCode, Day, Period, WeekStart, WeekEnd" + colName + (parkName = park.Length > 0 ? ", ParkID" : "") + ", Year, Semester,Round)" +
+                "VALUES ('" + lastRequest.ModCode + "'," + lastRequest.Day + "," + lastRequest.Period + "," + lastRequest.WeekStart + "," + lastRequest.WeekEnd + bc + park + "," + lastRequest.Year + "," + lastRequest.Semester + ",1)";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
+
+        public string getValue(string value)
+        {
+            Debug.WriteLine(value);
+            if(value == "")
+            {
+                return "";
+            }
+            else
+            {
+                return ", " + value;
+            }
+        }
+
+        public void setRoomRequest(Rooms rooms)
+        {
+            Debug.WriteLine(rooms.name);
+            if (rooms.name != null)
+            {
+
+                int reqId = getReqId();
+                
+                cmd.CommandText = "INSERT INTO RoomRequest (ReqID, RoomCode)" +
+                    "VALUES (" + reqId + ",'" + rooms.name + "')";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Connection = sqlConnection;
+                sqlConnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+        }
+
+        public void setAssigned(Rooms room)
+        {
+            cmd.CommandText = "SELECT CASE WHEN OwnerCode IS NULL THEN 0 ELSE OwnerCode END FROM Room WHERE RoomCode = '" + room + "'";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            reader = cmd.ExecuteReader();
+            string ownerCode = "";
+            while(reader.Read())
+            {
+                ownerCode = reader.GetString(0);
+            }
+            sqlConnection.Close();
+
+            int reqId = getReqId();
+
+            Debug.WriteLine(ownerCode);
+            if (ownerCode != "")
+            {
+                cmd.CommandText = "INSERT INTO Assigned (ReqID, RoomCode)" +
+                    "VALUES (" + reqId + ",'" + room.name + "')";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Connection = sqlConnection;
+                sqlConnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+
+                cmd.CommandText = "INSERT INTO Booking (ReqID, Status)" +
+                    "VALUES (" + reqId + ",'" + booked + "')";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Connection = sqlConnection;
+                sqlConnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+            else
+            {
+                cmd.CommandText = "INSERT INTO Booking (ReqID, Status)" +
+                    "VALUES (" + reqId + ",'Pending')";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Connection = sqlConnection;
+                sqlConnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+            
+        }
+
+        public int getReqId()
+        {
+            cmd.CommandText = "SELECT MAX(ReqID) FROM Request";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Connection = sqlConnection;
+                sqlConnection.Open();
+                reader = cmd.ExecuteReader();
+                int reqId = 1;
+                while (reader.Read())
+                {
+                    reqId = reader.GetInt32(0);
+                }
+                sqlConnection.Close();
+                return reqId;
         }
 
         [HttpPost]

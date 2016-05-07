@@ -16,6 +16,33 @@ th, tr, td {
     padding: 5px;
 }
 
+
+.container {
+    width:75%;
+    border:2px solid #4A1863;
+    align-items:center;
+    align-content:center;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.container .header {
+    background-color:#F2F2F2;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.container .header:hover {
+     background-color:#80dfff;
+}
+
+.container .content {
+    display: none;
+    padding : 15px;
+}
+
+
 /* 
 td{
     border-left: 2px solid #4A1863;

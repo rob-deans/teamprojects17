@@ -132,6 +132,7 @@ var numberOfRooms = 1; //How many rooms they are asking for
                                                     });
                                                 }
                                                 period.weeks = temp;
+                                                console.log(getRooms(k));
                                                 period.rooms = getRooms(k);
                                                 period.setStatus("selected");
                                                 period.type = $("#type").val();
@@ -785,7 +786,7 @@ var numberOfRooms = 1; //How many rooms they are asking for
                 chosenRooms = [""];
             }
 
-            var r = {};
+            var r = [];
             r[0] = {
                 name: chosenRooms[i]
             };
