@@ -275,7 +275,6 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Building.cs" />
     <Compile Include="Models\Room.cs" />
-    <Compile Include="Models\ServerTimetable.cs" />
     <Compile Include="Models\Timetable.cs" />
     <Compile Include="Models\TimetableModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -383,7 +382,6 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Home\Help.cshtml" />
-    <Content Include="Views\Home\Timetable.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -393,7 +391,6 @@
     </Content>
     <Content Include="Views\Home\Rooms.cshtml" />
     <Content Include="Views\Home\Settings.cshtml" />
-    <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Timetable\Calendar.cshtml" />
     <Content Include="Views\Timetable\Index.cshtml" />
     <Content Include="Scripts\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\README.md" />
