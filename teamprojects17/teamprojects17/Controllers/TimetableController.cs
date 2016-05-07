@@ -25,8 +25,12 @@ namespace teamprojects17.Controllers
         //TODO: Get their session so we know what to display
         public ActionResult Index()
         {
-            TimetableModel timetable = new TimetableModel();
-            return View(timetable);
+            return View();
+        }
+
+        public ActionResult Index(int id)
+        {
+            return View();
         }
 
         public ActionResult Calendar()
