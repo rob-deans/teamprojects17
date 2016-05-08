@@ -260,6 +260,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Data\WebApiConfig.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -393,9 +394,7 @@
     <Content Include="Views\Timetable\Index.cshtml" />
     <Content Include="Scripts\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\README.md" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
