@@ -133,6 +133,21 @@
             })
         }
 
+        function getDay(day) {
+            switch (day){
+                case 0 : return "Monday";
+                    break;
+                case 1 : return "Tuesday";
+                    break;
+                case 2 : return "Wednesday";
+                    break;
+                case 3 : return "Thursday";
+                    break;
+                case 4 : return "Friday";
+                    break;
+            }
+        }
+
         $(document).ready(function () {
             $("#request-circle").circliful({
                 animationStep: 5,
@@ -173,21 +188,26 @@
                     settings :{
                         type: "POST",
                         data:{
-                            dept : 'CO'
+                            dept : 'EC'
                         },
                         url: "Timetable/getAllRequests"
                     }
                 },
                 callbacks: {
                     parseAjax: function(response) {
-                        var data;
+                        var data = "<table id='prev-req'>"+
+                                    "<tr><th>Module Code</th><th>Period</th><th>Day</th><th>Weeks</th><th>Semester</th><th>Year</th>";
                         for(var i = 0; i < response.data.length; i++) {
-                            data += "<div class='prev-req'>Module Code: "+response.data[i].ModCode+"</div>";
-                            data += "<div class='prev-req'>Day: "+response.data[i].Day+"</div>";
-                            data += "<div class='prev-req'>Period: "+response.data[i].Period+"</div>";
-                            data += "<div class='prev-req'>Semester: "+response.data[i].Semester+"</div>";
-
+                            data += "<tr>";
+                            data += "<td>"+response.data[i].ModCode+"</td>";
+                            data += "<td>"+(response.data[i].Period + 1)+"</td>";
+                            data += "<td>"+getDay(response.data[i].Day)+"</td>";
+                            data += "<td>"+(response.data[i].WeekStart + 1)+ " - " + (response.data[i].WeekEnd + 1) + "</td>";
+                            data += "<td>"+response.data[i].Semester+"</td>";
+                            data += "<td>"+response.data[i].Year+"</td>";
+                            data+="</tr>";
                         }
+                        data+= "</table>";
                         response.data = data;
                     }
                 }

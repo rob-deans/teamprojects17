@@ -425,7 +425,6 @@ namespace teamprojects17.Controllers
         [HttpPost]
         public JsonResult getAllRequests(string dept)
         {
-            Debug.WriteLine("DEPT: " + dept);
             cmd.CommandText = "Select Request.* from Request JOIN Booking on request.ReqID=booking.reqid where request.modcode in (select  modcode from modules where Deptcode='"+dept+"')";
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.Connection = sqlConnection;
@@ -449,7 +448,6 @@ namespace teamprojects17.Controllers
                 });
             }
             sqlConnection.Close();
-            Debug.WriteLine(list.Count);
             return Json(list);
         }
     }
