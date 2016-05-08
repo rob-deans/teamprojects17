@@ -283,6 +283,7 @@
     <Content Include="Content\Dashboard.css" />
     <Content Include="Content\helppage.css" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\jquery.circliful.css" />
     <Content Include="Content\Jquery.tag.css" />
     <Content Include="Content\settings.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -325,12 +326,9 @@
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\functions.js" />
     <Content Include="Scripts\helppage.js" />
+    <Content Include="Scripts\jquery.circliful.js" />
+    <Content Include="Scripts\jquery.circliful.min.js" />
     <Content Include="Scripts\jquery.tag.js" />
-    <Content Include="Scripts\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\chart.js" />
-    <Content Include="Scripts\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\cssCharts.css" />
-    <Content Include="Scripts\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\index.html" />
-    <Content Include="Scripts\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\jquery.chart.js" />
-    <Content Include="Scripts\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\jquery.chart.min.js" />
     <Content Include="Scripts\timetable-features.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -392,7 +390,6 @@
     <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Timetable\Calendar.cshtml" />
     <Content Include="Views\Timetable\Index.cshtml" />
-    <Content Include="Scripts\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -5,12 +5,8 @@
 }
 
 @section scripts{
-    <script src="~/Scripts/dashboard.js"></script>
     @Styles.Render("~/Content/index");
-    <link rel="stylesheet" type="text/css" href="~/Content/Dashboard.css">
-    <script src="code.jquery.com/jquery-1.8.2.min.js"></script>
-    <link rel="stylesheet" href="~/Scripts/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/chart.js">
-    <script src="~/Scripts/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/jquery.chart.js"></script>
+    @Scripts.Render("~/bundles/dashboard");
 
 }
 
@@ -134,51 +130,67 @@
                 }
             })
         }
+
+        $(document).ready(function () {
+            $("#request-circle").circliful({
+                animationStep: 5,
+                foregroundBorderWidth: 5,
+                backgroundBorderWidth: 15,
+                percent: (@approved/@totals) * 100,
+                text: "Approved"
+            });
+        });
     </script>
 
     <h3>Results</h3>
     <div>These are your overall results.</div>
     <!--For every item in 'previousRounds' as 'previousRound', do the following... -->
     <!-- Show all results -->
-    <table align="center" width="900">
+    <table align="center" width="900" id="request-info-table">
         <tr>
+            <td align="center" style="font-weight:bold" class="cell-info">
+                <div class="dashboard-dial-bg" id="dashboard-circle">
+                    <div id="request-circle"></div>
+                </div>
+                <div class="dashboard-dial-bg-bottom"><p>Overview</p></div>
+            </td>
             <!-- Start request counts -->
             <!-- Requests made box -->
-            <td align="center" style="font-weight:bold">
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
-                    <div id="total">@totals</div>
+                    <div id="total" class="request-info"><p>@totals</p></div>
                 </div>
-                <div class="dashboard-dial-bg-bottom">Requests Made</div>
+                <div class="dashboard-dial-bg-bottom"><p>Requests Made</p></div>
             </td>
 
             <!-- Requests denied box -->
-            <td align="center" style="font-weight:bold">
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
-                    <div id="denial">@denied</div>
+                    <div id="denial" class="request-info"><p>@denied</p></div>
                     <div id="denied" data-percent="16.67" data-title="Requests denied"></div>
                     <!--amount of previous requests denied-->
                 </div>
-                <div class="dashboard-dial-bg-bottom">Denied</div>
+                <div class="dashboard-dial-bg-bottom"><p>Denied</p></div>
             </td>
 
             <!-- Requests altered box -->
-            <td align="center" style="font-weight:bold">
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
-                    <div id="alters">@pending</div>
+                    <div id="alters" class="request-info"><p>@pending</p></div>
                     <div id="altered" data-percent="33.34" data-title="Requests pending"></div>
                     <!--amount of previous requests altered-->
                 </div>
-                <div class="dashboard-dial-bg-bottom">Pending</div>
+                <div class="dashboard-dial-bg-bottom"><p>Pending</p></div>
             </td>
 
             <!-- Requests approved box -->
-            <td align="center" style="font-weight:bold">
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
-                    <div id="approval">@approved</div>
+                    <div id="approval" class="request-info"><p>@approved</p></div>
                     <div id="approved" data-percent="50" data-title="Requests approved"></div>
                     <!--amount of previous requests approved-->
                 </div>
-                <div class="dashboard-dial-bg-bottom">Approved</div>
+                <div class="dashboard-dial-bg-bottom"><p>Approved</p></div>
             </td>
             <!-- End request counts -->
         </tr>
@@ -327,8 +339,6 @@
                     <!--need to write function for in index.js-->
                     <td align='center'>
                         <button onclick="releaseRequest(@pendingTimes.ElementAt(j).ReqID, @j, 'pending-table')">Cancel</button>
-                        <br>
-                        <button>View Request Details</button>
                     </td>
                 </tr>
             }
@@ -401,8 +411,6 @@
                     <!--need to write function for in index.js-->
                     <td align='center'>
                         <button onclick="releaseRequest(@approvedTimes.ElementAt(k).ReqID, @k, 'approved-table')">Release</button>
-                        <br />
-                        <button>View Request Details</button>
                     </td>
                 </tr>
                 }

@@ -120,8 +120,8 @@
                         <tr>
                             <td align="center" style="font-weight:bold" width="20%"> Name </td>
                             <td align="center" style="font-weight:bold" width="20%"> Park </td>
+                            <td align="center" style="font-weight:bold" width="20%"> Building </td>
                             <td align="center" style="font-weight:bold" width="20%"> Capacity </td>
-                            <td align="center" style="font-weight:bold" width="20%"> Type </td>
                             <td align="center" style="font-weight:bold" width="20%"> Facilities </td>
                         </tr>
                         <!-- Room rows -->
@@ -135,12 +135,13 @@
                                 var curRoom = room.RoomCode.Trim(new Char[] { '.' });
                                 var facilitesSelect = "SELECT * FROM Facility JOIN FacilityRoom ON Facility.FacilityId=FacilityRoom.FacilityId  WHERE FacilityRoom.RoomCode = '" + curRoom + "'";
                                 var park = "SELECT ParkName FROM Park JOIN Building ON Park.ParkId = Building.ParkId WHERE Building.BuildingCode ='" + room.BuildingCode + "'";
+                                var buildingName = db.Query("SELECT BuildingName FROM Building WHERE BuildingCode = '" + room.BuildingCode+"'");
                                 var parkResult = db.Query(park)[0][0];
                                 <tr>
                                     <td align="center">@room.RoomCode</td>
                                     <td align="center">@parkResult</td>
+                                    <td align="center">@buildingName[0][0]</td>
                                     <td align="center">@room.Capacity</td>
-                                    <td align="center">Somethin</td>
                                     <td align="center">
                                         @foreach (var fac in db.Query(facilitesSelect))
                                         {
