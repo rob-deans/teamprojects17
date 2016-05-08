@@ -81,26 +81,12 @@
         }
 
         <!-- If no rounds are active, say so; instead of just showing an empty table -->
-<<<<<<< HEAD
         <!--<tr>
             <td align="center"width="75%">No rounds are currently accepting requests</td>
             <td align="center" width="25%">
                 <button type="submit" id="request-button">View All Previous Requests</button>
             </td>
         </tr>-->
-=======
-        <tr>
-            <td align="center">No rounds are currently accepting requests</td>
-            <td align="center"></td>
-            <td align="center"></td>
-            <td align="center"></td>
-            <td align="center"><a href="requests/">View All Previous Requests</a></td>
-       <!-- <td align="center"> <button type="submit" id="request-button">View Requests</button></td>
-                    <!-- action="requests/" method="post">-->
-                 <!--   <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->  
-                 <!--   <input type="hidden" name="filterRound" /> <!--value="round id/>-->
-        </tr>
->>>>>>> c4e5893b060194e7f30b63d200cada02acf719df
     </table>
 </div>
 <!-- End currently active rounds card -->
@@ -182,11 +168,7 @@
     <!-- Card heading -->
     <h3>Denied</h3>
     <div>These requests were completely denied. You can make a new request from the actions menu.</div>
-    <!-- Put the table in a scrollable wrapper so it can be scrolled horizontally without overflowing the viewport on phones -->
-    <placeholder id="deniedtable"></placeholder>
-    
-    
-    
+    <!-- Put the table in a scrollable wrapper so it can be scrolled horizontally without overflowing the viewport on phones -->    
     <table align="center" width="900" id="denied">
 
     <!-- Column headings -->
@@ -256,11 +238,11 @@
                  </td>
                 <!--need to write functions for all 3 in index.js-->
                   <td align='center'>
-                      <button>Edit</button>
-                      <br />
-                      <button>Make New Request</button>
-                      <br />
-                      <button>View Request Details</button>
+                      <select>
+                        <option>Edit</option>
+                        <option>Make New Request</option>
+                        <option>View Request Details</option>
+                      </select>
                   </td>
              </tr>
             }
@@ -280,28 +262,9 @@
             <td align="center" style="font-weight:bold" width="20%">Module</td>
             <td align="center" style="font-weight:bold" width="20%">Time</td>
             <td align="center" style="font-weight:bold" width="20%">Requested</td>
-<<<<<<< HEAD
             <td align="center" style="font-weight:bold" width="20%">Assigned</td>
             <!--<td align="center" style="font-weight:bold" width="20%">Date</td>-->
             <td align="center" style="font-weight:bold" width="20%">Actions</td>
-=======
-            <td align ="center" style="font-weight:bold" width="20%">Date</td>
-            <td align="center" width="20%"> </td>
-        </tr>
-        <tr>
-            <td align="center"> COB131 Databases </td> 
-            <td align="center"> Monday, Period 1 Weeks 1-12 </td>
-            <td align="center"> CC011</td>
-            <td align="center"> 01/01/2015</td>
-            <td align="center"> <button type="submit" id="request-button">Action </button></td>
-        </tr>
-        <tr>
-            <td align="center"> COA281 Object Oriented Requirements Analysis </td>
-            <td align="center"> Thursday, Period 4 Weeks 2,4,6,8 </td>
-            <td align="center"> JG02 </td>
-            <td align="center"> 22/01/2015</td>
-            <td align="center"> <button type="submit" id="request-button">Action </button></td>
->>>>>>> c4e5893b060194e7f30b63d200cada02acf719df
         </tr>
         @{
             var numRows2 = "SELECT ReqID FROM Booking WHERE Status = 'Pending'";
@@ -457,9 +420,10 @@
                     </td>
                     <!--need to write function for in index.js-->
                     <td align='center'>
-                        <button>Release</button>
-                        <br />
-                        <button>View Request Details</button>
+                        <select>
+                            <option>Release</option>
+                            <option>View Request Details</option>
+                        </select>
                     </td>
                 </tr>
                 }
