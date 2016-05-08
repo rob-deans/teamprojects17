@@ -29,7 +29,12 @@ namespace teamprojects17
 
             bundles.Add(new ScriptBundle("~/bundles/dashboard").Include(
                 "~/Scripts/jquery.circliful.js",
-                "~/Scripts/jquery.magnific-popup.js"
+                "~/Scripts/jquery.magnific-popup.js",
+                "~/Scripts/jquery-ui-{version}.js",
+                "~/Scripts/timetable.js",
+                "~/Scripts/jquery.tag.js",
+                "~/Scripts/timetable-renderer.jquery.js",
+                "~/Scripts/functions.js"
                 ));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're

@@ -97,7 +97,13 @@ var numberOfRooms = 1; //How many rooms they are asking for
                     if ($this.hasClass("unselected")) {
 
                         var modCode = $("#module-code").find('option:selected').val();
+                        if (typeof modCode == "undefined") {
+                            modCode = document.getElementById("module-code").getAttribute("value");
+                        }
                         var modName = $("#module-name").find('option:selected').val();
+                        if (typeof modName == "undefined") {
+                            modName = $("#module-name").attr('value');
+                        }
 
                         //Make sure they have a module selected
                         if (!(modCode == 0 || modName == 0)) {
@@ -132,7 +138,6 @@ var numberOfRooms = 1; //How many rooms they are asking for
                                                     });
                                                 }
                                                 period.weeks = temp;
-                                                console.log(getRooms(k));
                                                 period.rooms = getRooms(k);
                                                 period.setStatus("selected");
                                                 period.type = $("#type").val();

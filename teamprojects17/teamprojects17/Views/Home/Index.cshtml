@@ -7,7 +7,9 @@
 @section scripts{
     @Styles.Render("~/Content/index");
     @Scripts.Render("~/bundles/dashboard");
-
+    <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Jquery.tag.css" />
+    <script type="text/javascript" src="~/Scripts/dashboard-timetable.js"></script>
 }
 
 <hgroup class="title">
@@ -148,6 +150,28 @@
             }
         }
 
+        function getTimetable() {
+            var data = '<div id="module-code" value=""></div><div id="module-name" value=""></div>' +
+                '<input type="hidden" name="room-list" id="room-list" value="">' +
+                '<div id="weeks-selected">' +
+                        '</div>'+
+                        '<div id="week-chosen"></div>'+
+                        '<button class="btn btn-primary waves-effect" id="range-selector" style="height:35px; width:150px">Choose range</button>' +
+                        '<div class="weekRange"></div>'+
+                        '<label><input type="checkbox" id="view-period" name="view-period">View in periods</label>' +
+                    '<section id="timetable">'+
+                        '<div id="weeks-range" class="horizontal-range">'+
+                            '<div id="general">'+
+                                'General'+
+                            '</div>'+
+                        '</div>'+
+                        '<div id="timetable-holder"></div>'+
+                        '<br />'+
+                        '<div><button class="btn btn-primary waves-effect" id="submit-choices" style="width:300px">Submit</button></div>'+
+                    '</section>';
+            return data;
+        }
+
         $(document).ready(function () {
             $("#request-circle").circliful({
                 animationStep: 5,
@@ -211,6 +235,31 @@
                         response.data = data;
                     }
                 }
+            });
+
+            $(".new-request").magnificPopup({
+                closeOnContentClick: false,
+                closeOnBgClick: false,
+                items: {
+                    src: getTimetable(),
+                    type: "inline"
+                }
+
+            });
+
+            $(".new-request").click(function(){
+                var data = $.parseJSON($(this).attr("data-request"));
+                console.log(data.rooms);
+                $("#module-code").attr('value', data.modcode);
+                $("#module-name").attr('value', data.modname);
+                $("#room-list").attr('value', data.rooms);
+                var timetable = new Timetable(1);
+                var timetableRenderer = $("#timetable-holder").timetableRenderer(timetable, { type: "general" });
+                selectWeekRange(timetableRenderer);
+                initliaseSlider();
+                initiliaseSubmit(timetableRenderer);
+                initiliaseRange(timetableRenderer);
+                displayUpdatedTimetable();
             });
 
         });
@@ -332,13 +381,13 @@
                         var rooms = db.Query("SELECT RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied' AND RoomRequest.ReqID = (SELECT ReqID FROM Request WHERE ReqID = " + @time.ElementAt(i).reqID + ")");
                         foreach(var room in rooms)
                         {
-                            @room[0];
+                            @room[0];;
                         }
 }
                  </td>
                 <!--need to write functions for all 3 in index.js-->
                   <td align='center'>
-                      <button id="new-request">Make New Request</button>
+                      <button class="new-request" data-request='{"modname": "@modules.ElementAt(i).ModName" , "modcode": "@time.ElementAt(i).ModCode", "rooms" : "@rooms[0][0]"}'>Make New Request</button>
                       <br />
                       <button>View Request Details</button>
                   </td>

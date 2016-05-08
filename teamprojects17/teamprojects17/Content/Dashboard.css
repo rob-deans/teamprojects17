@@ -108,4 +108,9 @@ button:hover, a:hover {
     margin-right: auto;
     background-color: white;
     color:black;
+    border-width: 3px;
+    border-style:solid;
+    border-color:#4A1863;
+    border-bottom:#4A1863;
+    text-align:center;
 }

@@ -118,6 +118,7 @@ namespace teamprojects17.Controllers
                 counter++;
             }
             roomList += ")";
+            Debug.WriteLine(roomList);
             var tt = new List<TimetableModel>();
             Timetable timetable = new Timetable();
             if (rooms != null)
@@ -144,6 +145,7 @@ namespace teamprojects17.Controllers
                         Year = reader.GetInt32(8),
                         Semester = reader.GetInt32(9)
                     });
+                    Debug.WriteLine(tt[0].ModCode);
                     timetable.populate(tt[tt.Count - 1]);
                 }
                 sqlConnection.Close();

@@ -324,6 +324,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\dashboard-timetable.js" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\functions.js" />
     <Content Include="Scripts\helppage.js" />
