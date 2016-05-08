@@ -119,6 +119,8 @@ $(document).ready(function () {
                     console.error(data);
                 }
             });
+        } else {
+            return new Timetable(1);
         }
     }
 

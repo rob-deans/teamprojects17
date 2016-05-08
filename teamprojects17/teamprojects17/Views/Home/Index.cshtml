@@ -5,13 +5,11 @@
 }
 
 @section scripts{
-    <script src="~/Scripts/dashboard.js"></script>
     @Styles.Render("~/Content/index");
-    <link rel="stylesheet" type="text/css" href="~/Content/Dashboard.css">
-    <script src="code.jquery.com/jquery-1.8.2.min.js"></script>
-    <link rel="stylesheet" href="~/Scripts/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/chart.js">
-    <script src="~/Scripts/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/jquery.chart.js"></script>
-
+    @Scripts.Render("~/bundles/dashboard");
+    <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Jquery.tag.css" />
+    <script type="text/javascript" src="~/Scripts/dashboard-timetable.js"></script>
 }
 
 <hgroup class="title">
@@ -87,6 +85,7 @@
                 <button type="submit" id="request-button">View All Previous Requests</button>
             </td>
         </tr>-->
+
         <tr>
             <td align="center">No rounds are currently accepting requests</td>
             <td align="center"></td>
@@ -98,6 +97,7 @@
                  <!--   <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->  
                  <!--   <input type="hidden" name="filterRound" /> <!--value="round id/>-->
         </tr>
+
     </table>
 </div>
 <!-- End currently active rounds card -->
@@ -117,54 +117,203 @@
     }
 
     <script type="text/javascript">
-        var denied = "<%denied%>"
-        var pending = "<%pending%>"
-        var approved = "<%approved%>"
+        var denied = "<%denied%>";
+        var pending = "<%pending%>";
+        var approved = "<%approved%>";
+
+        function releaseRequest(reqID, row, table) {
+            console.log(reqID);
+            $.ajax({
+                type: "POST",
+                url: "Timetable/releaseRequest",
+                data: {
+                    reqID: reqID
+                },
+                success: function () {
+                    document.getElementById(table).deleteRow(row + 1);
+                }
+            })
+        }
+
+        function getDay(day) {
+            switch (day){
+                case 0 : return "Monday";
+                    break;
+                case 1 : return "Tuesday";
+                    break;
+                case 2 : return "Wednesday";
+                    break;
+                case 3 : return "Thursday";
+                    break;
+                case 4 : return "Friday";
+                    break;
+            }
+        }
+
+        function getTimetable() {
+            var data = '<div id="module-code" value=""></div><div id="module-name" value=""></div>' +
+                '<input type="hidden" name="room-list" id="room-list" value="">' +
+                '<div id="weeks-selected">' +
+                        '</div>'+
+                        '<div id="week-chosen"></div>'+
+                        '<button class="btn btn-primary waves-effect" id="range-selector" style="height:35px; width:150px">Choose range</button>' +
+                        '<div class="weekRange"></div>'+
+                        '<label><input type="checkbox" id="view-period" name="view-period">View in periods</label>' +
+                    '<section id="timetable">'+
+                        '<div id="weeks-range" class="horizontal-range">'+
+                            '<div id="general">'+
+                                'General'+
+                            '</div>'+
+                        '</div>'+
+                        '<div id="timetable-holder"></div>'+
+                        '<br />'+
+                        '<div><button class="btn btn-primary waves-effect" id="submit-choices" style="width:300px">Submit</button></div>'+
+                    '</section>';
+            return data;
+        }
+
+        $(document).ready(function () {
+            $("#request-circle").circliful({
+                animationStep: 5,
+                foregroundColor: "#008000",
+                foregroundBorderWidth: 10,
+                backgroundBorderWidth: 15,
+                percent: (@approved/@totals) * 100,
+                text: "Approved"
+            });
+            
+            $("#denied-info").click(function(){
+                $('html, body').animate({
+                    scrollTop: $("#denied").offset().top
+                }, 1400);
+            });
+
+            $("#pending-info").click(function(){
+                $('html, body').animate({
+                    scrollTop: $("#pending-table").offset().top
+                }, 1300);
+            });
+
+            $("#approved-info").click(function(){
+                $('html, body').animate({
+                    scrollTop: $("#approved-table").offset().top
+                }, 1200);
+            });
+
+            $(".nav-top").click(function() {
+                $('html, body').animate({
+                    scrollTop: $("body").offset().top
+                }, 1000);
+            })
+
+            $("#request-button").magnificPopup({
+                type: "ajax",
+                ajax: {
+                    settings :{
+                        type: "POST",
+                        data:{
+                            dept : 'EC'
+                        },
+                        url: "Timetable/getAllRequests"
+                    }
+                },
+                callbacks: {
+                    parseAjax: function(response) {
+                        var data = "<table id='prev-req'>"+
+                                    "<tr><th>Module Code</th><th>Period</th><th>Day</th><th>Weeks</th><th>Semester</th><th>Year</th>";
+                        for(var i = 0; i < response.data.length; i++) {
+                            data += "<tr>";
+                            data += "<td>"+response.data[i].ModCode+"</td>";
+                            data += "<td>"+(response.data[i].Period + 1)+"</td>";
+                            data += "<td>"+getDay(response.data[i].Day)+"</td>";
+                            data += "<td>"+(response.data[i].WeekStart + 1)+ " - " + (response.data[i].WeekEnd + 1) + "</td>";
+                            data += "<td>"+response.data[i].Semester+"</td>";
+                            data += "<td>"+response.data[i].Year+"</td>";
+                            data+="</tr>";
+                        }
+                        data+= "</table>";
+                        response.data = data;
+                    }
+                }
+            });
+
+            $(".new-request").magnificPopup({
+                closeOnContentClick: false,
+                closeOnBgClick: false,
+                items: {
+                    src: getTimetable(),
+                    type: "inline"
+                }
+
+            });
+
+            $(".new-request").click(function(){
+                var data = $.parseJSON($(this).attr("data-request"));
+                console.log(data.rooms);
+                $("#module-code").attr('value', data.modcode);
+                $("#module-name").attr('value', data.modname);
+                $("#room-list").attr('value', data.rooms);
+                var timetable = new Timetable(1);
+                var timetableRenderer = $("#timetable-holder").timetableRenderer(timetable, { type: "general" });
+                selectWeekRange(timetableRenderer);
+                initliaseSlider();
+                initiliaseSubmit(timetableRenderer);
+                initiliaseRange(timetableRenderer);
+                displayUpdatedTimetable();
+            });
+
+        });
     </script>
 
     <h3>Results</h3>
     <div>These are your overall results.</div>
     <!--For every item in 'previousRounds' as 'previousRound', do the following... -->
     <!-- Show all results -->
-    <table align="center" width="900">
+    <table align="center" width="900" id="request-info-table">
         <tr>
+            <td align="center" style="font-weight:bold" class="cell-info">
+                <div class="dashboard-dial-bg" id="dashboard-circle">
+                    <div id="request-circle"></div>
+                </div>
+                <div class="dashboard-dial-bg-bottom"><p>Overview</p></div>
+            </td>
             <!-- Start request counts -->
             <!-- Requests made box -->
-            <td align="center" style="font-weight:bold">
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
-                    <div id="total">@totals</div>
+                    <div id="total" class="request-info"><p>@totals</p></div>
                 </div>
-                <div class="dashboard-dial-bg-bottom">Requests Made</div>
+                <div class="dashboard-dial-bg-bottom"><p>Requests Made</p></div>
             </td>
 
             <!-- Requests denied box -->
-            <td align="center" style="font-weight:bold">
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
-                    <div id="denial">@denied</div>
+                    <div id="denial" class="request-info"><p>@denied</p></div>
                     <div id="denied" data-percent="16.67" data-title="Requests denied"></div>
                     <!--amount of previous requests denied-->
                 </div>
-                <div class="dashboard-dial-bg-bottom">Denied</div>
+                <div class="dashboard-dial-bg-bottom" id="denied-info"><p>Denied</p></div>
             </td>
 
             <!-- Requests altered box -->
-            <td align="center" style="font-weight:bold">
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
-                    <div id="alters">@pending</div>
-                    <div id="altered" data-percent="33.34" data-title="Requests altered"></div>
+                    <div id="alters" class="request-info"><p>@pending</p></div>
+                    <div id="altered" data-percent="33.34" data-title="Requests pending"></div>
                     <!--amount of previous requests altered-->
                 </div>
-                <div class="dashboard-dial-bg-bottom">Altered</div>
+                <div class="dashboard-dial-bg-bottom" id="pending-info"><p>Pending</p></div>
             </td>
 
             <!-- Requests approved box -->
-            <td align="center" style="font-weight:bold">
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
-                    <div id="approval">@approved</div>
+                    <div id="approval" class="request-info"><p>@approved</p></div>
                     <div id="approved" data-percent="50" data-title="Requests approved"></div>
                     <!--amount of previous requests approved-->
                 </div>
-                <div class="dashboard-dial-bg-bottom">Approved</div>
+                <div class="dashboard-dial-bg-bottom" id="approved-info"><p>Approved</p></div>
             </td>
             <!-- End request counts -->
         </tr>
@@ -178,11 +327,7 @@
     <!-- Card heading -->
     <h3>Denied</h3>
     <div>These requests were completely denied. You can make a new request from the actions menu.</div>
-    <!-- Put the table in a scrollable wrapper so it can be scrolled horizontally without overflowing the viewport on phones -->
-    <placeholder id="deniedtable"></placeholder>
-    
-    
-    
+    <!-- Put the table in a scrollable wrapper so it can be scrolled horizontally without overflowing the viewport on phones -->    
     <table align="center" width="900" id="denied">
 
     <!-- Column headings -->
@@ -198,7 +343,7 @@
 
         var modules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode " +
             "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
-        var time = db.Query("SELECT Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request " + 
+        var time = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request " + 
             "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
             
         var requested = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest" +
@@ -209,6 +354,7 @@
             <tr>
                 <td align="center">     
                     @{
+                        @time.ElementAt(i).ModCode; <br />
                         @modules.ElementAt(i).ModName;
                     }
                 </td>
@@ -232,14 +378,16 @@
                 </td>
                 <td align="center">
                     @{
-                        @requested.ElementAt(i).RoomCode;
+                        var rooms = db.Query("SELECT RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied' AND RoomRequest.ReqID = (SELECT ReqID FROM Request WHERE ReqID = " + @time.ElementAt(i).reqID + ")");
+                        foreach(var room in rooms)
+                        {
+                            @room[0];;
+                        }
 }
                  </td>
                 <!--need to write functions for all 3 in index.js-->
                   <td align='center'>
-                      <button>Edit</button>
-                      <br />
-                      <button>Make New Request</button>
+                      <button class="new-request" data-request='{"modname": "@modules.ElementAt(i).ModName" , "modcode": "@time.ElementAt(i).ModCode", "rooms" : "@rooms[0][0]"}'>Make New Request</button>
                       <br />
                       <button>View Request Details</button>
                   </td>
@@ -248,6 +396,7 @@
     }
         
     </table>
+    <div class="nav-top"><u>Back to top &#x2934;</u></div>
 </div>
 
 <!-- Add a row to the table, for every request in this round's requests array that has the status "3" (rejected) -->
@@ -255,7 +404,7 @@
 <div>
     <h3>Pending</h3>
     <div>These requests are pending approval or denial. If you don't need a request for any reason you can delete/release it from the actions menu.</div>
-    <table align="center" width="900">
+    <table align="center" width="900" id="pending-table">
         <!-- end Denied requests section -->
         <!-- Same as denied section but for changed ones -->
         <tr>
@@ -269,14 +418,14 @@
         
         @{
             var pendingModules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
-            var pendingTimes = db.Query("SELECT Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
-            var pendingRooms = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
+            var pendingTimes = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
 
             for (int j = 0; j < @pending; j++ )
             {
                 <tr>
                     <td align="center">
                         @{
+                            @pendingTimes.ElementAt(j).ModCode; <br/>
                             @pendingModules.ElementAt(j).ModName;
                         }
                     </td>
@@ -300,17 +449,22 @@
                     </td>
                     <td align="center">
                         @{
-                            @pendingRooms.ElementAt(j).RoomCode;
+                            var pendingRooms = db.Query("SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending' AND Assigned.ReqID = (SELECT ReqID FROM Request WHERE ReqID = " + @pendingTimes.ElementAt(j).reqID + ")");
+                            foreach (var pendingRoom in pendingRooms)
+                            {
+                                @pendingRoom[0];
+                            }
                         }
                     </td>
                     <!--need to write function for in index.js-->
                     <td align='center'>
-                        <button>View Request Details</button>
+                        <button onclick="releaseRequest(@pendingTimes.ElementAt(j).ReqID, @j, 'pending-table')">Cancel</button>
                     </td>
                 </tr>
             }
             }
     </table>
+    <div class="nav-top"><u>Back to top &#x2934;</u></div>
 </div>
 
 <!-- Same as denied and changed section but for approved ones -->
@@ -318,7 +472,7 @@
 <div>
     <h3>Approved</h3>
     <div>These requests have been approved. If you don't need a request for any reason you can delete/release it from the actions menu.</div>
-    <table align="center" width="900">
+    <table align="center" width="900" id="approved-table">
         <tr>
             <td align="center" style="font-weight:bold" width="20%">Module</td>
             <td align="center" style="font-weight:bold" width="20%">Time</td>
@@ -329,15 +483,14 @@
         </tr>
         @{
                 var approvedModules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
-                var approvedTimes = db.Query("SELECT Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
-                var approvedRooms = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
-                var assignedRooms = db.Query("SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
+                var approvedTimes = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
 
                 for (int k = 0; k < @approved; k++ )
                 {
                 <tr>
                     <td align="center">
                         @{
+                            @approvedTimes.ElementAt(k).ModCode; <br />
                             @approvedModules.ElementAt(k).ModName;
                         }
                     </td>
@@ -361,27 +514,29 @@
                     </td>
                     <td align="center">
                         @{
-                            if (k < approvedRooms.Count())
+                            var approvedRooms = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'AND Booking.ReqID = (SELECT ReqID FROM Request WHERE ReqID = "+@approvedTimes.ElementAt(k).reqID+")");
+                            foreach(var approvedRoom in approvedRooms)
                             {
-                                @approvedRooms.ElementAt(k).RoomCode;
+                                @approvedRoom.RoomCode;
                             }
                         }
                     </td>
                     <td align="center">
                         @{
-                            if (k < assignedRooms.Count()) { 
-                                @assignedRooms.ElementAt(k).RoomCode;
+                            var assignedRooms = db.Query("SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved' AND Assigned.ReqID = (SELECT ReqID FROM Request WHERE ReqID = "+@approvedTimes.ElementAt(k).reqID+")");
+                            foreach (var assignedRoom in assignedRooms)
+                            {
+                                @assignedRooms[0].RoomCode;
                             }
                         }
                     </td>
                     <!--need to write function for in index.js-->
                     <td align='center'>
-                        <button>Release</button>
-                        <br />
-                        <button>View Request Details</button>
+                        <button onclick="releaseRequest(@approvedTimes.ElementAt(k).ReqID, @k, 'approved-table')">Release</button>
                     </td>
                 </tr>
                 }
             }        
     </table>
+    <div class="nav-top"><u>Back to top &#x2934;</u></div>
 </div>
