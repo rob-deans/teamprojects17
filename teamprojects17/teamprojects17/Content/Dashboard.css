@@ -90,3 +90,22 @@ button:hover, a:hover {
 #approval{
     color: green;
 }
+
+.nav-top{
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 30px;
+    float: right;
+}
+
+.nav-top:hover{
+    background-color: #80dfff;
+}
+
+.prev-req{
+    width: 30em;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    color:black;
+}

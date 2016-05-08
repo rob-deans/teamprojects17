@@ -141,23 +141,55 @@
                 text: "Approved"
             });
             
-        $("#denied-info").click(function(){
-            $('html, body').animate({
-                scrollTop: $("#denied").offset().top
-            }, 1400);
-        });
+            $("#denied-info").click(function(){
+                $('html, body').animate({
+                    scrollTop: $("#denied").offset().top
+                }, 1400);
+            });
 
-        $("#pending-info").click(function(){
-            $('html, body').animate({
-                scrollTop: $("#pending-table").offset().top
-            }, 1300);
-        });
+            $("#pending-info").click(function(){
+                $('html, body').animate({
+                    scrollTop: $("#pending-table").offset().top
+                }, 1300);
+            });
 
-        $("#approved-info").click(function(){
-            $('html, body').animate({
-                scrollTop: $("#approved-table").offset().top
-            }, 1200);
-        });
+            $("#approved-info").click(function(){
+                $('html, body').animate({
+                    scrollTop: $("#approved-table").offset().top
+                }, 1200);
+            });
+
+            $(".nav-top").click(function() {
+                $('html, body').animate({
+                    scrollTop: $("body").offset().top
+                }, 1000);
+            })
+
+            $("#request-button").magnificPopup({
+                type: "ajax",
+                ajax: {
+                    settings :{
+                        type: "POST",
+                        data:{
+                            dept : 'CO'
+                        },
+                        url: "Timetable/getAllRequests"
+                    }
+                },
+                callbacks: {
+                    parseAjax: function(response) {
+                        var data;
+                        for(var i = 0; i < response.data.length; i++) {
+                            data += "<div class='prev-req'>Module Code: "+response.data[i].ModCode+"</div>";
+                            data += "<div class='prev-req'>Day: "+response.data[i].Day+"</div>";
+                            data += "<div class='prev-req'>Period: "+response.data[i].Period+"</div>";
+                            data += "<div class='prev-req'>Semester: "+response.data[i].Semester+"</div>";
+
+                        }
+                        response.data = data;
+                    }
+                }
+            });
 
         });
     </script>
@@ -288,9 +320,7 @@
                  </td>
                 <!--need to write functions for all 3 in index.js-->
                   <td align='center'>
-                      <button>Edit</button>
-                      <br />
-                      <button>Make New Request</button>
+                      <button id="new-request">Make New Request</button>
                       <br />
                       <button>View Request Details</button>
                   </td>
@@ -299,6 +329,7 @@
     }
         
     </table>
+    <div class="nav-top"><u>Back to top &#x2934;</u></div>
 </div>
 
 <!-- Add a row to the table, for every request in this round's requests array that has the status "3" (rejected) -->
@@ -366,6 +397,7 @@
             }
             }
     </table>
+    <div class="nav-top"><u>Back to top &#x2934;</u></div>
 </div>
 
 <!-- Same as denied and changed section but for approved ones -->
@@ -439,4 +471,5 @@
                 }
             }        
     </table>
+    <div class="nav-top"><u>Back to top &#x2934;</u></div>
 </div>

@@ -421,5 +421,36 @@ namespace teamprojects17.Controllers
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
         }
+
+        [HttpPost]
+        public JsonResult getAllRequests(string dept)
+        {
+            Debug.WriteLine("DEPT: " + dept);
+            cmd.CommandText = "Select Request.* from Request JOIN Booking on request.ReqID=booking.reqid where request.modcode in (select  modcode from modules where Deptcode='"+dept+"')";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            var list = new List<TimetableModel>();
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                list.Add(new TimetableModel
+                {
+                    ReqId = reader.GetInt32(0),
+                    ModCode = reader.GetString(1),
+                    Day = reader.GetInt32(2),
+                    Period = reader.GetInt32(3),
+                    WeekStart = reader.GetInt32(4),
+                    WeekEnd = reader.GetInt32(5),
+                    BuildingCode = reader.GetString(6),
+                    ParkId = reader.GetInt32(7),
+                    Year = reader.GetInt32(8),
+                    Semester = reader.GetInt32(9)
+                });
+            }
+            sqlConnection.Close();
+            Debug.WriteLine(list.Count);
+            return Json(list);
+        }
     }
 }
