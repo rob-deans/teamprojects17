@@ -49,6 +49,7 @@ button:hover, a:hover {
     text-align:center;
     font-size: 1em;
     display: table;
+    cursor: pointer;
 }
 
 .dashboard-dial-bg-bottom p {

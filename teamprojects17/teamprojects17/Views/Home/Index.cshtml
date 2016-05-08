@@ -134,11 +134,31 @@
         $(document).ready(function () {
             $("#request-circle").circliful({
                 animationStep: 5,
-                foregroundBorderWidth: 5,
+                foregroundColor: "#008000",
+                foregroundBorderWidth: 10,
                 backgroundBorderWidth: 15,
                 percent: (@approved/@totals) * 100,
                 text: "Approved"
             });
+            
+        $("#denied-info").click(function(){
+            $('html, body').animate({
+                scrollTop: $("#denied").offset().top
+            }, 1400);
+        });
+
+        $("#pending-info").click(function(){
+            $('html, body').animate({
+                scrollTop: $("#pending-table").offset().top
+            }, 1300);
+        });
+
+        $("#approved-info").click(function(){
+            $('html, body').animate({
+                scrollTop: $("#approved-table").offset().top
+            }, 1200);
+        });
+
         });
     </script>
 
@@ -170,7 +190,7 @@
                     <div id="denied" data-percent="16.67" data-title="Requests denied"></div>
                     <!--amount of previous requests denied-->
                 </div>
-                <div class="dashboard-dial-bg-bottom"><p>Denied</p></div>
+                <div class="dashboard-dial-bg-bottom" id="denied-info"><p>Denied</p></div>
             </td>
 
             <!-- Requests altered box -->
@@ -180,7 +200,7 @@
                     <div id="altered" data-percent="33.34" data-title="Requests pending"></div>
                     <!--amount of previous requests altered-->
                 </div>
-                <div class="dashboard-dial-bg-bottom"><p>Pending</p></div>
+                <div class="dashboard-dial-bg-bottom" id="pending-info"><p>Pending</p></div>
             </td>
 
             <!-- Requests approved box -->
@@ -190,7 +210,7 @@
                     <div id="approved" data-percent="50" data-title="Requests approved"></div>
                     <!--amount of previous requests approved-->
                 </div>
-                <div class="dashboard-dial-bg-bottom"><p>Approved</p></div>
+                <div class="dashboard-dial-bg-bottom" id="approved-info"><p>Approved</p></div>
             </td>
             <!-- End request counts -->
         </tr>
@@ -224,7 +244,7 @@
 
         var modules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode " +
             "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
-        var time = db.Query("SELECT Request.ReqID, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request " + 
+        var time = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request " + 
             "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
             
         var requested = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest" +
@@ -235,6 +255,7 @@
             <tr>
                 <td align="center">     
                     @{
+                        @time.ElementAt(i).ModCode; <br />
                         @modules.ElementAt(i).ModName;
                     }
                 </td>
@@ -299,13 +320,14 @@
         
         @{
             var pendingModules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
-            var pendingTimes = db.Query("SELECT Request.ReqID, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
+            var pendingTimes = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
 
             for (int j = 0; j < @pending; j++ )
             {
                 <tr>
                     <td align="center">
                         @{
+                            @pendingTimes.ElementAt(j).ModCode; <br/>
                             @pendingModules.ElementAt(j).ModName;
                         }
                     </td>
@@ -362,13 +384,14 @@
         </tr>
         @{
                 var approvedModules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
-                var approvedTimes = db.Query("SELECT Request. ReqID, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
+                var approvedTimes = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
 
                 for (int k = 0; k < @approved; k++ )
                 {
                 <tr>
                     <td align="center">
                         @{
+                            @approvedTimes.ElementAt(k).ModCode; <br />
                             @approvedModules.ElementAt(k).ModName;
                         }
                     </td>
