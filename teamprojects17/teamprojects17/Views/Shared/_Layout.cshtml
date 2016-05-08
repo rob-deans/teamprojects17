@@ -6,7 +6,9 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/modernizr");
+        @Scripts.Render("~/bundles/jquery");
+        
     </head>
     <body>
         <header>
@@ -43,9 +45,7 @@
                     <p>&copy; @DateTime.Now.Year - Your timetabling system</p>
                 </div>
             </div>
+            @RenderSection("scripts", required: false)
         </footer>
-
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
     </body>
 </html>

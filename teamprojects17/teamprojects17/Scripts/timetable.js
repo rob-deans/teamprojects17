@@ -221,18 +221,13 @@ Day.prototype.addEmptyPeriods = function( data , n) {
  * @returns {Day}
  */
 
-Day.prototype.populate = function(data){
-    console.log(data);
-    
+Day.prototype.populate = function (data) {
     for (var i = 0; i < data['periods'].length; i++) {
         if (data['periods'][i] != null) {
-            console.log(i);
             var period = data['periods'][i];
             var rooms = period['rooms'];
-            console.log(ObjectLength(rooms));
             for (var j = 0; j < ObjectLength(rooms); j++) {
                 data['rooms'] = [rooms[j]];
-                console.log(period);
                 this.addPeriod(data['periods'][i]);
             }
         }
@@ -369,7 +364,7 @@ Period.prototype.getStatus = function() {
  * @param status
  * @returns {Period}
  */
-Period.prototype.addRoom = function(name, status) {
+Period.prototype.addRoom = function (name) {
     this.rooms.add({ name: name });
     return this;
 };
@@ -381,7 +376,7 @@ Period.prototype.addRoom = function(name, status) {
  * @returns {Period}
  */
 Period.prototype.addWeeks = function(weekStart, WeekEnd) {
-    this.rooms.add({start: weekStart, end: weekEnd});
+    this.weeks.add({start: weekStart, end: weekEnd});
     return this;
 };
 

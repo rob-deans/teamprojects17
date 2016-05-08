@@ -28,7 +28,7 @@ namespace teamprojects17.Models
 
         public void populate(TimetableModel data)
         {
-            for (int i = data.WeekStart- 1; i < data.WeekEnd; i++)
+            for (int i = data.WeekStart; i < data.WeekEnd; i++)
             {
                 this.addWeek(data, i);
             }
@@ -68,7 +68,7 @@ namespace teamprojects17.Models
         {
             Day d = new Day(this.config, data, day, week);
             d.populate(data, week, day);
-            this.days[d.day-1] = d;
+            this.days[d.day] = d;
         }
 
         public Day[] days { get; set; }
@@ -97,7 +97,8 @@ namespace teamprojects17.Models
         public Day addPeriod(TimetableModel data, int week, int day, int period, int pos)
         {
             Weeks[] weeks = new Weeks[] {new Weeks(data.WeekStart, data.WeekEnd)};
-            Period p = new Period(new Module(data.ModCode, ""), data.Period-1, new Rooms("B.1.11"), weeks, "Booked", "Tutorial", 0, 0);
+            Rooms[] rooms = new Rooms[] { new Rooms("B.1.11") };
+            Period p = new Period(new Module("", data.ModCode), data.Period - 1, rooms, weeks, "Booked", "Tutorial", 0, 0);
             p.populate(data);
             this.periods[p.period] = p;
             return this;
@@ -111,7 +112,7 @@ namespace teamprojects17.Models
 
     public class Period
     {
-        public Period(Module module, int period, Rooms rooms, Weeks[] weeks, string status, string type, int noOfRooms, int noOfStudents)
+        public Period(Module module, int period, Rooms[] rooms, Weeks[] weeks, string status, string type, int noOfRooms, int noOfStudents)
         {
             this.module = module;
             this.period = period;
@@ -127,7 +128,7 @@ namespace teamprojects17.Models
         {
             this.module = new Module("", data.ModCode);
             this.period = data.Period;
-            this.rooms = new Rooms("B.1.11");
+            this.rooms = new Rooms[]{new Rooms("B.1.11")};
             Weeks[] weeks = new Weeks[] {new Weeks(data.WeekStart, data.WeekEnd)};
             this.weeks = weeks;
             this.status = "Booked";
@@ -140,7 +141,7 @@ namespace teamprojects17.Models
 
         public Module module { get; set; }
         public int period { get; set; }
-        public Rooms rooms { get; set; }
+        public Rooms[] rooms { get; set; }
         public Weeks[] weeks { get; set; }
         public string status { get; set; }
         public string type { get; set; }

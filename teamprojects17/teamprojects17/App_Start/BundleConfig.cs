@@ -27,6 +27,10 @@ namespace teamprojects17
                 "~/Scripts/timetable-features.js"
                 ));
 
+            bundles.Add(new ScriptBundle("~/bundles/dashboard").Include(
+                "~/Scripts/jquery.circliful.js"
+                ));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -37,13 +41,13 @@ namespace teamprojects17
                         ));
 
             bundles.Add(new StyleBundle("~/Content/index").Include( 
-                        "~/Content/Dashboard.css"
+                        "~/Content/Dashboard.css",
+                        "~/Content/jquery.circiful.css"
             ));
 
+
             bundles.Add(new StyleBundle("~/Content/calendar").Include(
-                        "~/Content/jquery-ui.min.css",
-                        "~/Content/materialize.css",
-                        "~/Content/sweetalert.css"
+                        "~/Content/jquery-ui.min.css"
             ));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

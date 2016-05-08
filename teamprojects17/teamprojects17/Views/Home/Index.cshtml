@@ -5,12 +5,8 @@
 }
 
 @section scripts{
-    <script src="~/Scripts/dashboard.js"></script>
     @Styles.Render("~/Content/index");
-    <link rel="stylesheet" type="text/css" href="~/Content/Dashboard.css">
-    <script src="code.jquery.com/jquery-1.8.2.min.js"></script>
-    <link rel="stylesheet" href="~/Scripts/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/chart.js">
-    <script src="~/Scripts/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/Lightweight-Chart-Plugin-With-jQuery-CSS-cssCharts-js/jquery.chart.js"></script>
+    @Scripts.Render("~/bundles/dashboard");
 
 }
 
@@ -77,84 +73,150 @@
                     </td>
                 </tr>
              }
-            }
         }
 
         <!-- If no rounds are active, say so; instead of just showing an empty table -->
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4de5a061749fd83c3e0708de873e3e46e1d5386a
         <!--<tr>
             <td align="center"width="75%">No rounds are currently accepting requests</td>
             <td align="center" width="25%">
                 <button type="submit" id="request-button">View All Previous Requests</button>
             </td>
         </tr>-->
+<<<<<<< HEAD
+=======
+        <tr>
+            <td align="center">No rounds are currently accepting requests</td>
+            <td align="center"></td>
+            <td align="center"></td>
+            <td align="center"></td>
+            <td align="center"><a href="requests/">View All Previous Requests</a></td>
+       <!-- <td align="center"> <button type="submit" id="request-button">View Requests</button></td>
+                    <!-- action="requests/" method="post">-->
+                 <!--   <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->  
+                 <!--   <input type="hidden" name="filterRound" /> <!--value="round id/>-->
+        </tr>
+>>>>>>> 4de5a061749fd83c3e0708de873e3e46e1d5386a
     </table>
 </div>
 <!-- End currently active rounds card -->
 <!-- Previous round results section -->
 
 <br />
+
 <div id="results">
     @{
-        var total = db.Query("SELECT COUNT(ReqID) AS Num FROM Booking").Select(v => "'" + v.Num + "'");
+        var total = db.Query("SELECT COUNT(ReqID) AS Num FROM Booking").Select(r =>r.Num);
         var totals = string.Join(",", total);
-        var denied = db.Query("SELECT COUNT(ReqID) AS Num FROM Booking WHERE Status = 'Denied'").Select(v => "'" + v.Num + "'");
-        var denials = string.Join(",", denied);
-        var altered = db.Query("SELECT COUNT(ReqID) AS Num FROM Booking WHERE Status = 'Pending'").Select(v => "'" + v.Num + "'");
-        var alters = string.Join(",", altered);
-        var approved = db.Query("SELECT COUNT(ReqID) AS Num FROM Booking WHERE Status = 'Approved'").Select(v => "'" + v.Num + "'");
-        var approves = string.Join(",", approved);
+        var denied = db.Query("SELECT ReqID FROM Booking WHERE Status = 'Denied'").Count();
+        var pending = db.Query("SELECT ReqID FROM Booking WHERE Status = 'Pending'").Count();
+        var approved = db.Query("SELECT ReqID FROM Booking WHERE Status = 'Approved'").Count();
         
         
-        }
-      
+    }
+
     <script type="text/javascript">
-        var total = "<%=totals%>";
+        var denied = "<%denied%>";
+        var pending = "<%pending%>";
+        var approved = "<%approved%>";
+
+        function releaseRequest(reqID, row, table) {
+            console.log(reqID);
+            $.ajax({
+                type: "POST",
+                url: "Timetable/releaseRequest",
+                data: {
+                    reqID: reqID
+                },
+                success: function () {
+                    document.getElementById(table).deleteRow(row + 1);
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            $("#request-circle").circliful({
+                animationStep: 5,
+                foregroundColor: "#008000",
+                foregroundBorderWidth: 10,
+                backgroundBorderWidth: 15,
+                percent: (@approved/@totals) * 100,
+                text: "Approved"
+            });
+            
+        $("#denied-info").click(function(){
+            $('html, body').animate({
+                scrollTop: $("#denied").offset().top
+            }, 1400);
+        });
+
+        $("#pending-info").click(function(){
+            $('html, body').animate({
+                scrollTop: $("#pending-table").offset().top
+            }, 1300);
+        });
+
+        $("#approved-info").click(function(){
+            $('html, body').animate({
+                scrollTop: $("#approved-table").offset().top
+            }, 1200);
+        });
+
+        });
     </script>
-    
+
     <h3>Results</h3>
     <div>These are your overall results.</div>
     <!--For every item in 'previousRounds' as 'previousRound', do the following... -->
     <!-- Show all results -->
-    <table align="center" width="900">
+    <table align="center" width="900" id="request-info-table">
         <tr>
+            <td align="center" style="font-weight:bold" class="cell-info">
+                <div class="dashboard-dial-bg" id="dashboard-circle">
+                    <div id="request-circle"></div>
+                </div>
+                <div class="dashboard-dial-bg-bottom"><p>Overview</p></div>
+            </td>
             <!-- Start request counts -->
             <!-- Requests made box -->
-            <td align="center" style="font-weight:bold">
-                Requests Made
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
-                    <div id="total">@totals</div>
+                    <div id="total" class="request-info"><p>@totals</p></div>
                 </div>
-                <div class="dashboard-dial-bg-bottom">Requests Made</div>
+                <div class="dashboard-dial-bg-bottom"><p>Requests Made</p></div>
             </td>
 
             <!-- Requests denied box -->
-            <td align="center" style="font-weight:bold">
-                Denied
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
+                    <div id="denial" class="request-info"><p>@denied</p></div>
                     <div id="denied" data-percent="16.67" data-title="Requests denied"></div>
                     <!--amount of previous requests denied-->
                 </div>
-                <div class="dashboard-dial-bg-bottom">Denied</div>
+                <div class="dashboard-dial-bg-bottom" id="denied-info"><p>Denied</p></div>
             </td>
 
             <!-- Requests altered box -->
-            <td align="center" style="font-weight:bold">
-                Altered
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
-                    <div id="altered" data-percent="33.34" data-title="Requests altered"></div>
+                    <div id="alters" class="request-info"><p>@pending</p></div>
+                    <div id="altered" data-percent="33.34" data-title="Requests pending"></div>
                     <!--amount of previous requests altered-->
                 </div>
-                <div class="dashboard-dial-bg-bottom">Altered</div>
+                <div class="dashboard-dial-bg-bottom" id="pending-info"><p>Pending</p></div>
             </td>
 
             <!-- Requests approved box -->
-            <td align="center" style="font-weight:bold">
-                Approved
+            <td align="center" style="font-weight:bold" class="cell-info">
                 <div class="dashboard-dial-bg">
+                    <div id="approval" class="request-info"><p>@approved</p></div>
                     <div id="approved" data-percent="50" data-title="Requests approved"></div>
                     <!--amount of previous requests approved-->
                 </div>
-                <div class="dashboard-dial-bg-bottom">Approved</div>
+                <div class="dashboard-dial-bg-bottom" id="approved-info"><p>Approved</p></div>
             </td>
             <!-- End request counts -->
         </tr>
@@ -182,59 +244,49 @@
     <!--End column headings-->
     @{
 
-        var modules = "SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'";
-        var time = "SELECT Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'";
-        var requested = "SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'";
-        var numRows = "SELECT ReqID FROM Booking WHERE Status = 'Denied'";
+        var modules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode " +
+            "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
+        var time = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request " + 
+            "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
+            
+        var requested = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest" +
+            " JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
 
-        foreach (var row in db.Query(numRows))
+        for (int i = 0; i < @denied; i++)  
         {
             <tr>
                 <td align="center">     
                     @{
-                        foreach (var module in db.Query(modules))
-                        {
-                            @module.ModName
-                        }
+                        @time.ElementAt(i).ModCode; <br />
+                        @modules.ElementAt(i).ModName;
                     }
                 </td>
                 <td align="center">
                     Day
                     @{
-                        foreach (var timing in db.Query(time))
-                        {
-                           @timing.Day
-                        }
+                        @time.ElementAt(i).Day;
                      }
                     , Period 
                     @{
-                        foreach (var timing in db.Query(time))
-                        {
-                            @timing.Period
-                        }
-                    }
+                        @time.ElementAt(i).Period;
+}
                     , Week 
                     @{
-                        foreach (var timing in db.Query(time))
-                        {
-                            @timing.WeekStart
-                        }
-                    }
+                        @time.ElementAt(i).WeekStart;
+}
                     - Week 
                     @{
-                        foreach (var timing in db.Query(time))
-                        {
-                            @timing.WeekEnd
-                        }
-                    }
+                        @time.ElementAt(i).WeekEnd;
+}
                 </td>
                 <td align="center">
                     @{
-                        foreach (var request in db.Query(requested))
+                        var rooms = db.Query("SELECT RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied' AND RoomRequest.ReqID = (SELECT ReqID FROM Request WHERE ReqID = " + @time.ElementAt(i).reqID + ")");
+                        foreach(var room in rooms)
                         {
-                            @request.RoomCode
+                            @room[0];
                         }
-                     }
+}
                  </td>
                 <!--need to write functions for all 3 in index.js-->
                   <td align='center'>
@@ -245,8 +297,9 @@
                       </select>
                   </td>
              </tr>
-            }
         }
+    }
+        
     </table>
 </div>
 
@@ -255,87 +308,68 @@
 <div>
     <h3>Pending</h3>
     <div>These requests are pending approval or denial. If you don't need a request for any reason you can delete/release it from the actions menu.</div>
-    <table align="center" width="900">
+    <table align="center" width="900" id="pending-table">
         <!-- end Denied requests section -->
         <!-- Same as denied section but for changed ones -->
         <tr>
             <td align="center" style="font-weight:bold" width="20%">Module</td>
             <td align="center" style="font-weight:bold" width="20%">Time</td>
             <td align="center" style="font-weight:bold" width="20%">Requested</td>
+<<<<<<< HEAD
             <td align="center" style="font-weight:bold" width="20%">Assigned</td>
+=======
+            <!--td align="center" style="font-weight:bold" width="20%">Assigned</td-->
+>>>>>>> 4de5a061749fd83c3e0708de873e3e46e1d5386a
             <!--<td align="center" style="font-weight:bold" width="20%">Date</td>-->
             <td align="center" style="font-weight:bold" width="20%">Actions</td>
         </tr>
+        
         @{
-            var numRows2 = "SELECT ReqID FROM Booking WHERE Status = 'Pending'";
-            var modules2 = "SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'";
-            var time2 = "SELECT Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'";
-            var requested2 = "SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'";
-            var assigned = "SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'";
+            var pendingModules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
+            var pendingTimes = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
 
-            foreach (var row in db.Query(numRows2))
+            for (int j = 0; j < @pending; j++ )
             {
                 <tr>
                     <td align="center">
                         @{
-                            foreach (var module in db.Query(modules2))
-                            {
-                                @module.ModName
-                            }
+                            @pendingTimes.ElementAt(j).ModCode; <br/>
+                            @pendingModules.ElementAt(j).ModName;
                         }
                     </td>
                     <td align="center">
                         Day
                         @{
-                            foreach (var timing in db.Query(time2))
-                            {
-                                @timing.Day
-                            }
+                            @pendingTimes.ElementAt(j).Day;   
                         }
                         , Period
                         @{
-                            foreach (var timing in db.Query(time2))
-                            {
-                                @timing.Period
-                            }
+                            @pendingTimes.ElementAt(j).Period;
                         }
                         , Week
                         @{
-                            foreach (var timing in db.Query(time2))
-                            {
-                                @timing.WeekStart
-                            }
+                            @pendingTimes.ElementAt(j).WeekStart;
                         }
                         - Week
                         @{
-                            foreach (var timing in db.Query(time2))
-                            {
-                                @timing.WeekEnd
-                            }
+                            @pendingTimes.ElementAt(j).WeekEnd;
                         }
                     </td>
                     <td align="center">
                         @{
-                            foreach (var request in db.Query(requested2))
+                            var pendingRooms = db.Query("SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending' AND Assigned.ReqID = (SELECT ReqID FROM Request WHERE ReqID = " + @pendingTimes.ElementAt(j).reqID + ")");
+                            foreach (var pendingRoom in pendingRooms)
                             {
-                                @request.RoomCode
-                            }
-                        }
-                    </td>
-                    <td align="center">
-                        @{
-                            foreach (var assign in db.Query(assigned))
-                            {
-                                @assign.RoomCode
+                                @pendingRoom[0];
                             }
                         }
                     </td>
                     <!--need to write function for in index.js-->
                     <td align='center'>
-                        <button>View Request Details</button>
+                        <button onclick="releaseRequest(@pendingTimes.ElementAt(j).ReqID, @j, 'pending-table')">Cancel</button>
                     </td>
                 </tr>
-                }
+            }
             }
     </table>
 </div>
@@ -345,7 +379,7 @@
 <div>
     <h3>Approved</h3>
     <div>These requests have been approved. If you don't need a request for any reason you can delete/release it from the actions menu.</div>
-    <table align="center" width="900">
+    <table align="center" width="900" id="approved-table">
         <tr>
             <td align="center" style="font-weight:bold" width="20%">Module</td>
             <td align="center" style="font-weight:bold" width="20%">Time</td>
@@ -355,75 +389,64 @@
             <td align="center" style="font-weight:bold" width="20%">Actions</td>
         </tr>
         @{
-                var numRows3 = "SELECT ReqID FROM Booking WHERE Status = 'Approved'";
-                var modules3 = "SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'";
-                var time3 = "SELECT Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'";
-                var requested3 = "SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'";
-                var assigned2 = "SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'";
-                
-                foreach (var row in db.Query(numRows3))
+                var approvedModules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
+                var approvedTimes = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'");
+
+                for (int k = 0; k < @approved; k++ )
                 {
                 <tr>
                     <td align="center">
                         @{
-                    foreach (var module in db.Query(modules3))
-                    {
-                        @module.ModName
-                    }
+                            @approvedTimes.ElementAt(k).ModCode; <br />
+                            @approvedModules.ElementAt(k).ModName;
                         }
                     </td>
                     <td align="center">
                         Day
                         @{
-                    foreach (var timing in db.Query(time3))
-                    {
-                        @timing.Day
-                    }
+                            @approvedTimes.ElementAt(k).Day;
                         }
                         , Period
                         @{
-                    foreach (var timing in db.Query(time3))
-                    {
-                        @timing.Period
-                    }
+                            @approvedTimes.ElementAt(k).Period;
                         }
                         , Week
                         @{
-                    foreach (var timing in db.Query(time3))
-                    {
-                        @timing.WeekStart
-                    }
+                            @approvedTimes.ElementAt(k).WeekStart;
                         }
                         - Week
                         @{
-                    foreach (var timing in db.Query(time3))
-                    {
-                        @timing.WeekEnd
-                    }
+                            @approvedTimes.ElementAt(k).WeekEnd;
                         }
                     </td>
                     <td align="center">
                         @{
-                    foreach (var request in db.Query(requested3))
-                    {
-                        @request.RoomCode
-                    }
+                            var approvedRooms = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'AND Booking.ReqID = (SELECT ReqID FROM Request WHERE ReqID = "+@approvedTimes.ElementAt(k).reqID+")");
+                            foreach(var approvedRoom in approvedRooms)
+                            {
+                                @approvedRoom.RoomCode;
+                            }
                         }
                     </td>
                     <td align="center">
                         @{
-                    foreach (var assign in db.Query(assigned2))
-                    {
-                        @assign.RoomCode
-                    }
+                            var assignedRooms = db.Query("SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved' AND Assigned.ReqID = (SELECT ReqID FROM Request WHERE ReqID = "+@approvedTimes.ElementAt(k).reqID+")");
+                            foreach (var assignedRoom in assignedRooms)
+                            {
+                                @assignedRooms[0].RoomCode;
+                            }
                         }
                     </td>
                     <!--need to write function for in index.js-->
                     <td align='center'>
+<<<<<<< HEAD
                         <select>
                             <option>Release</option>
                             <option>View Request Details</option>
                         </select>
+=======
+                        <button onclick="releaseRequest(@approvedTimes.ElementAt(k).ReqID, @k, 'approved-table')">Release</button>
+>>>>>>> 4de5a061749fd83c3e0708de873e3e46e1d5386a
                     </td>
                 </tr>
                 }

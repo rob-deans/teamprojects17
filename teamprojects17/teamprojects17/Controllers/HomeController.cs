@@ -12,6 +12,9 @@ namespace teamprojects17.Controllers
 {
     public class HomeController : Controller
     {
+        private SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
         public ActionResult Index()
         {
             ViewBag.Title = "Dashboard";

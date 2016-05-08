@@ -17,19 +17,21 @@
 
 <section>
     <h3>Modify User</h3>
-    <div class="userset"> 
+    <div class="userset">
         <form id="form" method="POST" name="add-user-form">
-            <table class="input-holder">
+            <table class="input-holder" style="width:100%">
                 <tr>
-                    <td class="input-group">Change Password:</td>
-                    <td class="input-group"><input placeholder="Old Password" type="password" name="old password"></td>
-                    <td class="input-group"><input placeholder="New Password" type="password" name="new password"></td>
-                    <td class="input-group"><input placeholder="Confirm Password" type="password" name="new password"></td>
-                    <td><button type="button">Update</button></td>
+                    <td class="input-group" style="width:125px">Change Password:</td>
+                    <td class="input-group"><input placeholder="Old Password" type="password" name="old password" style="width:185px"></td>
+                    <td class="input-group"><input placeholder="New Password" type="password" name="new password" style="width:185px"></td>
+                    <td class="input-group"><input placeholder="Confirm Password" type="password" name="new password" style="width:185px"></td>
+                    <td><button type="button" style="width:100px">Update</button></td>
                 </tr>
             </table>
         </form>
     </div>
+
+    <br />
 
     @{
         var db = Database.Open("DbCon");
@@ -40,41 +42,136 @@
             <h3>Module settings for: @result.Deptname</h3>
         }
     }
-    
-    <div id="moduleset">
-        <form id="form" method="POST" name="add-module-form">
-            <table class="input-holder">
+
+    <div id="assign">
+        <form id="form" method="POST" name="assign-module">
+            <table class="input-holder" style="width:100%">
                 <tr>
-                    <td class="input-group">Add module:</td>
-                    <td class="input-group"><input placeholder="Module name" name="Module name"></td>
-                    <td class="input-group"><input placeholder="Module code" name="Module code"></td>
-                    <td><button type="button">Add</button></td>
-                </tr>
-                <tr>
-                    <td class="input-group">Delete module:</td>
-                    <td class="input-group"><input placeholder="Module name" name="Module name"></td>
-                    <td class="input-group"><input placeholder="Module code" name="Module code"></td>
-                    <td><button type="button">Delete</button></td>
+                    <td class="input-group" style="width:125px">Assign:</td>
+                    <td class="input-group">
+                        <select name="Course name" style="width:185px; height:30px">
+                            <option value="all" selected>Course</option>
+                            <option value="0">Computer Science</option>
+                            <option value="0">Computing and Management</option>
+                            <option value="0">ITMB</option>
+                            <option value="0">Web Development</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="Delete module name" style="width:185px; height:30px">
+                            <option value="all" selected>Module Name</option>
+                            <option value="0">Databases</option>
+                            <option value="0">Computer Systems</option>
+                            <option value="0">Team Projects</option>
+                            <option value="0">Server Side Programming</option>
+                        </select>
+                    </td>
+                    <td class="input-group">
+                        <select name="Delete module" style="width:185px; height:30px">
+                            <option value="all" selected>Module Code</option>
+                            <option value="0">14COA201</option>
+                            <option value="0">14COA124</option>
+                            <option value="0">15COB290</option>
+                            <option value="0">14COA123</option>
+                        </select>
+                    </td>
+                    <td><button type="button" style="width:100px">Assign</button></td>
                 </tr>
             </table>
         </form>
     </div>
 
-     <h3>Room settings</h3>
-     <div id="roomset">
+    <div id="moduleset">
+        <form id="form" method="POST" name="add-module-form">
+            <table class="input-holder" style="width:100%">
+                <tr>
+                    <td class="input-group" style="width:125px">Add module:</td>
+                    <td class="input-group"><input placeholder="Module name" name="Module name" style="width:277px"></td>
+                    <td class="input-group"><input placeholder="Module code" name="Module code" style="width:277px"></td>
+                    <td><button type="button" style="width:100px">Add</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div id="moduleset-delete">
+        <form id="form" method="POST" name="add-module-form">
+            <table class="input-holder" style="width:100%">
+                <tr>
+                    <td class="input-group" style="width:125px">Delete module:</td>
+                    <td class="input-group">
+                        <select name="Delete module name" style="width:277px; height:30px">
+                            <option value="all" selected>Module Name</option>
+                            <option value="0">Databases</option>
+                            <option value="0">Computer Systems</option>
+                            <option value="0">Team Projects</option>
+                            <option value="0">Server Side Programming</option>
+                        </select>
+                    </td>
+                    <td class="input-group">
+                        <select name="Delete module" style="width:278px; height:30px">
+                            <option value="all" selected>Module Code</option>
+                            <option value="0">14COA201</option>
+                            <option value="0">14COA124</option>
+                            <option value="0">15COB290</option>
+                            <option value="0">14COA123</option>
+                        </select>
+                    </td>
+                    <td><button type="button" style="width:100px">Delete</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <br />
+
+    <h3>Room settings</h3>
+    <div id="roomset">
         <form id="form" method="POST" name="add-room-form">
-        <table class="input-holder">
-            <tr>
-                <td class="input-group">Add room:</td>
-                <td class="input-group"><input placeholder="Room code" name="Room code"></td>
-                <td><button type="button">Add</button></td>
-            </tr>
-            <tr>
-                <td class="input-group">Delete room:</td>
-                <td class="input-group"><input placeholder="Room code" name="Room code"></td>
-                <td><button type="button">Delete</button></td>
-            </tr>
-        </table>
-    </form>
-</div>
+            <table class="input-holder" style="width:100%">
+                <tr>
+                    <td class="input-group" style="width:125px">Add room:</td>
+                    <td class="input-group"><input placeholder="Room code" name="Room code" style="width:185px"></td>
+                    <td class="input-group">
+                        <select name="park" style="width:185px; height:30px">
+                            <option value="all" selected>Park</option>
+                            <option value="0">West</option>
+                            <option value="0">East</option>
+                            <option value="0">Central</option>
+                        </select>
+                    </td>
+                    <td class="input-group">
+                        <select name="Building" style="width:185px; height:30px">
+                            <option value="all" selected>Building</option>
+                            <option value="0">James France</option>
+                            <option value="0">Edward Herbert</option>
+                            <option value="0">Brokington</option>
+                        </select>
+                    </td>
+                    <td><button type="button" style="width:100px">Add</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+    <div id="roomset-delete">
+        <form id="form" method="POST" name="delete-room-form">
+            <table class="input-holder" style="width:100%">
+                <tr>
+                    <td class="input-group" style="width:125px">Delete room:</td>
+                    <td class="input-group">
+                        <select name="Delete module room" style="width:590px; height:30px">
+                            <option value="all" selected>Room Code</option>
+                            <option value="0">J001</option>
+                            <option value="0">J002</option>
+                            <option value="0">CC013</option>
+                            <option value="0">N003</option>
+                        </select>
+                    </td>
+                    <td><button type="button" style="width:100px">Delete</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </section>

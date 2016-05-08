@@ -107,4 +107,6 @@ font-size: 18px;
     height: 5em;
 }
 
-
+#btn btn-primary waves-effect{
+    position:fixed;
+}
