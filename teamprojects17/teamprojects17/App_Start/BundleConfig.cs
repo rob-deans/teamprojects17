@@ -29,8 +29,6 @@ namespace teamprojects17
 
             bundles.Add(new ScriptBundle("~/bundles/dashboard").Include(
                 "~/Scripts/jquery.circliful.js",
-                "~/Scripts/jquery.fancybox-1.3.4.pack.js",
-                "~/Scripts/jquery.colorbox.js",
                 "~/Scripts/jquery.magnific-popup.js"
                 ));
 
@@ -45,8 +43,6 @@ namespace teamprojects17
 
             bundles.Add(new StyleBundle("~/Content/index").Include( 
                         "~/Content/Dashboard.css",
-                        "~/Content/jquery.circiful.css",
-                        "~/Content/jquery.fancybox-1.3.4.css",
                         "~/Content/magnific-popup.css"
             ));
 
