@@ -188,7 +188,7 @@ namespace teamprojects17.Controllers
                                         {
                                             int startIndex = request.FindIndex(r => r.WeekStart == tt.weeks[i].days[j].serverPeriods[k][l].weeks[m].start);
                                             int endIndex = request.FindIndex(req => req.WeekEnd == tt.weeks[i].days[j].serverPeriods[k][l].weeks[m].end);
-                                            if(!(startIndex >= 0 && endIndex >= 0))
+                                            if(!(startIndex >= 0 && endIndex >= 0) && tt.weeks[i].days[j].serverPeriods[k][l].status != "Booked")
                                             {
                                                 request.Add(new TimetableModel
                                                 {
@@ -220,12 +220,19 @@ namespace teamprojects17.Controllers
         {
             TimetableModel lastRequest = request[request.Count - 1];
             setRequest(lastRequest);
+            var isOwned = new List<bool>();
+            var roomRequest = new List<Rooms>();
             for (int i = 0; i < periods.Length; i++)
             {
                 Rooms room = periods[i].rooms[0];
+                Debug.WriteLine(room.name);
                 setRoomRequest(room);
-                setAssigned(room);
+                Debug.WriteLine(getOwners(room));
+                isOwned.Add(getOwners(room));
+                roomRequest.Add(room);
             }
+
+            setAssigned(roomRequest, isOwned);
         }
 
         public void setRequest(TimetableModel lastRequest)
@@ -247,6 +254,30 @@ namespace teamprojects17.Controllers
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
+        }
+
+        public bool getOwners(Rooms room)
+        {
+            cmd.CommandText = "SELECT CASE WHEN OwnerCode IS NULL THEN 0 ELSE OwnerCode END FROM Room WHERE RoomCode = '" + room + "'";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            reader = cmd.ExecuteReader();
+            string ownerCode = "";
+            while (reader.Read())
+            {
+                ownerCode = reader.GetString(0);
+            }
+            sqlConnection.Close();
+
+            if(ownerCode != null)
+            {
+                return false;
+            } 
+            else
+            {
+                return true;
+            }
         }
 
         public string getValue(string value)
@@ -280,35 +311,23 @@ namespace teamprojects17.Controllers
             }
         }
 
-        public void setAssigned(Rooms room)
+        public void setAssigned(List<Rooms> rooms, List<bool> ownerCode)
         {
-            cmd.CommandText = "SELECT CASE WHEN OwnerCode IS NULL THEN 0 ELSE OwnerCode END FROM Room WHERE RoomCode = '" + room + "'";
-            cmd.CommandType = System.Data.CommandType.Text;
-            cmd.Connection = sqlConnection;
-            sqlConnection.Open();
-            reader = cmd.ExecuteReader();
-            string ownerCode = "";
-            while(reader.Read())
-            {
-                ownerCode = reader.GetString(0);
-            }
-            sqlConnection.Close();
-
             int reqId = getReqId();
-
-            Debug.WriteLine(ownerCode);
-            if (ownerCode != "")
+            if (!(ownerCode.Any(item => item == false)))
             {
-                cmd.CommandText = "INSERT INTO Assigned (ReqID, RoomCode)" +
-                    "VALUES (" + reqId + ",'" + room.name + "')";
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.Connection = sqlConnection;
-                sqlConnection.Open();
-                cmd.ExecuteNonQuery();
-                sqlConnection.Close();
-
+                foreach (var room in rooms)
+                {
+                    cmd.CommandText = "INSERT INTO Assigned (ReqID, RoomCode)" +
+                        "VALUES (" + reqId + ",'" + room.name + "')";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.Connection = sqlConnection;
+                    sqlConnection.Open();
+                    cmd.ExecuteNonQuery();
+                    sqlConnection.Close();
+                }
                 cmd.CommandText = "INSERT INTO Booking (ReqID, Status)" +
-                    "VALUES (" + reqId + ",'" + booked + "')";
+                        "VALUES (" + reqId + ",'" + booked + "')";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Connection = sqlConnection;
                 sqlConnection.Open();
