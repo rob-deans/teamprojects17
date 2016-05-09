@@ -71,23 +71,31 @@
             }
 
             $("#course-list").change(function() {
-                $("#lecturers-list").val(0);
-                var id = $("#course-list").val();
-                if(id != 0) {
-                    $.ajax({
-                        type: "POST",
-                        url: "getCourseTimetable",
-                        data: {
-                            courseCode: id,
-                            year: $("input[name=year]:checked", "#year-list").val()
-                        },
-                        success: function(data) {
-                            showTable(data);
-                        }
-                    });
-                }
+                getCourse();
+            });
+
+            $("input[name=year]:radio").change(function() {
+                getCourse();
             });
         });
+
+        function getCourse() {
+            $("#lecturers-list").val(0);
+            var id = $("#course-list").val();
+            if(id != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "getCourseTimetable",
+                    data: {
+                        courseCode: id,
+                        year: $("input[name=year]:checked", "#year-list").val()
+                    },
+                    success: function(data) {
+                        showTable(data);
+                    }
+                });
+            }
+        }
 
     </script>
 }

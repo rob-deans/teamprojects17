@@ -260,7 +260,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Data\WebApiConfig.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -326,6 +325,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\cascading.js" />
     <Content Include="Scripts\dashboard-timetable.js" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\functions.js" />
@@ -394,7 +394,9 @@
     <Content Include="Views\Timetable\Calendar.cshtml" />
     <Content Include="Views\Timetable\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
