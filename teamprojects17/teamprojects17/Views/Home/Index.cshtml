@@ -251,7 +251,9 @@
                 var data = $.parseJSON($(this).attr("data-request"));
                 console.log(data.rooms);
                 $("#module-code").attr('value', data.modcode);
+                $("#module-code").text(data.modcode);
                 $("#module-name").attr('value', data.modname);
+                $("#module-name").text(data.modname);
                 $("#room-list").attr('value', data.rooms);
                 var timetable = new Timetable(1);
                 var timetableRenderer = $("#timetable-holder").timetableRenderer(timetable, { type: "general" });
