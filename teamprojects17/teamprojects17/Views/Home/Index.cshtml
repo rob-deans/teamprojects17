@@ -151,7 +151,7 @@
         }
 
         function getTimetable() {
-            var data = '<div id="module-code" value=""></div><div id="module-name" value=""></div>' +
+            var data = '<div id="container"><div id="module-code" value=""></div><div id="module-name" value=""></div>' +
                 '<input type="hidden" name="room-list" id="room-list" value="">' +
                 '<div id="weeks-selected">' +
                         '</div>'+
@@ -168,7 +168,7 @@
                         '<div id="timetable-holder"></div>'+
                         '<br />'+
                         '<div><button class="btn btn-primary waves-effect" id="submit-choices" style="width:300px">Submit</button></div>'+
-                    '</section>';
+                    '</section></div>';
             return data;
         }
 
