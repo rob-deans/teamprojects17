@@ -20,7 +20,7 @@ $('#submit-facil').click(function () {
         checked.push(parseInt($(this).val()));
     });
     console.log(checked[0]);
-    var SQL1 = "SELECT * FROM Room where TRUE";
+    var roomSQL = "SELECT * FROM Room WHERE 1=1";
     //Can't grab values?
     var park = $('#filterpark').val();
     var building = $('#filtertype').val();
@@ -29,42 +29,61 @@ $('#submit-facil').click(function () {
 
     
     if(building != 'all'){
-        SQL1+=" AND BuildingCode="+building;
+        roomSQL+=" AND BuildingCode="+building;
     }
     else if(park != 'all'){
-        SQL1+=" AND BuildingCode IN (Select BuildingCode FROM Building WHERE PARK ="+park+" "; 
+        roomSQL+=" AND BuildingCode IN (Select BuildingCode FROM Building WHERE PARK ="+park+" "; 
     }
     if(typeof capacitymin != "undefined"){
-        SQL1+=" AND Capacity > "+capacitymin;
+        roomSQL+=" AND Capacity > "+capacitymin;
     }
     if(typeof capacitymax != "undefined"){
-        SQL1+=" AND Capacity < "+capacitymax;
+        roomSQL+=" AND Capacity < "+capacitymax;
     }
     
     
-    SQL1+=" AND RoomCode IN (SELECT RoomCode From FacilityRoom where TRUE";
+    roomSQL+=" AND RoomCode IN (SELECT RoomCode From FacilityRoom WHERE 1=1";
     var i;
     for (i = 0; i < checked.length; ++i) {
-        SQL1 += " AND RoomCode IN (Select RoomCode From FacilityRoom Where FacilityID =="+checked[i]+")";
+        roomSQL += " AND RoomCode IN (Select RoomCode From FacilityRoom WHERE FacilityID ="+checked[i]+")";
     }
-    SQL1 +=")"
+    roomSQL +=")"
     //pass SQL??
-    console.log(SQL1);
+    console.log(roomSQL);
     $.ajax({
             type: "POST",
-            url: " /getRoomStuff",
+            url: "getRoomStuff",
             data: {
-                SQLQ:SQL1
+                SQLQ: roomSQL
             },
             success: function (data) {
-                console.log(data);
+                displayTable(data);
             }
         })
 
 
 });
 
-$("#submit-choices").click(function () {
-    console.log("running");
-    
-})
+function displayTable(data) {
+    console.log(data[0].RoomCode);
+    var tableBeg = '<tr>'+
+                '<td align="center" style="font-weight:bold" width="20%"> Name </td>'+
+                '<td align="center" style="font-weight:bold" width="20%"> Park </td>'+
+                '<td align="center" style="font-weight:bold" width="20%"> Building </td>'+
+                '<td align="center" style="font-weight:bold" width="20%"> Capacity </td>'+
+                '<td align="center" style="font-weight:bold" width="20%"> Facilities </td>'+
+            '</tr>';    $(".modules-table").append(tableBeg);    for (var i = 0; i < data.length; i++) {
+        console.log(i);
+        var table = '<tr><td align="center">' + data[i].RoomCode + '</td>' +
+                    '<td align="center"></td>' +
+                    '<td align="center">' + data[i].BuildingCode + '</td>' +
+                    '<td align="center">' + data[i].Capacity + '</td>';
+        console.log(data[i].FacilityName[0]);
+        for(var j = 0; j < data[i].FacilityName.length; j++ ) {
+             table += '<tr>' +
+                        '<td align="center' > +data[i].FacilityName[j] + '<br />' +
+                                    '</td>'+
+                                '</tr>';        }        $(".modules-table").append(table);        
+    }    var tableEnd = "</table>";
+    $(".modules-table").append(tableEnd);
+}
