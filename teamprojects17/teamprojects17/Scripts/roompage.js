@@ -12,43 +12,59 @@
 //Is there somthing wrong with this as nothing outputs to debug?!?!
 $('#submit-facil').click(function () {
     document.getElementById('room-holder').innerHTML = "";
-    Debug.write("hello");
+    console.log("hello");
     //This will be the list of checked facilities
     var checked = [];
     $("input[name='view-period']:checked").each(function ()
     {
         checked.push(parseInt($(this).val()));
     });
-    Debug.write(checked.length);
+    console.log(checked[0]);
     var SQL1 = "SELECT * FROM Room where TRUE";
     //Can't grab values?
-    var park= $('#filterpark').val();
-    var building= document.getElementById('filterbuilding').val();
-    var capacitymin= document.getElementById('filterMinCapacity').val();
-    var capacitymax = document.getElementById('filterMaxCapacity').val();
+    var park = $('#filterpark').val();
+    var building = $('#filtertype').val();
+    var capacitymin= $('filterMinCapacity').val();
+    var capacitymax = $('filterMaxCapacity').val();
 
-    /*
-    if(Building not empty){
+    
+    if(building != 'all'){
         SQL1+=" AND BuildingCode="+building;
     }
-    else if(park not empty){
-        SQL1+=" AND BuildingCode IN (Select BuildingCode FROM Building WHERE PARK ="+park; 
+    else if(park != 'all'){
+        SQL1+=" AND BuildingCode IN (Select BuildingCode FROM Building WHERE PARK ="+park+" "; 
     }
-    if(capacitymin not empty){
+    if(typeof capacitymin != "undefined"){
         SQL1+=" AND Capacity > "+capacitymin;
     }
-    if(capacitymax not empty){
+    if(typeof capacitymax != "undefined"){
         SQL1+=" AND Capacity < "+capacitymax;
     }
     
     
-    SQL1+="AND RoomCode IN (SELECT RoomCode From FacilityRoom where TRUE";
+    SQL1+=" AND RoomCode IN (SELECT RoomCode From FacilityRoom where TRUE";
     var i;
     for (i = 0; i < checked.length; ++i) {
-        SQL1 += "AND RoomCode IN (Select RoomCode From FacilityRoom Where FacilityID =="+checked[i]+")";
+        SQL1 += " AND RoomCode IN (Select RoomCode From FacilityRoom Where FacilityID =="+checked[i]+")";
     }
-    
-    pass SQL??
-    */
-    Debug.write(park+" "+capacitymax);
+    SQL1 +=")"
+    //pass SQL??
+    console.log(SQL1);
+    $.ajax({
+            type: "POST",
+            url: " /getRoomStuff",
+            data: {
+                SQLQ:SQL1
+            },
+            success: function (data) {
+                console.log(data);
+            }
+        })
+
+
 });
+
+$("#submit-choices").click(function () {
+    console.log("running");
+    
+})

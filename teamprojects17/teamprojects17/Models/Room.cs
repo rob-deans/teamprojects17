@@ -11,5 +11,9 @@ namespace teamprojects17.Models
         public int Capacity { get; set; }
         public string BuildingCode { get; set; }
         public string DeptCode { get; set; }
+        public List<string> FacilityName { get; set; }
+
     }
+
+
 }

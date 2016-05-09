@@ -24,7 +24,7 @@
                         <label for="filterPark">Filter by Park:</label>
                     </td>
                     <td align="center">
-                        <select name="filterPark" style="width:300px">
+                        <select name="filterPark" id="filterpark" style="width:300px">
                             <option value="all" selected>Any Park</option>
                             <option value="0">Central</option>
                             <option value="1">East</option>
@@ -39,7 +39,7 @@
                         <label for="filterType">Filter by Type:</label>
                     </td>
                     <td align="center">
-                        <select name="filterType" style="width:300px">
+                        <select name="filterType" id="filtertype" style="width:300px">
                             <option value="all" selected>Any Type</option>
                             <option value="0">Traditional</option>
                             <option value="1">Tutorial</option>
@@ -98,7 +98,7 @@
             foreach (var facility in db.Query(facilitySelect))
             {
 
-        <label><input type="checkbox" id="@facility.FacilityID" name="view-period">@facility.FacilityName.Replace("_", " ")</label><br />
+        <label><input type="checkbox" id="@facility.FacilityID" value="@facility.FacilityID" name="view-period">@facility.FacilityName.Replace("_", " ")</label><br />
             }
         }
     </div>

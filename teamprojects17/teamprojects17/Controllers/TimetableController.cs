@@ -18,6 +18,7 @@ namespace teamprojects17.Controllers
         private string booked = "Approved";
         private DbCon db = new DbCon();
         private SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
+        private SqlConnection sqlConnection2 = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
         SqlCommand cmd = new SqlCommand();
         SqlDataReader reader = null;
 
@@ -452,5 +453,6 @@ namespace teamprojects17.Controllers
             sqlConnection.Close();
             return Json(list);
         }
+
     }
 }
