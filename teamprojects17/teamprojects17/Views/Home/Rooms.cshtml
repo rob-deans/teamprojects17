@@ -52,13 +52,13 @@
                     <td align="center">
                         <!-- Minimum Capacity input -->
                         <div class="input-field col m4 s6">
-                            <input placeholder="Minimum capacity" name="filterMinCapacity" type="number" min="0" class="validate" style="width:300px">
+                            <input placeholder="Minimum capacity" name="filterMinCapacity" id="filterMinCapacity" type="number" min="0" class="validate" style="width:300px">
                         </div>
                     </td>
                     <td align="center">
                         <!-- Maximum Capacity Input -->
                         <div class="input-field col m4 s6">
-                            <input placeholder="Maximum Capacity" name="filterMaxCapacity" type="number" min="0" class="validate" style="width:300px">
+                            <input placeholder="Maximum Capacity" name="filterMaxCapacity" id="filterMaxCapacity" type="number" min="0" class="validate" style="width:300px">
                         </div>
                     </td>
                 </tr>
@@ -79,7 +79,7 @@
                     </td>
                     <!-- Submit button -->
                     <td class="col m4 s12 right-align" align="center">
-                        <button type="submit" class="waves-effect waves-light btn btn-large" style="width:300px">Filter Results</button>
+                        <button type="submit" id="submit-facil" class="waves-effect waves-light btn btn-large" style="width:300px">Filter Results</button>
                     </td>
                 </tr>
             </table>
@@ -91,15 +91,16 @@
         <span>Filter by Facility</span>
     </div>
     <div class="content">
-        <label><input type="checkbox" id="Whiteboard" name="view-period">Whiteboard</label><br />
-        <label><input type="checkbox" id="Wheelchair" name="view-period">Wheelchair</label><br />
-        <label><input type="checkbox" id="Induction Loop" name="view-period">Induction Loop</label><br />
-        <label><input type="checkbox" id="Computer" name="Computer">Computer</label><br />
-        <label><input type="checkbox" id="Data Projector" name="Data Projector">Data Projector</label><br />
-        <label><input type="checkbox" id="Video OR DVD Player" name="Video OR DVD Player">Video OR DVD Player</label><br />
-        <label><input type="checkbox" id="Visualiser" name="Visualiser">Visualiser</label><br />
-        <label><input type="checkbox" id="PASystem" name="PASystem">PASystem</label><br />
-        <label><input type="checkbox" id=" ReVIEW Lecture Capture" name=" ReVIEW Lecture Capture">ReVIEW Lecture Capture</label><br />
+        @{ 
+            var db = Database.Open("DBCon");
+            var facilitySelect = "SELECT * FROM Facility";
+
+            foreach (var facility in db.Query(facilitySelect))
+            {
+
+        <label><input type="checkbox" id="@facility.FacilityID" name="view-period">@facility.FacilityName.Replace("_", " ")</label><br />
+            }
+        }
     </div>
 </div>
 
@@ -116,7 +117,7 @@
                 <div class="scrollable-table-wrapper">
 
                     <!-- Actual result table -->
-                    <table class="modules-table paginated-table">
+                    <table class="modules-table paginated-table" id="room-holder">
                         <tr>
                             <td align="center" style="font-weight:bold" width="20%"> Name </td>
                             <td align="center" style="font-weight:bold" width="20%"> Park </td>
@@ -126,10 +127,9 @@
                         </tr>
                         <!-- Room rows -->
                         @{
-                            var db = Database.Open("DBCon");
-
+                                        
                             var roomSelect = "SELECT * FROM Room";
-
+                            
                             foreach (var room in db.Query(roomSelect))
                             {
                                 var curRoom = room.RoomCode.Trim(new Char[] { '.' });
