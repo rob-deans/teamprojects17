@@ -91,16 +91,25 @@
         <span>Filter by Facility</span>
     </div>
     <div class="content">
-        @{ 
-            var db = Database.Open("DBCon");
-            var facilitySelect = "SELECT * FROM Facility";
-
-            foreach (var facility in db.Query(facilitySelect))
-            {
-
-        <label><input type="checkbox" id="@facility.FacilityID" value="@facility.FacilityID" name="view-period">@facility.FacilityName.Replace("_", " ")</label><br />
-            }
-        }
+                @{
+                    var db = Database.Open("DBCon");
+                    var facilitySelect = "SELECT * FROM Facility";
+                    int count = 0;
+                    string classCol = "left-col";
+                    foreach (var facility in db.Query(facilitySelect))
+                    {
+                        if (count % 2 != 0)
+                        {
+                            classCol = "right-col";
+                        }
+                        else
+                        {
+                            classCol = "left-col";
+                        }
+                        <label class ="@classCol"><input type="checkbox" id="@facility.FacilityID" value="@facility.FacilityID" name="view-period">@facility.FacilityName.Replace("_", " ")</label><br />
+                        count++;
+                    }
+                }
     </div>
 </div>
 
