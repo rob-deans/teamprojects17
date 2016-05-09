@@ -24,7 +24,8 @@ namespace teamprojects17
                 "~/Scripts/timetable.js",
                 "~/Scripts/jquery.tag.js",
                 "~/Scripts/timetable-renderer.jquery.js",
-                "~/Scripts/timetable-features.js"
+                "~/Scripts/timetable-features.js",
+                "~/Scripts/cascading.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/dashboard").Include(
