@@ -287,6 +287,7 @@
     <Content Include="Content\jquery.circliful.css" />
     <Content Include="Content\Jquery.tag.css" />
     <Content Include="Content\magnific-popup.css" />
+    <Content Include="Content\roompage.css" />
     <Content Include="Content\settings.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />

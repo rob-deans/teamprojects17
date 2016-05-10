@@ -42,8 +42,14 @@ th, tr, td {
     padding : 15px;
 }
 
+.left-col{
+    width: 25%;
+    position: absolute;
+}
 
-/* 
-td{
-    border-left: 2px solid #4A1863;
-} */
+.right-col{
+    width: 25%;
+    margin-top: -15px;
+    margin-left: 20em;
+    position: absolute;
+}
