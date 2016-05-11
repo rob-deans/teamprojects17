@@ -20,6 +20,11 @@ namespace teamprojects17.Controllers
         SqlDataReader reader = null;
         public ActionResult Index()
         {
+            if (Session["DEPT"] == null)
+            {
+                Debug.WriteLine("no no no");
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.Title = "Dashboard";
             ViewBag.Message = "Your home page.";
 
@@ -28,6 +33,10 @@ namespace teamprojects17.Controllers
 
         public ActionResult Help()
         {
+            if (Session["DEPT"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.Title = "Help Page";
             ViewBag.Message = "Questions and answers.";
 
@@ -36,6 +45,10 @@ namespace teamprojects17.Controllers
 
         public ActionResult Timetable()
         {
+            if (Session["DEPT"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.Title = "Timetable";
             ViewBag.Message = "Your timetable booking page.";
 
@@ -44,6 +57,10 @@ namespace teamprojects17.Controllers
 
         public ActionResult Upload()
         {
+            if (Session["DEPT"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.Title = "Upload file";
             ViewBag.Message = "Upload file page.";
 
@@ -52,6 +69,10 @@ namespace teamprojects17.Controllers
 
         public ActionResult Calendar()
         {
+            if (Session["DEPT"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.Title = "Calendar";
             ViewBag.Message = "Your overview timetable page.";
 
@@ -60,6 +81,10 @@ namespace teamprojects17.Controllers
 
         public ActionResult Settings()
         {
+            if (Session["DEPT"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.Title = "Settings";
             ViewBag.Message = "Change your settings here.";
 
@@ -68,6 +93,10 @@ namespace teamprojects17.Controllers
 
         public ActionResult Rooms()
         {
+            if (Session["DEPT"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 

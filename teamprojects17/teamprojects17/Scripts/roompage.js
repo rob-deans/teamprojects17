@@ -52,7 +52,7 @@ $('#submit-facil').click(function () {
     console.log(SQL1);
     $.ajax({
             type: "POST",
-            url: " /getRoomStuff",
+            url: "/getRoomStuff",
             data: {
                 SQLQ:SQL1
             },

@@ -26,12 +26,20 @@ namespace teamprojects17.Controllers
         //TODO: Get their session so we know what to display
         public ActionResult Index()
         {
+            if (Session["DEPT"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
     
         public ActionResult Calendar()
         {
+            if (Session["DEPT"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
