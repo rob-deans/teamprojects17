@@ -110,3 +110,36 @@ font-size: 18px;
 #btn btn-primary waves-effect{
     position:fixed;
 }
+
+#weeks-selected{
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+#week-chosen{
+    margin-bottom: 0.5em;
+}
+
+#range-selector{
+    margin-bottom: 0.5em;
+}
+
+#parks{
+    width: 17.5em;
+}
+
+#building{
+    width: 17.5em;
+}
+
+#rooms{
+    width: 6.5em;
+}
+
+.bottom-list span{
+    margin: 0 5px 0 0;
+}
+
+.cell{
+    width: 9em;
+}

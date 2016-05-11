@@ -24,11 +24,16 @@
                         <label for="filterPark">Filter by Park:</label>
                     </td>
                     <td align="center">
-                        <select name="filterPark" id="filterpark" style="width:300px">
+                        <select name="filterPark" id="parks" style="width:300px">
                             <option value="all" selected>Any Park</option>
-                            <option value="0">Central</option>
-                            <option value="1">East</option>
-                            <option value="2">West</option>
+                            @{
+                                var db = Database.Open("DBCon");
+                                string selectParks = "SELECT * FROM Park";
+                                foreach (var park in db.Query(selectParks))
+                                {
+                                    <option value="@park.ParkID">@park.ParkName</option>
+                                }
+                            }
                         </select>
                     </td>
                 </tr>
@@ -39,10 +44,15 @@
                         <label for="filterType">Filter by Type:</label>
                     </td>
                     <td align="center">
-                        <select name="filterType" id="filtertype" style="width:300px">
-                            <option value="all" selected>Any Type</option>
-                            <option value="0">Traditional</option>
-                            <option value="1">Tutorial</option>
+                        <select name="filterType" id="building" style="width:300px">
+                            <option value="all" selected>Any Building</option>
+                            @{
+                                string selectBuilding = "SELECT BuildingCode, BuildingName FROM Building";
+                                foreach(var building in db.Query(selectBuilding))
+                                {
+                                    <option value="@building.BuildingCode">@building.BuildingName</option>
+                                }
+                            }
                         </select>
                     </td>
                 </tr>
@@ -66,20 +76,11 @@
                 <tr>
                     <td class="card-panel-content" align="center" style="width:300px">
 
-                        <!-- Filter options form -->
-                        <form class="col s12" method="post"></form>
-
-                        <!-- First row of inputs -->
-                        <div class="row"> </div>
-
-                        <!-- Filter by name input -->
-                        <div class="input-field col m4 s6">
-                            <input placeholder="Filter by Name" name="filterName" type="text" class="validate">
-                        </div>
+                        <button type="submit" id="submit-facil" class="waves-effect waves-light btn btn-large" style="width:90%">Filter Results</button>
                     </td>
                     <!-- Submit button -->
                     <td class="col m4 s12 right-align" align="center">
-                        <button type="submit" id="submit-facil" class="waves-effect waves-light btn btn-large" style="width:300px">Filter Results</button>
+                        <button type="submit" id="reset-facil" class="waves-effect waves-light btn btn-large" style="width:90%">Reset Results</button>
                     </td>
                 </tr>
             </table>
@@ -92,7 +93,7 @@
     </div>
     <div class="content">
                 @{
-                    var db = Database.Open("DBCon");
+                    
                     var facilitySelect = "SELECT * FROM Facility";
                     int count = 0;
                     string classCol = "left-col";
