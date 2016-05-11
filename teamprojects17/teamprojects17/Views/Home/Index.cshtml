@@ -49,17 +49,11 @@
         @{
             var db = Database.Open("DBCon");
             DateTime currentDate = DateTime.Today;
-            DateTime endDate = new DateTime(2016, 12, 12);
-            var roundSelect = "SELECT Semester, Round FROM Request JOIN Booking ON Request.ReqID=Booking.ReqID WHERE Booking.Status='Pending'";
+            DateTime endDate = new DateTime(2016, 5, 16);
+            var roundSelect = "SELECT Semester, Round, FROM Request JOIN Booking ON Request.ReqID=Booking.ReqID WHERE Booking.Status <> 'Archived'";
             int count = 0;
             var noOfDays = (endDate - currentDate).TotalDays;
 
-            //var date = "SELECT EndDate FROM Round JOIN Request ON Round.CurrentRound = Request.Round";// JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'";
-            /*foreach (var d in db.Query(date))
-            {
-                days.Add(d);
-            }
-            var day = days.ToArray();*/
 
             foreach (var round in db.Query(roundSelect))
             {
