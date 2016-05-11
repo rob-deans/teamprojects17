@@ -277,6 +277,7 @@
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\Timetable.cs" />
     <Compile Include="Models\TimetableModel.cs" />
+    <Compile Include="Models\UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
