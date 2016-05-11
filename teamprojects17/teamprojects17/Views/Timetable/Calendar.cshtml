@@ -27,10 +27,10 @@
             var table = "<table>";
 
             for (var i = 0; i < 10; i++) {
-                table += "<tr><th>"+PERIODS[i]+"</th>"
+                table += "<tr><th class='highlight'>"+PERIODS[i]+"</th>"
                 for (var j = 0; j < 5; j++) {
                     if(i == 0) {
-                        table += "<th>" +DAYS[j]+"</th>"
+                        table += "<th class='highlight days'>" +DAYS[j]+"</th>"
                     } else {
                         table += "<td>"
                         if(data != null){
@@ -49,8 +49,8 @@
         }
 
         function displayModule(data) {
-            var div = "<div>"+data.ModCode +"</div>";
-            div += "<div>Weeks: " + data.WeekStart + " - " + data.WeekEnd+"</div>";
+            var div = "<div class='display'>"+data.ModCode +"</div>";
+            div += "<div class='display'>Weeks: " + data.WeekStart + " - " + data.WeekEnd+"</div>";
             return div;
         }
 

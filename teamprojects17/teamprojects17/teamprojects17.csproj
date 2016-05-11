@@ -288,6 +288,7 @@
     <Content Include="Content\jquery.circliful.css" />
     <Content Include="Content\Jquery.tag.css" />
     <Content Include="Content\magnific-popup.css" />
+    <Content Include="Content\roompage.css" />
     <Content Include="Content\settings.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -335,6 +336,7 @@
     <Content Include="Scripts\jquery.circliful.min.js" />
     <Content Include="Scripts\jquery.magnific-popup.js" />
     <Content Include="Scripts\jquery.tag.js" />
+    <Content Include="Scripts\roompage.js" />
     <Content Include="Scripts\timetable-features.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />

@@ -12,6 +12,7 @@ namespace teamprojects17.Models
         public string BuildingCode { get; set; }
         public string DeptCode { get; set; }
         public List<string> FacilityName { get; set; }
+        public string ParkName { get; set; }
 
     }
 

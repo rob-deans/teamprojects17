@@ -251,7 +251,9 @@
                 var data = $.parseJSON($(this).attr("data-request"));
                 console.log(data.rooms);
                 $("#module-code").attr('value', data.modcode);
+                $("#module-code").text(data.modcode);
                 $("#module-name").attr('value', data.modname);
+                $("#module-name").text(data.modname);
                 $("#room-list").attr('value', data.rooms);
                 var timetable = new Timetable(1);
                 var timetableRenderer = $("#timetable-holder").timetableRenderer(timetable, { type: "general" });
@@ -359,42 +361,65 @@
                     }
                 </td>
                 <td align="center">
-                    Day
+                    <div class="time">
                     @{
-                        @time.ElementAt(i).Day;
+                        int day = time.ElementAt(i).Day;
+                        switch (day)
+                        {
+                            case 0: @:Monday
+                            break;
+                            case 1: @:Tuesday
+                            break;
+                            case 2: @:Wednesday
+                            break;
+                            case 3: @:Thursday
+                            break;
+                            case 4: @:Friday
+                            break;
+                        }
+                        
                      }
-                    , Period 
+                    - Period 
                     @{
-                        @time.ElementAt(i).Period;
+                        @Html.Raw(@time.ElementAt(i).Period + 1);
+                    }
+                    </div>
+                    <div class="weeks">
+                        Week
+                        @{
+                            @Html.Raw(@time.ElementAt(i).WeekStart + 1);
 }
-                    , Week 
-                    @{
-                        @time.ElementAt(i).WeekStart;
+                        - Week
+                        @{
+                            @Html.Raw(@time.ElementAt(i).WeekEnd + 1);
 }
-                    - Week 
-                    @{
-                        @time.ElementAt(i).WeekEnd;
-}
+                    </div>
                 </td>
                 <td align="center">
                     @{
                         var rooms = db.Query("SELECT RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied' AND RoomRequest.ReqID = (SELECT ReqID FROM Request WHERE ReqID = " + @time.ElementAt(i).reqID + ")");
+                        var newRooms = new List<string>();
+                        string obj = "['']";
                         foreach(var room in rooms)
                         {
-                            @room[0];;
+                            @room[0];
+                            string curRoom = @rooms[0][0];
+                            newRooms.Add(curRoom);
+                        }
+                        if (newRooms.Count > 0)
+                        {
+                            obj = string.Join(",", newRooms.ToArray());
                         }
 }
                  </td>
                 <!--need to write functions for all 3 in index.js-->
                   <td align='center'>
-                      <button class="new-request" data-request='{"modname": "@modules.ElementAt(i).ModName" , "modcode": "@time.ElementAt(i).ModCode", "rooms" : "@rooms[0][0]"}'>Make New Request</button>
-                      <br />
-                      <button>View Request Details</button>
+                      <button class="new-request" data-request='{"modname": "@modules.ElementAt(i).ModName" , "modcode": "@time.ElementAt(i).ModCode", "rooms" : "@obj"}'>Make New Request</button>
                   </td>
              </tr>
         }
     }
-        
+
     </table>
     <div class="nav-top"><u>Back to top &#x2934;</u></div>
 </div>
@@ -415,7 +440,7 @@
             <!--<td align="center" style="font-weight:bold" width="20%">Date</td>-->
             <td align="center" style="font-weight:bold" width="20%">Actions</td>
         </tr>
-        
+
         @{
             var pendingModules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
             var pendingTimes = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending'");
@@ -430,34 +455,60 @@
                         }
                     </td>
                     <td align="center">
-                        Day
-                        @{
-                            @pendingTimes.ElementAt(j).Day;   
-                        }
-                        , Period
-                        @{
-                            @pendingTimes.ElementAt(j).Period;
-                        }
-                        , Week
-                        @{
-                            @pendingTimes.ElementAt(j).WeekStart;
-                        }
-                        - Week
-                        @{
-                            @pendingTimes.ElementAt(j).WeekEnd;
-                        }
-                    </td>
+                        <div class="time">
+                            @{
+                                                                int day = pendingTimes.ElementAt(j).Day;
+                                                                switch (day)
+                                                                {
+                                                                    case 0: @:Monday
+                            break;
+                                                                    case 1: @:Tuesday
+                            break;
+                                                                    case 2: @:Wednesday
+                            break;
+                                                                    case 3: @:Thursday
+                            break;
+                                                                    case 4: @:Friday
+                            break;
+                                                                }
+
+                            }
+                            - Period
+                            @{
+                                @Html.Raw(@pendingTimes.ElementAt(j).Period + 1);
+                            }
+                            </div>
+                        <div class="weeks">
+                            Week
+                            @{
+                                @Html.Raw(@pendingTimes.ElementAt(j).WeekStart + 1);
+}
+                            - Week
+                            @{
+                                @Html.Raw(@pendingTimes.ElementAt(j).WeekEnd + 1);
+}
+                            </div>
+</td>
                     <td align="center">
                         @{
                             var pendingRooms = db.Query("SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Pending' AND Assigned.ReqID = (SELECT ReqID FROM Request WHERE ReqID = " + @pendingTimes.ElementAt(j).reqID + ")");
+                            var rooms = new List<string>();
+                            string obj = "['']";
                             foreach (var pendingRoom in pendingRooms)
                             {
                                 @pendingRoom[0];
+                                string curRoom = @pendingRooms[0][0];
+                                rooms.Add(curRoom);
                             }
+                        if (rooms.Count > 0)
+                        {
+                            obj = string.Join(",", rooms.ToArray());
+                        }
                         }
                     </td>
                     <!--need to write function for in index.js-->
                     <td align='center'>
+                        <button class="new-request" data-request='{"modname": "@pendingModules.ElementAt(j).ModName" , "modcode": "@pendingTimes.ElementAt(j).ModCode", "rooms" : "@obj"}'>Add another request</button>
                         <button onclick="releaseRequest(@pendingTimes.ElementAt(j).ReqID, @j, 'pending-table')">Cancel</button>
                     </td>
                 </tr>
@@ -495,23 +546,40 @@
                         }
                     </td>
                     <td align="center">
-                        Day
-                        @{
-                            @approvedTimes.ElementAt(k).Day;
-                        }
-                        , Period
-                        @{
-                            @approvedTimes.ElementAt(k).Period;
-                        }
-                        , Week
-                        @{
-                            @approvedTimes.ElementAt(k).WeekStart;
-                        }
-                        - Week
-                        @{
-                            @approvedTimes.ElementAt(k).WeekEnd;
-                        }
-                    </td>
+                        <div class="time>
+                            @{
+                                                                 int day = approvedTimes.ElementAt(k).Day;
+                                                                 switch (day)
+                                                                 {
+                                                                     case 0: @:Monday
+                            break;
+                                                                     case 1: @:Tuesday
+                            break;
+                                                                     case 2: @:Wednesday
+                            break;
+                                                                     case 3: @:Thursday
+                            break;
+                                                                     case 4: @:Friday
+                            break;
+                                                                 }
+
+                            }
+                            - Period
+                            @{
+                                @Html.Raw(@approvedTimes.ElementAt(k).Period + 1);
+                            }
+                            </div>
+                        <div class="weeks">
+                            Week
+                            @{
+                                @Html.Raw(@approvedTimes.ElementAt(k).WeekStart + 1);
+                            }
+                            - Week
+                            @{
+                                @Html.Raw(@approvedTimes.ElementAt(k).WeekEnd + 1);
+}
+                            </div>
+</td>
                     <td align="center">
                         @{
                             var approvedRooms = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved'AND Booking.ReqID = (SELECT ReqID FROM Request WHERE ReqID = "+@approvedTimes.ElementAt(k).reqID+")");
@@ -524,14 +592,23 @@
                     <td align="center">
                         @{
                             var assignedRooms = db.Query("SELECT Assigned.RoomCode FROM Assigned JOIN Booking ON Assigned.ReqID = Booking.ReqID WHERE Booking.Status = 'Approved' AND Assigned.ReqID = (SELECT ReqID FROM Request WHERE ReqID = "+@approvedTimes.ElementAt(k).reqID+")");
+                            var rooms = new List<string>();
+                            string obj ="['']";
                             foreach (var assignedRoom in assignedRooms)
                             {
                                 @assignedRooms[0].RoomCode;
+                                string curRoom = @assignedRooms[0][0];
+                                rooms.Add(curRoom);
+                            }
+                            if (rooms.Count > 0)
+                            {
+                                obj = string.Join(",", rooms.ToArray());
                             }
                         }
                     </td>
                     <!--need to write function for in index.js-->
                     <td align='center'>
+                        <button class="new-request" data-request='{"modname": "@approvedModules.ElementAt(k).ModName" , "modcode": "@approvedTimes.ElementAt(k).ModCode", "rooms" : "@obj"}'>Add another request</button>
                         <button onclick="releaseRequest(@approvedTimes.ElementAt(k).ReqID, @k, 'approved-table')">Release</button>
                     </td>
                 </tr>

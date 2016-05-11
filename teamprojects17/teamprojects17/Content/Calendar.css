@@ -22,7 +22,10 @@ th,td {
 
 th, tr, td {
     border-collapse: collapse;
-    padding: 5px;
+}
+
+td{
+    padding: 0;
 }
  
 #form {
@@ -31,4 +34,23 @@ th, tr, td {
 
 #course-list{
     float:left;
+}
+
+#timetable-holder{
+    margin-top: 1.5em;
+}
+
+.highlight{
+    background-color: #64097C;
+    color: white;
+    text-align: center;
+}
+
+.days{
+    width: 10em;
+}
+
+.display{
+    height: 50%;
+    width: 100%;
 }

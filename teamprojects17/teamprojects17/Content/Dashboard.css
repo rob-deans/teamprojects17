@@ -114,3 +114,40 @@ button:hover, a:hover {
     border-bottom:#4A1863;
     text-align:center;
 }
+
+#container {
+    width:70em;
+    height: 40em;
+    background-color: white;
+    text-align:center; 
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+ .week-selector{
+    text-align: center;
+    align-content:center;
+    margin-left: auto;
+    margin-right: 5em;
+    float: left;
+    display: inline-block
+}
+
+ .week-selector:hover {
+        background-color:#EBBFF6;
+   }
+
+.td {
+    border: 2px solid black;
+
+}
+
+#room-timetable{
+ text-align:center; 
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
