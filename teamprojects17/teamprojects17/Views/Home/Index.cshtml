@@ -48,49 +48,24 @@
         </tr>
         @{
             var db = Database.Open("DBCon");
+            var curRoundSem = db.Query("SELECT * FROM Round");
+            var requestsMade = db.Query("SELECT Count(Request.ReqID) FROM Request JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status <> 'Archived' AND ModCode IN (SELECT ModCode FROM Modules WHERE DEPTCODE ='" + @Session["DEPT"] + "')");
             DateTime currentDate = DateTime.Today;
-            DateTime endDate = new DateTime(2016, 5, 16);
-            var roundSelect = "SELECT Semester, Round, FROM Request JOIN Booking ON Request.ReqID=Booking.ReqID WHERE Booking.Status <> 'Archived'";
-            int count = 0;
+            DateTime endDate = curRoundSem.ElementAt(0).EndDate;
             var noOfDays = (endDate - currentDate).TotalDays;
 
-
-            foreach (var round in db.Query(roundSelect))
-            {
-                count += 1;
-                <tr>
-                    <td align="center">@round.Semester</td>
-                    <td align="center">@round.Round</td>
-                    <td align="center">@count</td>
-                    <td align="center">@noOfDays day(s)</td>
-                    <td align="center">
-                    <!--Write a procedure for this-->
-                        <button type="submit" id="request-button">View All Previous Requests</button>
-                    </td>
-                </tr>
-             }
+            <tr>
+                <td align="center">1</td>
+                <td align="center">@curRoundSem.ElementAt(0).CurrentRound</td>
+                <td align="center">@requestsMade.ElementAt(0)[0]</td>
+                <td align="center">@noOfDays day(s)</td>
+                <td align="center">
+                <!--Write a procedure for this-->
+                    <button type="submit" id="request-button">View All Previous Requests</button>
+                </td>
+            </tr>
         }
 
-        <!-- If no rounds are active, say so; instead of just showing an empty table -->
-
-        <!--<tr>
-            <td align="center"width="75%">No rounds are currently accepting requests</td>
-            <td align="center" width="25%">
-                <button type="submit" id="request-button">View All Previous Requests</button>
-            </td>
-        </tr>-->
-
-        <tr>
-            <td align="center">No rounds are currently accepting requests</td>
-            <td align="center"></td>
-            <td align="center"></td>
-            <td align="center"></td>
-            <td align="center"><a href="requests/">View All Previous Requests</a></td>
-       <!-- <td align="center"> <button type="submit" id="request-button">View Requests</button></td>
-                    <!-- action="requests/" method="post">-->
-                 <!--   <input type="hidden" name="filterSemester" /> <!--value="semester id"/>-->  
-                 <!--   <input type="hidden" name="filterRound" /> <!--value="round id/>-->
-        </tr>
 
     </table>
 </div>
@@ -101,11 +76,11 @@
 
 <div id="results">
     @{
-        var total = db.Query("SELECT COUNT(ReqID) AS Num FROM Booking").Select(r =>r.Num);
+        var total = db.Query("SELECT COUNT(Booking.ReqID) AS Num FROM Booking JOIN Request On Request.ReqID = Booking.ReqID WHERE Request.ModCode IN (SELECT ModCode FROM Modules WHERE DEPTCODE ='" + @Session["DEPT"] + "')").Select(r => r.Num);
         var totals = string.Join(",", total);
-        var denied = db.Query("SELECT ReqID FROM Booking WHERE Status = 'Denied'").Count();
-        var pending = db.Query("SELECT ReqID FROM Booking WHERE Status = 'Pending'").Count();
-        var approved = db.Query("SELECT ReqID FROM Booking WHERE Status = 'Approved'").Count();
+        var denied = db.Query("SELECT Booking.ReqID FROM Booking JOIN Request ON Request.ReqID = Booking.ReqID WHERE Status = 'Denied' AND Request.ModCode IN (SELECT ModCode FROM Modules WHERE DEPTCODE ='" + @Session["DEPT"] + "')").Count();
+        var pending = db.Query("SELECT Booking.ReqID FROM Booking JOIN Request ON Request.ReqID = Booking.ReqID WHERE Status = 'Pending' AND Request.ModCode IN (SELECT ModCode FROM Modules WHERE DEPTCODE ='" + @Session["DEPT"] + "')").Count();
+        var approved = db.Query("SELECT Booking.ReqID FROM Booking JOIN Request ON Request.ReqID = Booking.ReqID WHERE Status = 'Approved' AND Request.ModCode IN (SELECT ModCode FROM Modules WHERE DEPTCODE ='" + @Session["DEPT"] + "')").Count();
         
         
     }
@@ -206,7 +181,7 @@
                     settings :{
                         type: "POST",
                         data:{
-                            dept : 'EC'
+                            dept : "@Session["DEPT"]"
                         },
                         url: "Timetable/getAllRequests"
                     }
@@ -540,7 +515,7 @@
                         }
                     </td>
                     <td align="center">
-                        <div class="time>
+                        <div class="time">
                             @{
                                                                  int day = approvedTimes.ElementAt(k).Day;
                                                                  switch (day)

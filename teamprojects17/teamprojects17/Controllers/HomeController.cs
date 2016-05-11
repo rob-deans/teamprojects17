@@ -16,7 +16,8 @@ namespace teamprojects17.Controllers
     {
         private SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
         SqlCommand cmd = new SqlCommand();
-        private SqlConnection sqlConnection2 = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
+        private SqlConnection sqlConnectionFacil = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
+        private SqlConnection sqlConnectionPark = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCon"].ToString());
         SqlDataReader reader = null;
         public ActionResult Index()
         {
@@ -111,26 +112,39 @@ namespace teamprojects17.Controllers
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                SqlCommand cmd2 = new SqlCommand();
-                cmd2.CommandText = "Select FacilityName FROM Facility WHERE FacilityID IN (SELECT FacilityID FROM FacilityRoom where RoomCode='" + reader.GetString(0) + "')";
-                cmd2.CommandType = System.Data.CommandType.Text;
-                cmd2.Connection = sqlConnection2;
-                sqlConnection2.Open();
-                SqlDataReader reader2 = cmd2.ExecuteReader();
+                SqlCommand facilCmd = new SqlCommand();
+                facilCmd.CommandText = "Select FacilityName FROM Facility WHERE FacilityID IN (SELECT FacilityID FROM FacilityRoom where RoomCode='" + reader.GetString(0) + "')";
+                facilCmd.CommandType = System.Data.CommandType.Text;
+                facilCmd.Connection = sqlConnectionFacil;
+                sqlConnectionFacil.Open();
+                SqlDataReader readerFacil = facilCmd.ExecuteReader();
                 var Faciladd = new List<string>();
-                while (reader2.Read())
+                while (readerFacil.Read())
                 {
-                    Faciladd.Add(reader2.GetString(0));
+                    Faciladd.Add(readerFacil.GetString(0));
                 }
+
+                SqlCommand parkCmd = new SqlCommand();
+                parkCmd.CommandText = "SELECT ParkName FROM Park JOIN Building ON Park.ParkID = Building.ParkID WHERE BuildingCode = '" + reader.GetString(2) + "'";
+                parkCmd.CommandType = System.Data.CommandType.Text;
+                parkCmd.Connection = sqlConnectionPark;
+                sqlConnectionPark.Open();
+                SqlDataReader readerPark = parkCmd.ExecuteReader();
+                string parkName = "";
+                while(readerPark.Read())
+                {
+                    parkName = readerPark.GetString(0);
+                }
+                sqlConnectionPark.Close();
                 list.Add(new Room
                 {
                     RoomCode = reader.GetString(0),
                     Capacity = reader.GetInt32(1),
                     BuildingCode = reader.GetString(2),
-                    FacilityName = Faciladd
-
+                    FacilityName = Faciladd,
+                    ParkName = parkName
                 });
-                sqlConnection2.Close();
+                sqlConnectionFacil.Close();
             }
             sqlConnection.Close();
             return Json(list);

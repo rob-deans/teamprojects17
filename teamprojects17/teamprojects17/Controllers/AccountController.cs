@@ -57,7 +57,7 @@ namespace Razor.Controllers
             }
             catch (Exception e)
             {
-                Debug.WriteLine("i don't know anymore");
+                Debug.WriteLine("i don't know anymore" + e);
             }
 
             sqlConnection.Close();

@@ -35,7 +35,7 @@
 
     @{
         var db = Database.Open("DbCon");
-        var dept = "SELECT DeptName From Department WHERE DeptCode = 'CO'";
+        var dept = "SELECT DeptName From Department WHERE DeptCode = '"+Session["DEPT"]+"'";
 
         foreach (var result in @db.Query(dept))
         {
@@ -52,27 +52,40 @@
                         <select name="Course name" style="width:185px; height:30px">
                             <option value="all" selected>Course</option>
                             <option value="0">Computer Science</option>
-                            <option value="0">Computing and Management</option>
-                            <option value="0">ITMB</option>
-                            <option value="0">Web Development</option>
+                            @{
+                                var courses = "SELECT * FROM Course WHERE DeptCode = '" + Session["DEPT"] + "'";
+
+                                foreach (var course in db.Query(courses))
+                                {
+                                    <option value="@course.CourseCode">@course.CourseName</option>
+                                }
+                            }
                         </select>
                     </td>
                     <td>
                         <select name="Delete module name" style="width:185px; height:30px">
                             <option value="all" selected>Module Name</option>
-                            <option value="0">Databases</option>
-                            <option value="0">Computer Systems</option>
-                            <option value="0">Team Projects</option>
-                            <option value="0">Server Side Programming</option>
+                            @{
+                                var modNames = "SELECT ModName FROM Modules WHERE DeptCode = '"+Session["DEPT"]+"'";
+
+                                foreach (var name in db.Query(modNames))
+                                {
+                                    <option value="@name.ModName">@name.ModName</option>
+                                }
+                            }
                         </select>
                     </td>
                     <td class="input-group">
                         <select name="Delete module" style="width:185px; height:30px">
                             <option value="all" selected>Module Code</option>
-                            <option value="0">14COA201</option>
-                            <option value="0">14COA124</option>
-                            <option value="0">15COB290</option>
-                            <option value="0">14COA123</option>
+                            @{
+                                var modCode = "SELECT ModCode FROM Modules WHERE DeptCode = '" + Session["DEPT"] + "'";
+
+                                foreach (var code in db.Query(modCode))
+                                {
+                                    <option value="@code.ModCode">@code.ModCode</option>
+                                }
+                            }
                         </select>
                     </td>
                     <td><button type="button" style="width:100px">Assign</button></td>
@@ -102,19 +115,19 @@
                     <td class="input-group">
                         <select name="Delete module name" style="width:277px; height:30px">
                             <option value="all" selected>Module Name</option>
-                            <option value="0">Databases</option>
-                            <option value="0">Computer Systems</option>
-                            <option value="0">Team Projects</option>
-                            <option value="0">Server Side Programming</option>
+                            @foreach (var name in db.Query(modNames))
+                            {
+                                <option value="@name.ModName">@name.ModName</option>
+                            }
                         </select>
                     </td>
                     <td class="input-group">
                         <select name="Delete module" style="width:278px; height:30px">
                             <option value="all" selected>Module Code</option>
-                            <option value="0">14COA201</option>
-                            <option value="0">14COA124</option>
-                            <option value="0">15COB290</option>
-                            <option value="0">14COA123</option>
+                            @foreach (var code in db.Query(modCode))
+                            {
+                                <option value="@code.ModCode">@code.ModCode</option>
+                            }
                         </select>
                     </td>
                     <td><button type="button" style="width:100px">Delete</button></td>
@@ -135,17 +148,23 @@
                     <td class="input-group">
                         <select name="park" style="width:185px; height:30px">
                             <option value="all" selected>Park</option>
-                            <option value="0">West</option>
-                            <option value="0">East</option>
-                            <option value="0">Central</option>
+                            @{var parksSelect = "SELECT * FROM Park";
+                                foreach (var park in db.Query(parksSelect))
+                                {
+                                    <option value="@park.ParkID">@park.ParkName</option>
+                                }
+                            }
                         </select>
                     </td>
                     <td class="input-group">
                         <select name="Building" style="width:185px; height:30px">
                             <option value="all" selected>Building</option>
-                            <option value="0">James France</option>
-                            <option value="0">Edward Herbert</option>
-                            <option value="0">Brokington</option>
+                                @{var buildingsSelect = "SELECT * FROM Building";
+                                    foreach (var building in db.Query(buildingsSelect))
+                                    {
+                                        <option value="@building.BuildingCode">@building.BuildingName</option>
+                                    }
+                                }
                         </select>
                     </td>
                     <td><button type="button" style="width:100px">Add</button></td>
@@ -163,10 +182,12 @@
                     <td class="input-group">
                         <select name="Delete module room" style="width:590px; height:30px">
                             <option value="all" selected>Room Code</option>
-                            <option value="0">J001</option>
-                            <option value="0">J002</option>
-                            <option value="0">CC013</option>
-                            <option value="0">N003</option>
+                            @{var privateRoom = "SELECT * FROM Room WHERE OwnerCode = '"+Session["DEPT"]+"'";
+                                foreach (var room in db.Query(privateRoom))
+                                {
+                                    <option value="@room.RoomCode">@room.RoomCode</option>
+                                }
+                            }
                         </select>
                     </td>
                     <td><button type="button" style="width:100px">Delete</button></td>

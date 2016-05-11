@@ -25,7 +25,7 @@
     <div id="filter">
         @{
             var db = Database.Open("DBCon");
-            var moduleSelect = "SELECT * FROM Modules";
+            var moduleSelect = "SELECT * FROM Modules WHERE ModCode IN (SELECT ModCode FROM Modules WHERE DEPTCODE ='" + @Session["DEPT"] + "')";
             var parksSelect = "SELECT * FROM Park";
             <select id="parks">
                 @foreach (var park in db.Query(parksSelect))
