@@ -429,36 +429,28 @@ var numberOfRooms = 1; //How many rooms they are asking for
              */
             function getUnavailableWeeks() {
                 var general = [];
-                for (var m = 0; m < 15; m++) {
-                    var numDays = getRealLength(timetable.getWeek(m)['days']);
-                    for (var i = 0; i < numDays.length; i++) {
-                        var curPeriod = timetable.getWeek(m)['days'][numDays[i]]['periods'];
-                        var numPeriods = getRealLength(curPeriod);
-                        for (var j = 0; j < numPeriods.length; j++) {
-                            var temp = [];
-                            for (var k = 0; k < timetable.config.numberOfWeeks; k++) {
+                var numDays = getRealLength(timetable.getWeek(0)['days']);
+                for (var i = 0; i < numDays.length; i++) {
+                    var curPeriod = timetable.getWeek(0)['days'][numDays[i]]['periods'];
+                    var numPeriods = getRealLength(curPeriod);
+                    for (var j = 0; j < numPeriods.length; j++) {
+                        var temp = [];
+                        for (var k = 0; k < timetable.config.numberOfWeeks; k++) {
+                            if (typeof timetable.getWeek(k)['days'][numDays[i]] != "undefined") {
                                 if (typeof timetable.getWeek(k)['days'][numDays[i]] != "undefined") {
-                                    if (typeof timetable.getWeek(k)['days'][numDays[i]] != "undefined") {
-                                        if (typeof timetable.getWeek(k)['days'][numDays[i]]['periods'][numPeriods[j]] == "undefined") {
-                                            temp.push(k);
-                                        }
-                                    } else {
+                                    if (typeof timetable.getWeek(k)['days'][numDays[i]]['periods'][numPeriods[j]] == "undefined") {
                                         temp.push(k);
                                     }
                                 } else {
                                     temp.push(k);
                                 }
-                            }
-                            if (general.length == 0) {
-                                general.push({ day: numDays[i], period: numPeriods[j], weeks: temp });
-                            }
-                            if(!containsObject(temp, general)){
-                                general.push({ day: numDays[i], period: numPeriods[j], weeks: temp });
+                            } else {
+                                temp.push(k);
                             }
                         }
+                            general.push({ day: numDays[i], period: numPeriods[j], weeks: temp });
                     }
                 }
-
                 drawTimetable(general);
                 initialisePeriodListener();
             }

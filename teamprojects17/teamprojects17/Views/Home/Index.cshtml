@@ -313,12 +313,12 @@
     @{
 
         var modules = db.Query("SELECT Modules.ModName FROM Modules JOIN Request ON Modules.ModCode = Request.ModCode " +
-            "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
-        var time = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request " + 
-            "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
+            "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied' AND Modules.ModCode IN (SELECT ModCode FROM Modules WHERE DeptCode = '"+ Session["DEPT"]+"')");
+        var time = db.Query("SELECT Request.ReqID, Request.ModCode, Request.Day, Request.Period, Request.WeekStart, Request.WeekEnd FROM Request " +
+            "JOIN Booking ON Request.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied' AND Request.ModCode IN (SELECT ModCode FROM Modules WHERE DeptCode = '" + Session["DEPT"] + "')");
             
         var requested = db.Query("SELECT RoomRequest.RoomCode FROM RoomRequest" +
-            " JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied'");
+            " JOIN Booking ON RoomRequest.ReqID = Booking.ReqID WHERE Booking.Status = 'Denied' AND Modules.ModCode IN (SELECT ModCode FROM Modules WHERE DeptCode = '" + Session["DEPT"] + "')");
 
         for (int i = 0; i < @denied; i++)  
         {
